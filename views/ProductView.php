@@ -25,9 +25,9 @@ function showAllProducts(object $pdo)
                 <p>Type: {$type}</p>
                 <p>Tray Size: {$traySize}</p>
                 <p>Price: Php {$price}</p>
-                <a href='./includes/product/ViewProduct.php?id={$id}'><button>View</button></a>
-                <a href='./includes/product/UpdateProduct.php?id={$id}'><button>Update</button></a>
-                <a href='./includes/product/DeleteProduct.php?id={$id}'><button>Delete</button></a>
+                <a href='./includes/ViewProduct.php?id={$id}'><button>View</button></a>
+                <a href='./includes/UpdateProduct.php?id={$id}'><button>Update</button></a>
+                <a href='./includes/DeleteProduct.php?id={$id}'><button>Delete</button></a>
                 </div>";
         }
     }
