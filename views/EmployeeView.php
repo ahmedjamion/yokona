@@ -1,8 +1,10 @@
 <?php
 
+//EMPLOYEE VIEW
+
 declare(strict_types=1);
 
-
+//RENDERS THE LIST OF EMPLOYEES TO THE PAGE
 function showAllEmployees(object $pdo)
 {
     $result = getAllEmployees($pdo);
@@ -10,6 +12,7 @@ function showAllEmployees(object $pdo)
         echo 'no result';
     } else {
         foreach ($result as $row) {
+            $id = $row["id"];
             $first_name = htmlspecialchars($row["first_name"]);
             $last_name = htmlspecialchars($row["last_name"]);
             $gender = htmlspecialchars($row["gender"]);
@@ -21,6 +24,7 @@ function showAllEmployees(object $pdo)
                 <p>{$gender}</p>
                 <p>{$address}</p>
                 <p>{$contact_number}</p>
+                <a href='./includes/ViewEmployee.php?id='{$id}''><button>View</button></a>
                 </div>";
         }
     }

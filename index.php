@@ -11,13 +11,15 @@ require_once 'config/SessionConfig.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="app.css">
 
     <title>WebSystem</title>
 </head>
 
 <body>
     <?php
+    //CHECKING IF USER IS LOGGED IN OR NOT
+    //LOADS A SPECIFIC PAGE FOR EACH CASE
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
         include 'components/MainPage.php';
     } else {
@@ -25,7 +27,7 @@ require_once 'config/SessionConfig.php';
     }
     ?>
 
-    <script src="scripts.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 04:43 AM
+-- Generation Time: Mar 23, 2024 at 12:25 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -123,12 +123,24 @@ INSERT INTO `house` (`id`, `name`, `type`, `chicken_count`) VALUES
 CREATE TABLE `orders` (
   `id` int(11) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `quantity` int(11) NOT NULL,
   `unit_price` decimal(10,2) NOT NULL,
-  `product_id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
   `date_paid` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -250,9 +262,16 @@ ALTER TABLE `house`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_product_id_fk` (`product_id`),
   ADD KEY `order_employee_id_fk` (`employee_id`),
   ADD KEY `order_customer_id_fk` (`customer_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `order_item_order_id` (`order_id`),
+  ADD KEY `order_item_product_id` (`product_id`);
 
 --
 -- Indexes for table `produce`
@@ -322,6 +341,12 @@ ALTER TABLE `orders`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `order_items`
+--
+ALTER TABLE `order_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `produce`
 --
 ALTER TABLE `produce`
@@ -366,8 +391,14 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `order_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `order_employee_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`),
-  ADD CONSTRAINT `order_product_id_fk` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+  ADD CONSTRAINT `order_employee_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`);
+
+--
+-- Constraints for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD CONSTRAINT `order_item_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `order_item_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
 -- Constraints for table `produce`

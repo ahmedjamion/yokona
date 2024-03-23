@@ -1,7 +1,10 @@
 <?php
 
+//LOG IN VIEW
+
 declare(strict_types=1);
 
+//SHOWS LOG IN ERRORS
 function logInErrors()
 {
     if (isset($_SESSION["logInErrors"])) {
@@ -15,6 +18,7 @@ function logInErrors()
     }
 }
 
+//SHOWS SUCCESS MESSAGE FOR SUCCESSFUL LOG IN
 function loginSuccess()
 {
     if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {

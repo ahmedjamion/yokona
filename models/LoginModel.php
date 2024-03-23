@@ -1,7 +1,10 @@
 <?php
 
+//LOGIN MODEL
+
 declare(strict_types=1);
 
+//GETS A SINGLE USER FROM THE DATABASE
 function getUser(object $pdo, string $username)
 {
     $query = "SELECT * FROM users WHERE username = :username;";

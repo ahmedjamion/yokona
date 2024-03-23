@@ -1,5 +1,7 @@
 <?php
 
+//PROCESS LOG IN
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $username = $_POST["username"];
@@ -26,12 +28,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors["invalidCredential"] = "Wrong username or password.";
         }
 
-
-
-        $newSessionId = session_create_id();
-        $sessionId = $newSessionId . "_" . $result["id"];
-        session_id($sessionId);
-
         require_once '../config/SessionConfig.php';
 
         if ($errors) {
@@ -40,6 +36,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die();
         }
 
+
+        //SESSION RELATED STUFF, SOMETHINGS WRONG HERE...
+        $newSessionId = session_create_id();
+        $sessionId = $newSessionId . "_" . $result["id"];
+        session_id($sessionId);
 
         $_SESSION["loggedIn"] = true;
         $_SESSION["userId"] = $result["id"];

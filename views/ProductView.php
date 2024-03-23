@@ -1,8 +1,10 @@
 <?php
 
+//PRODUCT VIEW
+
 declare(strict_types=1);
 
-
+//RENDERS LIST OF PRODUCTS TO THE PAGE
 function showAllProducts(object $pdo)
 {
     $result = getAllProducts($pdo);
@@ -10,6 +12,7 @@ function showAllProducts(object $pdo)
         echo 'no result';
     } else {
         foreach ($result as $row) {
+            $id = $row["id"];
             $name = htmlspecialchars($row["name"]);
             $size = htmlspecialchars($row["size"]);
             $type = htmlspecialchars($row["type"]);
@@ -22,6 +25,9 @@ function showAllProducts(object $pdo)
                 <p>Type: {$type}</p>
                 <p>Tray Size: {$traySize}</p>
                 <p>Price: Php {$price}</p>
+                <a href='./includes/product/ViewProduct.php?id={$id}'><button>View</button></a>
+                <a href='./includes/product/UpdateProduct.php?id={$id}'><button>Update</button></a>
+                <a href='./includes/product/DeleteProduct.php?id={$id}'><button>Delete</button></a>
                 </div>";
         }
     }

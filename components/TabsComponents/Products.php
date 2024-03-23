@@ -1,7 +1,7 @@
 <h2>Products</h2>
 <button>Add Product</button>
 <div>
-    <form id="create-product-form" action="./includes/CreateProduct.php" method="post">
+    <form id="addProductForm" action="./includes/AddProduct.php" method="post">
         <input type="text" name="productName" id="productName" placeholder="Product Name" autocomplete="off">
 
         <label for="size">Size:</label>
@@ -33,7 +33,7 @@
             <option value="6">6</option>
         </select>
 
-        <input type="number" step="0.01" placeholder="Price">
+        <input type="number" name="price" id="price" step="0.01" placeholder="Price">
 
         <input type="submit" value="Sumbit" id="login">
     </form>

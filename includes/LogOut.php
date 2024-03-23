@@ -1,8 +1,13 @@
 <?php
 
-session_start();
-session_unset();
-session_destroy();
+//LOG OUT PROCESS
+//I'M NOT SURE IF THIS IS THE CORRECT WAY OF DOING THIS
 
-header("Location: ../index.php");
-die();
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    session_start();
+    session_unset();
+    session_destroy();
+
+    header("Location: ../index.php");
+    die();
+}
