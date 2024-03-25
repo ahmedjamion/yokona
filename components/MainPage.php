@@ -6,7 +6,6 @@ require_once './views/EmployeeView.php';
 require_once './models/ProductModel.php';
 require_once './views/ProductView.php';
 
-
 include 'components/Header.php';
-include 'components/Nav.php';
+include 'components/MainComponent.php';
 include 'components/Footer.php';

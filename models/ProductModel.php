@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-
 //PRODUCT MODEL
+
+
+
 
 //GET ALL PRODUCTS FROM THE DATABASE
 function getAllProducts(object $pdo)

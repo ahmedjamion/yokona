@@ -1,8 +1,11 @@
 <?php
 
-//LOGIN MODEL
-
 declare(strict_types=1);
+
+// LOG IN MODEL
+
+
+
 
 //GETS A SINGLE USER FROM THE DATABASE
 function getUser(object $pdo, string $username)

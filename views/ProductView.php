@@ -1,15 +1,18 @@
 <?php
 
-//PRODUCT VIEW
-
 declare(strict_types=1);
 
-//RENDERS LIST OF PRODUCTS TO THE PAGE
+//PRODUCT VIEW
+
+
+
+
+// SHOW ALL PRODUCTS
 function showAllProducts(object $pdo)
 {
     $result = getAllProducts($pdo);
     if (empty($result)) {
-        echo 'no result';
+        echo '<h4>NO PRODUCTS</h4>';
     } else {
         foreach ($result as $row) {
             $id = $row["id"];

@@ -1,11 +1,13 @@
 <?php
 
-//EMPLOYEE MODEL
-
 declare(strict_types=1);
 
+// EMPLOYEE MODEL
 
-//GET ALL EMPLOYEES FROM DATABASE
+
+
+
+// GET ALL EMPLOYEES FROM DATABASE
 function getAllEmployees(object $pdo)
 {
     $query = "SELECT * FROM employee";
@@ -17,7 +19,7 @@ function getAllEmployees(object $pdo)
     return $result;
 }
 
-//INSERT A NEW EMPLOYEE TO THE DATABASE
+// INSERT A NEW EMPLOYEE TO THE DATABASE
 function setEmployee(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
 {
     try {

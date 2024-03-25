@@ -1,10 +1,13 @@
 <?php
 
-//LOG IN VIEW
-
 declare(strict_types=1);
 
-//SHOWS LOG IN ERRORS
+//LOG IN VIEW
+
+
+
+
+// SHOWS LOG IN ERRORS
 function logInErrors()
 {
     if (isset($_SESSION["logInErrors"])) {
@@ -18,11 +21,11 @@ function logInErrors()
     }
 }
 
-//SHOWS SUCCESS MESSAGE FOR SUCCESSFUL LOG IN
+
+// SHOWS SUCCESS MESSAGE FOR SUCCESSFUL LOG IN
 function loginSuccess()
 {
     if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] === true) {
-        echo 'Login Success ';
-        echo ucfirst($_SESSION["username"]);
+        echo '<p>You are logged in as ' . ucfirst($_SESSION["username"]) . '</p>';
     }
 }

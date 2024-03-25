@@ -1,7 +1,8 @@
+<!-- INDEX PAGE -->
+
+
 <?php
-
 require_once 'config/SessionConfig.php';
-
 ?>
 
 <!DOCTYPE html>
@@ -11,23 +12,29 @@ require_once 'config/SessionConfig.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/index.css?v=<?php echo time(); ?>">
 
     <title>WebSystem</title>
 </head>
 
 <body>
+
     <?php
-    //CHECKING IF USER IS LOGGED IN OR NOT
-    //LOADS A SPECIFIC PAGE FOR EACH CASE
+
+    // CHECKING IF USER IS LOGGED IN OR NOT
+
+    // IF USER IS LOGGED IN
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
         include 'components/MainPage.php';
-    } else {
+    }
+
+    // IF USER IS NOT LOGGED IN
+    else {
         include 'components/LogInPage.php';
     }
     ?>
 
-    <script src="app.js"></script>
+    <script src="assets/js/index.js"></script>
 </body>
 
 </html>

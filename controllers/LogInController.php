@@ -1,10 +1,13 @@
 <?php
 
-//LOGIN CONTROLLER
-
 declare(strict_types=1);
 
-//CHECK EMPTY INPUTS
+// LOGIN CONTROLLER
+
+
+
+
+// CHECK EMPTY INPUTS
 function isEmpty(string $username, string $password)
 {
     if (empty($username) || empty($password)) {
@@ -14,7 +17,7 @@ function isEmpty(string $username, string $password)
     }
 }
 
-//CHECK USERNAME
+// CHECK USERNAME
 function userNotFound(bool|array $result)
 {
     if (!$result) {
@@ -24,7 +27,7 @@ function userNotFound(bool|array $result)
     }
 }
 
-//VERIFY PASSWORD
+// VERIFY PASSWORD
 function wrongPassword(string $password, string $hashedPassword)
 {
     if (!password_verify($password, $hashedPassword)) {

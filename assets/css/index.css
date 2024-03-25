@@ -1,0 +1,92 @@
+/* STYLES */
+
+
+
+/* RESET BORDERS, MARGINS AND PADDINGS */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+/* END RESET BORDERS, MARGINS AND PADDINGS... */
+
+
+
+
+/* BODY STYLES */
+body {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+/* END OF BODY STYLES */
+
+
+.main-header {
+    display: flex;
+}
+
+/* MAIN COMPONENT TABS STYLES */
+.main-component {
+    display: flex;
+    flex-grow: 1;
+}
+
+.mc-sidebar {
+    flex-shrink: 0;
+}
+
+.mc-tab-button {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+}
+
+.mc-tab-button-active {
+    font-weight: bold;
+}
+
+.mc-tab-content {
+    display: none;
+}
+
+.mc-tab-content-active {
+    display: block;
+}
+/* END OF MAIN COMPONENT TABS STYLES... */
+
+
+
+
+/*  LOG IN PAGE STYLES  */
+.login-page {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+/* END LOG IN PAGE STYLES... */
+
+
+
+
+/*  ADD PRODUCT FORM STYLES  */
+.add-product-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.add-product-form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
+}
+/* END ADD PRODUCT FORM STYLES... */

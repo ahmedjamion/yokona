@@ -1,10 +1,13 @@
 <?php
 
-//EMPLOYEE VIEW
-
 declare(strict_types=1);
 
-//RENDERS THE LIST OF EMPLOYEES TO THE PAGE
+//EMPLOYEE VIEW
+
+
+
+
+// SHOW ALL EMPLOYEES
 function showAllEmployees(object $pdo)
 {
     $result = getAllEmployees($pdo);
