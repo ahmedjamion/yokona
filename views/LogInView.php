@@ -22,6 +22,8 @@ function logInErrors()
 }
 
 
+
+
 // SHOWS SUCCESS MESSAGE FOR SUCCESSFUL LOG IN
 function loginSuccess()
 {

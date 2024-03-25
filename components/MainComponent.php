@@ -22,22 +22,55 @@
 
 
     <!-- TAB CONTENTS -->
-    <div class="mc-tab-content" data-tab="dashboard">Dashboard</div>
+
+    <!-- DASHBOARD -->
+    <div class="mc-tab-content" data-tab="dashboard">
+        <?php
+        include 'contents/DashboardContent.php';
+        ?>
+    </div>
+
+    <!-- PRODUCTS -->
     <div class="mc-tab-content" data-tab="products">
         <?php
         include 'contents/ProductsContent.php';
         ?>
     </div>
-    <div class="mc-tab-content" data-tab="orders">Orders</div>
-    <div class="mc-tab-content" data-tab="monitoring">Monitoring</div>
-    <div class="mc-tab-content" data-tab="reports">Reports</div>
-    <div class="mc-tab-content" data-tab="customers">Customers</div>
+
+    <!-- ORDERS -->
+    <div class="mc-tab-content" data-tab="orders">
+        <?php
+        include 'contents/OrdersContent.php';
+        ?>
+    </div>
+
+    <!-- MONITORING -->
+    <div class="mc-tab-content" data-tab="monitoring">
+        <?php
+        include 'contents/MonitoringContent.php';
+        ?>
+    </div>
+
+    <!-- REPORTS -->
+    <div class="mc-tab-content" data-tab="reports">
+        <?php
+        include 'contents/ReportsContent.php';
+        ?>
+    </div>
+
+    <!-- CUSTOMERS -->
+    <div class="mc-tab-content" data-tab="customers">
+        <?php
+        include 'contents/CustomersContent.php';
+        ?>
+    </div>
+
+    <!-- EMPLOYEES -->
     <div class="mc-tab-content" data-tab="employees">
         <?php
         include 'contents/EmployeesContent.php';
         ?>
     </div>
     <!-- END OF TAB CONTENTS -->
-
 
 </div>

@@ -3,6 +3,6 @@
 
 
 
-<div class="footer">
-    <p>&copy; 2024 Eggcellent. All rights reserved.</p>
-</div>
+<footer class="footer">
+    <p>&copy; 2024 Lorem Ipsum IT Solutions. All rights reserved.</p>
+</footer>

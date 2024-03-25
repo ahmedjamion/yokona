@@ -34,3 +34,31 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 // END OF SET UP TABS...
+
+
+
+
+// THIS IS TEMPORARY, NEED TO STUDY THIS MORE, KINDA WORKS THOUGH
+$(document).ready(function () {
+    $('#addProduct').on('click', function (event) {
+        event.preventDefault();
+        var formData = $('#add-product-form').serialize(); // Serialize form data
+
+        $.ajax({
+            type: 'POST',
+            url: './includes/Product.php',
+            data: formData,
+            success: function (response) {
+                // Handle success response here
+                console.log(response);
+                // Optionally, update the UI or show a success message
+                $('#all-products').html(response);
+            },
+            error: function (xhr, status, error) {
+                // Handle error
+                console.error(xhr.responseText);
+                // Optionally, show an error message to the user
+            }
+        });
+    });
+});

@@ -7,6 +7,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
 
@@ -17,14 +18,23 @@
 body {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
+    height: 100vh;
 }
 /* END OF BODY STYLES */
 
 
+
+
+/* HEADER STYLES */
 .main-header {
     display: flex;
+    justify-content: start;
+    gap: 10px;
 }
+/* END OF HEADER STYLES */
+
+
+
 
 /* MAIN COMPONENT TABS STYLES */
 .main-component {
@@ -51,7 +61,10 @@ body {
 }
 
 .mc-tab-content-active {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    flex-grow: 1;
 }
 /* END OF MAIN COMPONENT TABS STYLES... */
 
@@ -62,14 +75,12 @@ body {
 .login-page {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .login-form {
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 10px;
 }
 /* END LOG IN PAGE STYLES... */
 
@@ -77,16 +88,24 @@ body {
 
 
 /*  ADD PRODUCT FORM STYLES  */
-.add-product-modal {
+.add-product-container {
     display: flex;
     flex-direction: column;
-    gap: 10px;
 }
 
 .add-product-form {
     display: flex;
     flex-direction: column;
     align-items: start;
-    gap: 10px;
 }
 /* END ADD PRODUCT FORM STYLES... */
+
+
+
+
+/* FOOTER STYLES */
+.footer {
+    display: block;
+    text-align: center;
+}
+/* END OF FOOTER STYLES... */

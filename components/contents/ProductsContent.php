@@ -7,7 +7,7 @@
 
 
 <!-- ADD PRODUCT FORM CONTAINER -->
-<div class="add-product-modal">
+<div class="add-product-container">
 
     <!-- ADD PRODUCT FORM -->
     <form class="add-product-form" id="add-product-form" action="./includes/Product.php" method="post">
@@ -58,12 +58,16 @@
             <input type="number" name="price" id="price" step="0.01" placeholder="Price">
         </div>
 
-        <input type="submit" value="Sumbit" id="login">
+        <input type="submit" value="Sumbit" id="addProduct">
     </form>
     <!-- END OF ADD PRODUCT FORM... -->
 </div>
 <!-- END OF ADD PRODUCT FORM CONTAINER... -->
-<div>
+
+
+
+
+<div id="all-products">
     <?php
     showAllProducts($pdo);
     ?>

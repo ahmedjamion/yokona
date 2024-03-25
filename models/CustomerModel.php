@@ -8,9 +8,9 @@ declare(strict_types=1);
 
 
 // GET ALL EMPLOYEES FROM DATABASE
-function getAllEmployees(object $pdo)
+function getAllCustomers(object $pdo)
 {
-    $query = "SELECT * FROM employee";
+    $query = "SELECT * FROM customer";
     $stmt = $pdo->prepare($query);
 
     $stmt->execute();
@@ -23,7 +23,7 @@ function getAllEmployees(object $pdo)
 
 
 // INSERT A NEW EMPLOYEE TO THE DATABASE
-function setEmployee(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
+function setCustomer(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
 {
     try {
         $query = "INSERT INTO product (first_name, last_name, gender, address, contact_number, type_id) VALUES (:first_name, :last_name, :gender, :address, :contact_number, :type_id);";
@@ -45,7 +45,7 @@ function setEmployee(object $pdo, string $firstName, string $lastName, string $g
 
 
 // UPDATE AN EXISTING EMPLOYEE IN THE DATABASE
-function updateEmployee(object $pdo, int $id, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
+function updateCustomer(object $pdo, int $id, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
 {
     try {
         $query = "UPDATE employee SET first_name = :first_name, last_name = :last_name, gender = :gender, address = :address, contact_number = :contact_number, type_id = :type_id WHERE id = :id;";
@@ -68,7 +68,7 @@ function updateEmployee(object $pdo, int $id, string $firstName, string $lastNam
 
 
 // DELETE AN EMPLOYEE FROM THE DATABASE
-function deleteEmployee(object $pdo, int $id)
+function deleteCustomer(object $pdo, int $id)
 {
     try {
         $query = "DELETE FROM employee WHERE id = :id;";

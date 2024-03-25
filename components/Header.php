@@ -3,6 +3,9 @@ require_once 'views/LogInView.php';
 ?>
 <!-- HEADER -->
 
+
+
+
 <div class="main-header">
 
     <?php loginSuccess(); ?>

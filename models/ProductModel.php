@@ -19,6 +19,9 @@ function getAllProducts(object $pdo)
     return $result;
 }
 
+
+
+
 //INSERT A NEW PRODUCT TO THE DATABASE
 function setProduct(object $pdo, string $productName, string $size, string $type, string $traySize, float $price)
 {
@@ -37,19 +40,8 @@ function setProduct(object $pdo, string $productName, string $size, string $type
     }
 }
 
-//DELETE A PRODUCT IN THE DATABASE
-function deleteProduct(object $pdo, int $id)
-{
-    try {
-        $query = "DELETE FROM product WHERE id = :id;";
-        $stmt = $pdo->prepare($query);
 
-        $stmt->bindParam(":id", $id);
-        $stmt->execute();
-    } catch (PDOException $e) {
-        echo "Error deleting product: " . $e->getMessage();
-    }
-}
+
 
 //UPDATE A PRODUCT IN THE DATABASE
 function updateProduct(object $pdo, int $id, string $productName, string $size, string $type, string $traySize, float $price)
@@ -67,5 +59,22 @@ function updateProduct(object $pdo, int $id, string $productName, string $size, 
         $stmt->execute();
     } catch (PDOException $e) {
         echo "Error updating product: " . $e->getMessage();
+    }
+}
+
+
+
+
+//DELETE A PRODUCT IN THE DATABASE
+function deleteProduct(object $pdo, int $id)
+{
+    try {
+        $query = "DELETE FROM product WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error deleting product: " . $e->getMessage();
     }
 }

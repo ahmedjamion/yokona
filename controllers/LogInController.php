@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 
 
-// CHECK EMPTY INPUTS
+// CHECK FOR EMPTY INPUTS
 function isEmpty(string $username, string $password)
 {
     if (empty($username) || empty($password)) {
@@ -17,7 +17,7 @@ function isEmpty(string $username, string $password)
     }
 }
 
-// CHECK USERNAME
+// CHECK FOR USERNAME
 function userNotFound(bool|array $result)
 {
     if (!$result) {

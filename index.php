@@ -34,6 +34,7 @@ require_once 'config/SessionConfig.php';
     }
     ?>
 
+    <script src="assets/js/jquery-3.7.1.min.js"></script>
     <script src="assets/js/index.js"></script>
 </body>
 

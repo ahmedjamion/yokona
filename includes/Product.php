@@ -18,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
             require_once '../controllers/ProductController.php';
 
 
@@ -45,13 +46,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["emptyInput"] = $errors;
 
 
-                header("Location: ../index.php");
+                //header("Location: ../index.php");
                 die();
             }
 
             addProduct($pdo, $productName, $size, $type, $traySize, $price);
 
-            header("Location: ../index.php");
+            //header("Location: ../index.php");
+            echo showAllProducts($pdo);
+
 
             $pdo = null;
             $stmt = null;
