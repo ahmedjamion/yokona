@@ -7,12 +7,11 @@ require_once 'views/LogInView.php';
 
 
 <div class="main-header">
-
-    <?php loginSuccess(); ?>
-
-    <form action="includes/LogIn.php" method="post">
-        <input type="hidden" name="logOut" value="1">
-        <input type="submit" name="submit" id="log-out" value="Log Out">
-    </form>
-
+    <h1>Eggcellent Poultry Farm Management System</h1>
+    <div class="log-out">
+        <?php loginSuccess(); ?>
+        <form action="includes/LogIn.php" method="post">
+            <button type='submit' name='action' value='logOut' id="logOut">Log Out</button>
+        </form>
+    </div>
 </div>

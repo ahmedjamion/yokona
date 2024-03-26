@@ -12,7 +12,7 @@
 
     <!-- ADD EMPLOYEE FORM -->
     <form class="add-employee-form" id="add-employee-form" action="./includes/Employee.php" method="post">
-        <input type="hidden" name="addEmployee" value="1">
+        <input type="hidden" name="addEmployee" value="addEmployee">
 
         <div class="input-group">
             <label for="firstName">First Name</label>
@@ -25,8 +25,12 @@
         </div>
 
         <div class="input-group">
-            <label for="gender">Gender</label>
-            <input type="text" name="gender" id="gender" placeholder="Gender" autocomplete="off">
+            <label for="gender">Tray Size</label>
+            <select name="gender" id="gender">
+                <option hidden disabled selected value> Gender </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
         </div>
 
         <div class="input-group">

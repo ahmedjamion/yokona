@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 23, 2024 at 12:25 PM
+-- Generation Time: Mar 26, 2024 at 08:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,7 +67,7 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `type_id`, `profile_picture`) VALUES
 (1, 'Ahmed Rashad', 'Jamion', 'Male', 'Cabatangan', '09060364709', 1, NULL),
-(2, 'Albert', 'Einstein', 'Male', 'Sta. Maria', '09067066178', 2, NULL);
+(2, 'Albert', 'Einstein', 'Male', 'Space', '999', 4, NULL);
 
 -- --------------------------------------------------------
 
@@ -117,10 +117,10 @@ INSERT INTO `house` (`id`, `name`, `type`, `chicken_count`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Table structure for table `order`
 --
 
-CREATE TABLE `orders` (
+CREATE TABLE `order` (
   `id` int(11) NOT NULL,
   `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
   `unit_price` decimal(10,2) NOT NULL,
@@ -132,10 +132,10 @@ CREATE TABLE `orders` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order_items`
+-- Table structure for table `order_item`
 --
 
-CREATE TABLE `order_items` (
+CREATE TABLE `order_item` (
   `id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -173,21 +173,13 @@ CREATE TABLE `product` (
   `product_picture` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `product`
---
-
-INSERT INTO `product` (`id`, `name`, `size`, `type`, `tray_size`, `price`, `product_picture`) VALUES
-(1, 'Eggcellent Standard', 'Small', 'Standard', '30', 150.00, NULL),
-(2, 'Eggcellent Organic', 'Small', 'Organic', '30', 180.00, NULL);
-
 -- --------------------------------------------------------
 
 --
--- Table structure for table `repairs`
+-- Table structure for table `repair`
 --
 
-CREATE TABLE `repairs` (
+CREATE TABLE `repair` (
   `id` int(11) NOT NULL,
   `description` text NOT NULL,
   `cost` decimal(10,2) NOT NULL,
@@ -197,10 +189,10 @@ CREATE TABLE `repairs` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `supplies`
+-- Table structure for table `supply`
 --
 
-CREATE TABLE `supplies` (
+CREATE TABLE `supply` (
   `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `quantity` int(11) NOT NULL,
@@ -210,10 +202,10 @@ CREATE TABLE `supplies` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Table structure for table `user`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `user` (
   `id` int(11) NOT NULL,
   `employee_id` int(11) NOT NULL,
   `username` varchar(255) NOT NULL,
@@ -222,11 +214,12 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `user`
 --
 
-INSERT INTO `users` (`id`, `employee_id`, `username`, `password`, `role`) VALUES
-(1, 1, 'admin', '$2y$10$CMdwgXMwNKZ7KYXBlo1c6.V5/BRGihmcW5cJyG8dULwrv1mWbAdCS', 'admin');
+INSERT INTO `user` (`id`, `employee_id`, `username`, `password`, `role`) VALUES
+(1, 1, 'admin', '$2y$10$CMdwgXMwNKZ7KYXBlo1c6.V5/BRGihmcW5cJyG8dULwrv1mWbAdCS', 'admin'),
+(2, 1, 'inventory', '$2y$10$zqkVFxSzvZgsLnaS5P/8F.LHmQ.Eg80i6OQfo5ibG78fQni0d8pZK', 'inventory');
 
 --
 -- Indexes for dumped tables
@@ -258,17 +251,17 @@ ALTER TABLE `house`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `orders`
+-- Indexes for table `order`
 --
-ALTER TABLE `orders`
+ALTER TABLE `order`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_employee_id_fk` (`employee_id`),
   ADD KEY `order_customer_id_fk` (`customer_id`);
 
 --
--- Indexes for table `order_items`
+-- Indexes for table `order_item`
 --
-ALTER TABLE `order_items`
+ALTER TABLE `order_item`
   ADD PRIMARY KEY (`id`),
   ADD KEY `order_item_order_id` (`order_id`),
   ADD KEY `order_item_product_id` (`product_id`);
@@ -288,21 +281,21 @@ ALTER TABLE `product`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `repairs`
+-- Indexes for table `repair`
 --
-ALTER TABLE `repairs`
+ALTER TABLE `repair`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `supplies`
+-- Indexes for table `supply`
 --
-ALTER TABLE `supplies`
+ALTER TABLE `supply`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `users`
+-- Indexes for table `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_employee_id_fk` (`employee_id`);
 
@@ -314,7 +307,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `employee`
@@ -335,15 +328,15 @@ ALTER TABLE `house`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT for table `orders`
+-- AUTO_INCREMENT for table `order`
 --
-ALTER TABLE `orders`
+ALTER TABLE `order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `order_items`
+-- AUTO_INCREMENT for table `order_item`
 --
-ALTER TABLE `order_items`
+ALTER TABLE `order_item`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -356,25 +349,25 @@ ALTER TABLE `produce`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `repair`
+--
+ALTER TABLE `repair`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `supply`
+--
+ALTER TABLE `supply`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `repairs`
---
-ALTER TABLE `repairs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `supplies`
---
-ALTER TABLE `supplies`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -387,17 +380,17 @@ ALTER TABLE `employee`
   ADD CONSTRAINT `employee_type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `employee_type` (`id`) ON UPDATE CASCADE;
 
 --
--- Constraints for table `orders`
+-- Constraints for table `order`
 --
-ALTER TABLE `orders`
+ALTER TABLE `order`
   ADD CONSTRAINT `order_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
   ADD CONSTRAINT `order_employee_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`);
 
 --
--- Constraints for table `order_items`
+-- Constraints for table `order_item`
 --
-ALTER TABLE `order_items`
-  ADD CONSTRAINT `order_item_order_id` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
+ALTER TABLE `order_item`
+  ADD CONSTRAINT `order_item_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
   ADD CONSTRAINT `order_item_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
@@ -408,9 +401,9 @@ ALTER TABLE `produce`
   ADD CONSTRAINT `produce_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --
--- Constraints for table `users`
+-- Constraints for table `user`
 --
-ALTER TABLE `users`
+ALTER TABLE `user`
   ADD CONSTRAINT `user_employee_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 

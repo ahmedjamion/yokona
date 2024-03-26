@@ -10,13 +10,37 @@ declare(strict_types=1);
 //GET ALL PRODUCTS FROM THE DATABASE
 function getAllProducts(object $pdo)
 {
-    $query = "SELECT * FROM product";
-    $stmt = $pdo->prepare($query);
+    try {
+        $query = "SELECT * FROM product";
+        $stmt = $pdo->prepare($query);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error deleting product: " . $e->getMessage();
+    }
+}
+
+
+
+
+//GET A PRODUCT FROM THE DATABASE
+function getProduct(object $pdo, int $id)
+{
+    try {
+        $query = "SELECT * FROM product WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error deleting product: " . $e->getMessage();
+    }
 }
 
 

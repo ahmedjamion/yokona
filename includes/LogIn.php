@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // LOG IN PROCESS
-    if (isset($_POST["logIn"]) && $_POST["logIn"] == 1) {
+    if (isset($_POST["action"]) && $_POST["action"] === "logIn") {
         $username = $_POST["username"];
         $password = $_POST["password"];
 
@@ -46,15 +46,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             //SESSION RELATED STUFF, SOMETHINGS WRONG HERE...
-            $newSessionId = session_create_id();
-            $sessionId = $newSessionId . "_" . $result["id"];
+            $sessionId = session_create_id();
+            //$sessionId = $newSessionId . "_" . //$result["id"];
             session_id($sessionId);
 
             $_SESSION["loggedIn"] = true;
-            $_SESSION["userId"] = $result["id"];
+            $_SESSION["userId"] = htmlspecialchars($result["id"]);
             $_SESSION["username"] = htmlspecialchars($result["username"]);
-            $_SESSION["userRole"] = $result["role"];
+            $_SESSION["userRole"] = htmlspecialchars($result["role"]);
+            $_SESSION["sessionId"] = $sessionId;
             $_SESSION["lastRegeneration"] = time();
+
 
             $pdo = null;
             $statement = null;
@@ -72,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // LOG OUT PROCESS
-    else if (isset($_POST["logOut"]) && $_POST["logOut"] == 1) {
+    else if (isset($_POST["action"]) && $_POST["action"] === "logOut") {
         session_start();
         session_unset();
         session_destroy();

@@ -15,6 +15,7 @@
         <button class="mc-tab-button" data-for-tab="reports">Reports</button>
         <button class="mc-tab-button" data-for-tab="customers">Customers</button>
         <button class="mc-tab-button" data-for-tab="employees">Employees</button>
+        <button class="mc-tab-button" data-for-tab="users">Users</button>
     </div>
     <!-- END OF MAIN MAIN COMPONENT SIDEBAR -->
 
@@ -27,6 +28,13 @@
     <div class="mc-tab-content" data-tab="dashboard">
         <?php
         include 'contents/DashboardContent.php';
+        echo "logged in = " . $_SESSION["loggedIn"] . "<br>";
+        echo "user id = " . $_SESSION["userId"] . "<br>";
+        echo "username = " . $_SESSION["username"] . "<br>";
+        echo "role = " . $_SESSION["userRole"] . "<br>";
+        echo "sessionId = " . $_SESSION["sessionId"] . "<br>";
+        echo "last regeneration = " . $_SESSION["lastRegeneration"];
+
         ?>
     </div>
 
@@ -69,6 +77,14 @@
     <div class="mc-tab-content" data-tab="employees">
         <?php
         include 'contents/EmployeesContent.php';
+        ?>
+    </div>
+    <!-- END OF TAB CONTENTS -->
+
+    <!-- EMPLOYEES -->
+    <div class="mc-tab-content" data-tab="users">
+        <?php
+        include 'contents/UsersContent.php';
         ?>
     </div>
     <!-- END OF TAB CONTENTS -->

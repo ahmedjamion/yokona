@@ -10,7 +10,7 @@ declare(strict_types=1);
 // CHECK FOR EMPTY INPUTS
 function isEmpty($productName, $size, $type, $traySize, $price)
 {
-    if (empty($productName) || empty($size) || empty($type)  || empty($traySize) || empty($price)) {
+    if (empty($productName) || empty($type) || empty($size)  || empty($traySize) || empty($price)) {
         return true;
     } else {
         return false;
@@ -21,4 +21,9 @@ function isEmpty($productName, $size, $type, $traySize, $price)
 function addProduct(object $pdo, string $productName, string $type, string $size, string $traySize, float $price)
 {
     setProduct($pdo, $productName, $type, $size, $traySize, $price);
+}
+
+function removeProduct(object $pdo, int $id)
+{
+    deleteProduct($pdo, $id);
 }

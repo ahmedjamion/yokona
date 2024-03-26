@@ -1,6 +1,3 @@
-<!-- INDEX PAGE -->
-
-
 <?php
 require_once 'config/SessionConfig.php';
 ?>
@@ -12,9 +9,12 @@ require_once 'config/SessionConfig.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
+    <!-- JAVASCRIPT LINKS -->
+    <!-- echo time(); auto reloads the css file -->
     <link rel="stylesheet" type="text/css" href="assets/css/index.css?v=<?php echo time(); ?>">
 
-    <title>WebSystem</title>
+    <title>Eggcellent</title>
 </head>
 
 <body>
@@ -24,17 +24,18 @@ require_once 'config/SessionConfig.php';
     // CHECKING IF USER IS LOGGED IN OR NOT
 
     // IF USER IS LOGGED IN
-    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
+    if (isset($_SESSION["userId"])) {
         include 'components/MainPage.php';
     }
 
     // IF USER IS NOT LOGGED IN
     else {
-        include 'components/LogInPage.php';
+        include 'components/LoginPage.php';
     }
     ?>
 
-    <script src="assets/js/jquery-3.7.1.min.js"></script>
+    <!-- JAVASCRIPT LINKS -->
+    <!--<script src="assets/js/jquery-3.7.1.min.js"></script>-->
     <script src="assets/js/index.js"></script>
 </body>
 

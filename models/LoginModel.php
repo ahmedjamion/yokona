@@ -10,7 +10,7 @@ declare(strict_types=1);
 //GETS A SINGLE USER FROM THE DATABASE
 function getUser(object $pdo, string $username)
 {
-    $query = "SELECT * FROM users WHERE username = :username;";
+    $query = "SELECT * FROM user WHERE username = :username;";
     $stmt = $pdo->prepare($query);
 
     $stmt->bindParam(":username", $username);

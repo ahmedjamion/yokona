@@ -27,7 +27,12 @@ function showAllCustomers(object $pdo)
                 <p>{$gender}</p>
                 <p>{$address}</p>
                 <p>{$contact_number}</p>
-                <a href='./includes/Customers.php?id='{$id}''><button>View</button></a>
+                <form method='POST' action='./includes/Customer.php'>
+                    <input type='hidden' name='id' value='{$id}'>
+                    <button type='submit' name='action' value='delete'>Delete</button>
+                    <button type='submit' name='action' value='edit'>Edit</button>
+                    <button type='submit' name='action' value='view'>View</button>
+                </form>
                 </div>";
         }
     }

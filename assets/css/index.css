@@ -7,7 +7,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
 
@@ -18,9 +17,9 @@
 body {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
 }
-/* END OF BODY STYLES */
+/* END OF BODY STYLES... */
 
 
 
@@ -28,15 +27,19 @@ body {
 /* HEADER STYLES */
 .main-header {
     display: flex;
+    flex-direction: column;
     justify-content: start;
-    gap: 10px;
 }
-/* END OF HEADER STYLES */
+
+.log-out {
+    display: flex;
+}
+/* END OF HEADER STYLES... */
 
 
 
 
-/* MAIN COMPONENT TABS STYLES */
+/* MAIN COMPONENT TABS AND SIDEBAR STYLES */
 .main-component {
     display: flex;
     flex-grow: 1;

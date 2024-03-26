@@ -11,8 +11,8 @@
 <div class="add-customer-container">
 
     <!-- ADD CUSTOMERS FORM -->
-    <form class="add-customer-form" id="add-customer-form" action="./includes/Employee.php" method="post">
-        <input type="hidden" name="addEmployee" value="1">
+    <form class="add-customer-form" id="add-customer-form" action="./includes/Customer.php" method="post">
+        <input type="hidden" name="addCustomer" value="addCustomer">
 
         <div class="input-group">
             <label for="firstName">First Name</label>
@@ -25,8 +25,12 @@
         </div>
 
         <div class="input-group">
-            <label for="gender">Gender</label>
-            <input type="text" name="gender" id="gender" placeholder="Gender" autocomplete="off">
+            <label for="gender">Tray Size</label>
+            <select name="gender" id="gender">
+                <option hidden disabled selected value> Gender </option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
         </div>
 
         <div class="input-group">

@@ -2,31 +2,26 @@
 
 declare(strict_types=1);
 
-//EMPLOYEE VIEW
+//USER VIEW
 
 
 
 
-// SHOW ALL EMPLOYEES
-function showAllEmployees(object $pdo)
+// SHOW ALL USER
+function showAllUsers(object $pdo)
 {
-    $result = getAllEmployees($pdo);
+    $result = getAllUsers($pdo);
     if (empty($result)) {
-        echo 'no result';
+        echo '<h4>NO PRODUCTS</h4>';
     } else {
         foreach ($result as $row) {
             $id = $row["id"];
-            $firstName = htmlspecialchars($row["first_name"]);
-            $lastName = htmlspecialchars($row["last_name"]);
-            $gender = htmlspecialchars($row["gender"]);
-            $address = htmlspecialchars($row["address"]);
-            $contact_number = htmlspecialchars($row["contact_number"]);
+            $username = htmlspecialchars($row["username"]);
+            $role = htmlspecialchars(ucfirst($row["role"]));
 
             echo "<div>
-                <h4>{$firstName} {$lastName}</h4>
-                <p>{$gender}</p>
-                <p>{$address}</p>
-                <p>{$contact_number}</p>
+                <p>Username: {$username}</p>
+                <p>Role: {$role}</p>
                 <form method='POST' action='./includes/Users.php'>
                     <input type='hidden' name='id' value='{$id}'>
                     <button type='submit' name='action' value='delete'>Delete</button>

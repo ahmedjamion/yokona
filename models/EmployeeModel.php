@@ -23,10 +23,10 @@ function getAllEmployees(object $pdo)
 
 
 // INSERT A NEW EMPLOYEE TO THE DATABASE
-function setEmployee(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, string $typeId)
+function setEmployee(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, int $typeId)
 {
     try {
-        $query = "INSERT INTO product (first_name, last_name, gender, address, contact_number, type_id) VALUES (:first_name, :last_name, :gender, :address, :contact_number, :type_id);";
+        $query = "INSERT INTO employee (first_name, last_name, gender, address, contact_number, type_id) VALUES (:first_name, :last_name, :gender, :address, :contact_number, :type_id);";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(":first_name", $firstName);
@@ -37,7 +37,7 @@ function setEmployee(object $pdo, string $firstName, string $lastName, string $g
         $stmt->bindParam(":type_id", $typeId);
         $stmt->execute();
     } catch (PDOException $e) {
-        echo "Error inserting product: " . $e->getMessage();
+        echo "Error inserting employee data: " . $e->getMessage();
     }
 }
 

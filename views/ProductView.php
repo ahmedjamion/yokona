@@ -28,9 +28,12 @@ function showAllProducts(object $pdo)
                 <p>Type: {$type}</p>
                 <p>Tray Size: {$traySize}</p>
                 <p>Price: Php {$price}</p>
-                <a href='./includes/ViewProduct.php?id={$id}'><button>View</button></a>
-                <a href='./includes/UpdateProduct.php?id={$id}'><button>Update</button></a>
-                <a href='./includes/DeleteProduct.php?id={$id}'><button>Delete</button></a>
+                <form method='POST' action='./includes/Product.php'>
+                    <input type='hidden' name='id' value='{$id}'>
+                    <button type='submit' name='action' value='delete'>Delete</button>
+                    <button type='submit' name='action' value='edit'>Edit</button>
+                    <button type='submit' name='action' value='view'>View</button>
+                </form>
                 </div>";
         }
     }

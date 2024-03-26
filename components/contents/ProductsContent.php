@@ -11,7 +11,7 @@
 
     <!-- ADD PRODUCT FORM -->
     <form class="add-product-form" id="add-product-form" action="./includes/Product.php" method="post">
-        <input type="hidden" name="addProduct" value="1">
+        <input type="hidden" name="addProduct" value="addProduct">
 
         <div class="input-group">
             <label for="productName">Name</label>
@@ -58,7 +58,7 @@
             <input type="number" name="price" id="price" step="0.01" placeholder="Price">
         </div>
 
-        <input type="submit" value="Sumbit" id="addProduct">
+        <input type="submit" value="Submit" id="addProduct">
     </form>
     <!-- END OF ADD PRODUCT FORM... -->
 </div>

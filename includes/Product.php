@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // ADD PRODUCT PROCESS
-    if (isset($_POST['addProduct']) && $_POST['addProduct'] == 1) {
+    if (isset($_POST['addProduct']) && $_POST['addProduct'] === 'addProduct') {
         $productName = $_POST["productName"];
         $size = $_POST["size"];
         $type = $_POST["type"];
@@ -46,14 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION["emptyInput"] = $errors;
 
 
-                //header("Location: ../index.php");
+                header("Location: ../index.php");
                 die();
             }
 
             addProduct($pdo, $productName, $size, $type, $traySize, $price);
 
-            //header("Location: ../index.php");
-            echo showAllProducts($pdo);
+            header("Location: ../index.php");
+            //echo showAllProducts($pdo);
 
 
             $pdo = null;
@@ -66,6 +66,48 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF ADD PRODUCT PROCESS...
 
 
+
+
+    // DELETE PRODUCT PROCESS
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+
+        $id = $_POST["id"];
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../controllers/ProductController.php';
+
+
+            // ERROR HANDLERS
+            $errors = [];
+
+            $result = getProduct($pdo, $id);
+
+            if (!$result) {
+                $errors["productNotFound"] = "Product not found.";
+            }
+
+            if ($errors) {
+                header("Location: ../index.php");
+                die();
+            }
+
+
+            removeProduct($pdo, $id);
+
+            header("Location: ../index.php");
+            //echo showAllProducts($pdo);
+
+
+            $pdo = null;
+            $stmt = null;
+            die();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+    // END OF DELETE PRODUCT PROCESS
 } else {
     header("Location: ../index.php");
     die();
