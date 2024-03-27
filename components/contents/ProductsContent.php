@@ -1,3 +1,8 @@
+<?php
+require_once './models/ProductModel.php';
+require_once './views/ProductView.php';
+?>
+
 <!-- PRODUCTS COMPONENT CONTENTS -->
 
 
@@ -7,7 +12,7 @@
 
 
 <!-- ADD PRODUCT FORM CONTAINER -->
-<div class="add-product-container">
+<div class="add-product-form-container">
 
     <!-- ADD PRODUCT FORM -->
     <form class="add-product-form" id="add-product-form" action="./includes/Product.php" method="post">

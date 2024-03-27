@@ -10,13 +10,36 @@ declare(strict_types=1);
 // GET ALL EMPLOYEES FROM DATABASE
 function getAllEmployees(object $pdo)
 {
-    $query = "SELECT * FROM employee";
-    $stmt = $pdo->prepare($query);
+    try {
+        $query = "SELECT * FROM employee";
+        $stmt = $pdo->prepare($query);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error inserting employee data: " . $e->getMessage();
+    }
+}
+
+
+
+// GET AN EMPLOYEES FROM DATABASE
+function getEmployee(object $pdo, int $id)
+{
+    try {
+        $query = "SELECT * FROM employee WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error inserting employee data: " . $e->getMessage();
+    }
 }
 
 

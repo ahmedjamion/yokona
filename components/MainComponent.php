@@ -31,7 +31,7 @@
         echo "logged in = " . $_SESSION["loggedIn"] . "<br>";
         echo "user id = " . $_SESSION["userId"] . "<br>";
         echo "username = " . $_SESSION["username"] . "<br>";
-        echo "role = " . $_SESSION["userRole"] . "<br>";
+        echo "role = " . $_SESSION["role"] . "<br>";
         echo "sessionId = " . $_SESSION["sessionId"] . "<br>";
         echo "last regeneration = " . $_SESSION["lastRegeneration"];
 

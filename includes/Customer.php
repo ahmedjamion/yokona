@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF ADD CUSTOMER PROCESS...
 
 
-    // DELETE PRODUCT PROCESS
+    // DELETE CUSTOMER PROCESS
     else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
         $id = $_POST["id"];
@@ -95,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             removeCustomer($pdo, $id);
 
             header("Location: ../index.php");
-            //echo showAllProducts($pdo);
 
 
             $pdo = null;
@@ -105,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die("Query failed: " . $e->getMessage());
         }
     }
-    // END OF DELETE PRODUCT PROCESS
+    // END OF DELETE CUSTOMER PROCESS
 
 } else {
     header("Location: ../index.php");

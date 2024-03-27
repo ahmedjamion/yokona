@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $errors["invalidCredential"] = "Wrong username or password.";
             }
 
-            require_once '../config/SessionConfig.php';
+            require_once '../config/Session.php';
 
             if ($errors) {
                 $_SESSION['logInErrors'] = $errors;
@@ -46,15 +46,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             //SESSION RELATED STUFF, SOMETHINGS WRONG HERE...
-            $sessionId = session_create_id();
-            //$sessionId = $newSessionId . "_" . //$result["id"];
+            $newSessionId = session_create_id();
+            $sessionId = $newSessionId . "_" . password_hash($result["username"], PASSWORD_BCRYPT);
             session_id($sessionId);
 
             $_SESSION["loggedIn"] = true;
             $_SESSION["userId"] = htmlspecialchars($result["id"]);
             $_SESSION["username"] = htmlspecialchars($result["username"]);
-            $_SESSION["userRole"] = htmlspecialchars($result["role"]);
-            $_SESSION["sessionId"] = $sessionId;
+            $_SESSION["role"] = htmlspecialchars($result["role"]);
             $_SESSION["lastRegeneration"] = time();
 
 

@@ -7,7 +7,7 @@
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
-    // ADD CUSTOMER PROCESS
+    // ADD EMPLOYEE PROCESS
     if (isset($_POST['addEmployee']) && $_POST['addEmployee'] === 'addEmployee') {
         $firstName = $_POST["firstName"];
         $lastName = $_POST["lastName"];
@@ -34,16 +34,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if ($errors) {
-                //NEED TO ADD SOMETHING HERE
-                /*$_SESSION["errorsSignUp"] = $errors;
-    
-                $signUpData = [
-                    "username" => $username,
-                    "email" => $email
-                ];
-    
-                $_SESSION["signUpData"] = $signUpData;*/
-
                 $_SESSION["emptyInput"] = $errors;
 
 
@@ -54,7 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             addEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
 
             header("Location: ../index.php");
-            //echo showAllProducts($pdo);
 
 
             $pdo = null;
@@ -64,9 +53,49 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die("Query failed: " . $e->getMessage());
         }
     }
-    // END OF ADD CUSTOMER PROCESS...
+    // END OF ADD EMPLOYEE PROCESS...
 
 
+
+    // DELETE EMPLOYEE PROCESS
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+
+        $id = $_POST["id"];
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/EmployeeModel.php';
+            require_once '../controllers/EmployeeController.php';
+
+
+            // ERROR HANDLERS
+            $errors = [];
+
+            $result = getEmployee($pdo, $id);
+
+            if (!$result) {
+                $errors["employeetNotFound"] = "Employee not found.";
+            }
+
+            if ($errors) {
+                header("Location: ../index.php");
+                die();
+            }
+
+
+            removeEmployee($pdo, $id);
+
+            header("Location: ../index.php");
+
+
+            $pdo = null;
+            $stmt = null;
+            die();
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+    // END OF DELETE EMPLOYEE PROCESS
 } else {
     header("Location: ../index.php");
     die();

@@ -22,3 +22,9 @@ function addEmployee(object $pdo, string $firstName, string $lastName, string $g
 {
     setEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
 }
+
+// CALLING THE REMOVE EMPLOYEE FUNCTION OF EMPLOYEE MODEL
+function removeEmployee(object $pdo, int $id)
+{
+    deleteEmployee($pdo, $id);
+}

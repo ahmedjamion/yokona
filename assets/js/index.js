@@ -24,7 +24,7 @@ function setUpTabs() {
             tabToActivate.classList.add("mc-tab-content-active");
 
             // Store the active tab in session storage
-            //sessionStorage.setItem('activeTab', tabButton);
+            sessionStorage.setItem('activeTab', tabButton);
         })
     })
 }
@@ -33,17 +33,17 @@ document.addEventListener("DOMContentLoaded", () => {
     setUpTabs();
 
     document.querySelectorAll(".main-component").forEach(tabsContainer => {
-        tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
-        /*
-                const activeTab = sessionStorage.getItem('activeTab');
-                if (activeTab) {
-                    const activeTabButton = tabsContainer.querySelector(`.mc-tab-button[data-for-tab="${activeTab}"]`);
-                    if (activeTabButton) {
-                        activeTabButton.click();
-                    }
-                } else {
-                    tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
-                }*/
+        //tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
+
+        const activeTab = sessionStorage.getItem('activeTab');
+        if (activeTab) {
+            const activeTabButton = tabsContainer.querySelector(`.mc-tab-button[data-for-tab="${activeTab}"]`);
+            if (activeTabButton) {
+                activeTabButton.click();
+            }
+        } else {
+            tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
+        }
     })
 })
 

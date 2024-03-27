@@ -1,3 +1,8 @@
+<?php
+require_once './models/CustomerModel.php';
+require_once './views/CustomerView.php';
+?>
+
 <!-- CUSTOMERS COMPONENT CONTENTS -->
 
 
@@ -8,7 +13,7 @@
 
 
 <!-- ADD CUSTOMERS FORM CONTAINER -->
-<div class="add-customer-container">
+<div class="add-customer-form-container">
 
     <!-- ADD CUSTOMERS FORM -->
     <form class="add-customer-form" id="add-customer-form" action="./includes/Customer.php" method="post">

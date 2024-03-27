@@ -1,5 +1,5 @@
 <?php
-require_once 'config/SessionConfig.php';
+require_once 'config/Session.php';
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@ require_once 'config/SessionConfig.php';
     // CHECKING IF USER IS LOGGED IN OR NOT
 
     // IF USER IS LOGGED IN
-    if (isset($_SESSION["userId"])) {
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
         include 'components/MainPage.php';
     }
 
@@ -36,7 +36,7 @@ require_once 'config/SessionConfig.php';
 
     <!-- JAVASCRIPT LINKS -->
     <!--<script src="assets/js/jquery-3.7.1.min.js"></script>-->
-    <script src="assets/js/index.js"></script>
+    <script src="assets/js/index.js?"></script>
 </body>
 
 </html>

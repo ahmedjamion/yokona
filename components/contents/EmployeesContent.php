@@ -1,3 +1,9 @@
+<?php
+require_once './models/EmployeeModel.php';
+require_once './views/EmployeeView.php';
+?>
+
+
 <!-- EMPLOYEES COMPONENT CONTENTS -->
 
 
@@ -8,7 +14,7 @@
 
 
 <!-- ADD EMPLOYEE FORM CONTAINER -->
-<div class="add-employee-container">
+<div class="add-employee-form-container">
 
     <!-- ADD EMPLOYEE FORM -->
     <form class="add-employee-form" id="add-employee-form" action="./includes/Employee.php" method="post">
@@ -64,5 +70,5 @@
 
 
 <?php
-showAllEmployees($pdo);
+allEmployees($pdo);
 ?>
