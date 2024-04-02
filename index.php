@@ -36,7 +36,7 @@ require_once 'config/Session.php';
 
     <!-- JAVASCRIPT LINKS -->
     <!--<script src="assets/js/jquery-3.7.1.min.js"></script>-->
-    <script src="assets/js/index.js?"></script>
+    <script src="assets/js/index.js?v=<?php echo time(); ?>"></script>
 </body>
 
 </html>

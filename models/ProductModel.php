@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 
 
-//GET ALL PRODUCTS FROM THE DATABASE
+// GET ALL PRODUCTS FROM THE DATABASE
 function getAllProducts(object $pdo)
 {
     try {
@@ -26,7 +26,7 @@ function getAllProducts(object $pdo)
 
 
 
-//GET A PRODUCT FROM THE DATABASE
+// GET A PRODUCT FROM THE DATABASE
 function getProduct(object $pdo, int $id)
 {
     try {
@@ -46,7 +46,7 @@ function getProduct(object $pdo, int $id)
 
 
 
-//INSERT A NEW PRODUCT TO THE DATABASE
+// INSERT A NEW PRODUCT TO THE DATABASE
 function setProduct(object $pdo, string $productName, string $size, string $type, string $traySize, float $price)
 {
     try {
@@ -67,7 +67,7 @@ function setProduct(object $pdo, string $productName, string $size, string $type
 
 
 
-//UPDATE A PRODUCT IN THE DATABASE
+// UPDATE A PRODUCT IN THE DATABASE
 function updateProduct(object $pdo, int $id, string $productName, string $size, string $type, string $traySize, float $price)
 {
     try {
@@ -89,7 +89,7 @@ function updateProduct(object $pdo, int $id, string $productName, string $size, 
 
 
 
-//DELETE A PRODUCT IN THE DATABASE
+// DELETE A PRODUCT IN THE DATABASE
 function deleteProduct(object $pdo, int $id)
 {
     try {

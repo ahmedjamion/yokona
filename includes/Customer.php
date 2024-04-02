@@ -53,7 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
 
             header("Location: ../index.php");
-            //echo showAllProducts($pdo);
 
 
             $pdo = null;
@@ -64,6 +63,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF ADD CUSTOMER PROCESS...
+
+
 
 
     // DELETE CUSTOMER PROCESS
@@ -105,6 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF DELETE CUSTOMER PROCESS
+
 
 } else {
     header("Location: ../index.php");

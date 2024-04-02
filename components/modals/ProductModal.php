@@ -1,16 +1,3 @@
-<?php
-require_once './models/ProductModel.php';
-require_once './views/ProductView.php';
-?>
-
-<!-- PRODUCTS COMPONENT CONTENTS -->
-
-
-
-<h2>Products</h2>
-<button>Add Product</button>
-
-
 <!-- ADD PRODUCT FORM CONTAINER -->
 <div class="add-product-form-container">
 
@@ -63,17 +50,8 @@ require_once './views/ProductView.php';
             <input type="number" name="price" id="price" step="0.01" placeholder="Price">
         </div>
 
-        <input type="submit" value="Submit" id="addProduct">
+        <input type="submit" name="addProduct" value="addProduct" id="addProduct">
     </form>
     <!-- END OF ADD PRODUCT FORM... -->
 </div>
 <!-- END OF ADD PRODUCT FORM CONTAINER... -->
-
-
-
-
-<div id="all-products">
-    <?php
-    showAllProducts($pdo);
-    ?>
-</div>

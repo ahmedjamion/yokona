@@ -17,11 +17,17 @@ function isEmpty($firstName, $lastName, $gender, $address, $contactNumber, $type
     }
 }
 
+
+
+
 // CALLING THE SET EMPLOYEE FUNCTION OF EMPLOYEE MODEL
 function addEmployee(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, int $typeId)
 {
     setEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
 }
+
+
+
 
 // CALLING THE REMOVE EMPLOYEE FUNCTION OF EMPLOYEE MODEL
 function removeEmployee(object $pdo, int $id)

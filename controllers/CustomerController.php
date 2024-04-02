@@ -17,11 +17,17 @@ function isEmpty($firstName, $lastName, $gender, $address, $contactNumber)
     }
 }
 
+
+
+
 // CALLING THE SET CUSTOMER FUNCTION OF PRODUCT MODEL
 function addCustomer(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber)
 {
     setCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
 }
+
+
+
 
 // CALL THE DELETE CUSTOMER FUNTION OF CUSTOMER MODEL
 function removeCustomer(object $pdo, int $id)

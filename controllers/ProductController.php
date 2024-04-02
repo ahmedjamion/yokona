@@ -17,12 +17,19 @@ function isEmpty($productName, $size, $type, $traySize, $price)
     }
 }
 
+
+
+
 // CALLING THE SET PRODUCT FUNCTION OF PRODUCT MODEL
 function addProduct(object $pdo, string $productName, string $type, string $size, string $traySize, float $price)
 {
     setProduct($pdo, $productName, $type, $size, $traySize, $price);
 }
 
+
+
+
+// CALLING THE DELETE PRODUCT FUNCTION OF PRODUCT MODEL
 function removeProduct(object $pdo, int $id)
 {
     deleteProduct($pdo, $id);

@@ -57,6 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
+
     // DELETE EMPLOYEE PROCESS
     else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
@@ -96,6 +97,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF DELETE EMPLOYEE PROCESS
+
+
 } else {
     header("Location: ../index.php");
     die();

@@ -10,13 +10,38 @@ declare(strict_types=1);
 // GET ALL USER FROM DATABASE
 function getAllUsers(object $pdo)
 {
-    $query = "SELECT * FROM user";
-    $stmt = $pdo->prepare($query);
+    try {
+        $query = "SELECT * FROM user";
+        $stmt = $pdo->prepare($query);
 
-    $stmt->execute();
+        $stmt->execute();
 
-    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    return $result;
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error inserting product: " . $e->getMessage();
+    }
+}
+
+
+
+
+// GET A USER FROM DATABASE
+function getUser(object $pdo, int $id)
+{
+    try {
+        $query = "SELECT * FROM user WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error inserting product: " . $e->getMessage();
+    }
 }
 
 
@@ -26,12 +51,18 @@ function getAllUsers(object $pdo)
 function setUser(object $pdo, int $employeeId, string $username, string $password, string $role)
 {
     try {
-        $query = "INSERT INTO product (employee_id, username, password, role) VALUES (:employee_id, :username, :password, :role);";
+        $query = "INSERT INTO user (employee_id, username, password, role) VALUES (:employee_id, :username, :password, :role)";
         $stmt = $pdo->prepare($query);
+
+        $options = [
+            'cost' => 12
+        ];
+
+        $hashedPassword = password_hash($password, PASSWORD_BCRYPT, $options);
 
         $stmt->bindParam(":employee_id", $employeeId);
         $stmt->bindParam(":username", $username);
-        $stmt->bindParam(":password", $password);
+        $stmt->bindParam(":password", $hashedPassword);
         $stmt->bindParam(":role", $role);
         $stmt->execute();
     } catch (PDOException $e) {
@@ -68,7 +99,7 @@ function updateUser(object $pdo, int $id, string $firstName, string $lastName, s
 function deleteUser(object $pdo, int $id)
 {
     try {
-        $query = "DELETE FROM user WHERE id = :id;";
+        $query = "DELETE FROM user WHERE id = :id";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(":id", $id);

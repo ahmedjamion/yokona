@@ -1,6 +1,7 @@
 <?php
+// DATABASE CONNECTION
 
-//DATABASE CONNECTION
+
 
 $host = 'localhost';
 $dbusername = 'root';

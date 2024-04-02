@@ -4,50 +4,74 @@
 
 // SET UP TABS FOR MAIN COMPONENT
 function setUpTabs() {
-    document.querySelectorAll(".mc-tab-button").forEach(button => {
+    document.querySelectorAll(".tab-button").forEach(button => {
         button.addEventListener("click", () => {
-            const sideBar = button.parentElement;
-            const tabsContainer = sideBar.parentElement;
+            const tabNav = button.parentElement;
+            const tabsContainer = tabNav.parentElement;
             const tabButton = button.dataset.forTab;
-            const tabToActivate = tabsContainer.querySelector(`.mc-tab-content[data-tab="${tabButton}"]`);
+            const tabToActivate = tabsContainer.querySelector(`.tab-content[data-tab="${tabButton}"]`);
 
 
-            sideBar.querySelectorAll(".mc-tab-button").forEach(button => {
-                button.classList.remove("mc-tab-button-active");
+
+            tabNav.querySelectorAll(".tab-button").forEach(button => {
+                button.classList.remove("tab-button-active");
             })
 
-            tabsContainer.querySelectorAll(".mc-tab-content").forEach(tab => {
-                tab.classList.remove("mc-tab-content-active");
+            tabsContainer.querySelectorAll(".tab-content").forEach(tab => {
+                tab.classList.remove("tab-content-active");
             })
 
-            button.classList.add("mc-tab-button-active");
-            tabToActivate.classList.add("mc-tab-content-active");
-
-            // Store the active tab in session storage
-            sessionStorage.setItem('activeTab', tabButton);
+            button.classList.add("tab-button-active");
+            tabToActivate.classList.add("tab-content-active");
         })
     })
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    setUpTabs();
+    setUpTabs(document.body);
 
-    document.querySelectorAll(".main-component").forEach(tabsContainer => {
-        //tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
-
-        const activeTab = sessionStorage.getItem('activeTab');
-        if (activeTab) {
-            const activeTabButton = tabsContainer.querySelector(`.mc-tab-button[data-for-tab="${activeTab}"]`);
-            if (activeTabButton) {
-                activeTabButton.click();
-            }
-        } else {
-            tabsContainer.querySelector(".mc-sidebar .mc-tab-button").click();
-        }
+    document.querySelectorAll(".tabs").forEach(tabsContainer => {
+        tabsContainer.querySelector(".tab-nav .tab-button").click();
     })
 })
+// END OF SET UP TABS FOR MAIN COMPONENT...
 
-// END OF SET UP TABS...
+
+
+
+// SET UP CONTENTS TABS
+function setUpContentTabs() {
+    document.querySelectorAll(".c-tab-button").forEach(button => {
+        button.addEventListener("click", () => {
+            const tabNav = button.parentElement;
+            const tabsContainer = tabNav.parentElement;
+            const tabButton = button.dataset.forTab;
+            const tabToActivate = tabsContainer.querySelector(`.c-tab-content[data-tab="${tabButton}"]`);
+
+
+
+            tabNav.querySelectorAll(".c-tab-button").forEach(button => {
+                button.classList.remove("c-tab-button-active");
+            })
+
+            tabsContainer.querySelectorAll(".c-tab-content").forEach(tab => {
+                tab.classList.remove("c-tab-content-active");
+            })
+
+            button.classList.add("c-tab-button-active");
+            tabToActivate.classList.add("c-tab-content-active");
+        })
+    })
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    setUpContentTabs();
+
+    document.querySelectorAll(".content-tabs").forEach(tabsContainer => {
+        tabsContainer.querySelector(".c-tab-nav .c-tab-button").click();
+    })
+})
+// END OF SET UP CONTENTS TABS...
 
 
 

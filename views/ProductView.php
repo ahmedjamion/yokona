@@ -30,9 +30,9 @@ function showAllProducts(object $pdo)
                 <p>Price: Php {$price}</p>
                 <form method='POST' action='./includes/Product.php'>
                     <input type='hidden' name='id' value='{$id}'>
-                    <button type='submit' name='action' value='delete'>Delete</button>
-                    <button type='submit' name='action' value='edit'>Edit</button>
-                    <button type='submit' name='action' value='view'>View</button>
+                    <button type='submit' name='deleteProduct' value='deleteProduct'>Delete</button>
+                    <button type='submit' name='editProduct' value='editProduct'>Edit</button>
+                    <button type='submit' name='viewProduct' value='viewProduct'>View</button>
                 </form>
                 </div>";
         }

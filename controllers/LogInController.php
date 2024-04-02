@@ -17,6 +17,9 @@ function isEmpty(string $username, string $password)
     }
 }
 
+
+
+
 // CHECK FOR USERNAME
 function userNotFound(bool|array $result)
 {
@@ -26,6 +29,9 @@ function userNotFound(bool|array $result)
         return false;
     }
 }
+
+
+
 
 // VERIFY PASSWORD
 function wrongPassword(string $password, string $hashedPassword)

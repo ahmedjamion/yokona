@@ -17,8 +17,20 @@ function isEmpty($employeeId, $username, $password, $role)
     }
 }
 
+
+
+
 // CALLING THE SET CUSTOMER FUNCTION OF PRODUCT MODEL
-function addCustomer(object $pdo, int $employeeId, string $username, string $password, string $role)
+function addUser(object $pdo, int $employeeId, string $username, string $password, string $role)
 {
     setUser($pdo, $employeeId, $username, $password, $role);
+}
+
+
+
+
+// CALLING THE DELETE CUSTOMER FUNCTION OF PRODUCT MODEL
+function removeUser(object $pdo, int $id)
+{
+    deleteUser($pdo, $id);
 }

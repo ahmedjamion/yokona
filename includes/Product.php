@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE PRODUCT PROCESS
-    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+    else if (isset($_POST['deleteProduct']) && $_POST['deleteProduct'] === 'deleteProduct') {
 
         $id = $_POST["id"];
 
@@ -108,6 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF DELETE PRODUCT PROCESS
+
+
 } else {
     header("Location: ../index.php");
     die();

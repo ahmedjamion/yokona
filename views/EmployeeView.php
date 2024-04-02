@@ -45,9 +45,7 @@ function allEmployees(object $pdo)
         if (empty($result)) {
             echo 'NO EMPLOYEE FOUND';
         } else {
-            echo '<div class="input-group">';
-            echo '<label for="employee">Employee</label>';
-            echo '<select name="employee" id="employee">';
+            echo '<select name="employeeId" id="employeeId">';
             echo '<option hidden disabled selected value>Select Employee</option>';
             foreach ($result as $row) {
                 $id = $row["id"];
@@ -56,7 +54,6 @@ function allEmployees(object $pdo)
                 echo '<option value="' . $id . '">' . $firstName . " " . $lastName . '</option>';
             }
             echo '</select>';
-            echo '</div>';
         }
     }
 }
