@@ -39,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+/*
 // SET UP CONTENTS TABS
 function setUpContentTabs() {
     document.querySelectorAll(".c-tab-button").forEach(button => {
@@ -72,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 })
 // END OF SET UP CONTENTS TABS...
-
+*/
 
 
 

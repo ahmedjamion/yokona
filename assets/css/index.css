@@ -7,6 +7,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
 
@@ -29,6 +30,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: start;
+    padding: 10px;
 }
 
 .log-out {
@@ -46,6 +48,7 @@ body {
 }
 
 .tab-nav {
+    width: 200px;
     flex-shrink: 0;
 }
 
@@ -53,6 +56,10 @@ body {
     display: flex;
     width: 100%;
     cursor: pointer;
+    font-size: 1.25rem;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
 }
 
 .tab-button-active {
@@ -69,6 +76,7 @@ body {
     flex-direction: column;
     align-items: start;
     flex-grow: 1;
+    padding: 10px;
 }
 /* END OF MAIN TABS STYLES... */
 
@@ -151,5 +159,6 @@ body {
 .footer {
     display: block;
     text-align: center;
+    padding: 10px;
 }
 /* END OF FOOTER STYLES... */

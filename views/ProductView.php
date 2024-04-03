@@ -33,6 +33,7 @@ function showAllProducts(object $pdo)
                     <button type='submit' name='deleteProduct' value='deleteProduct'>Delete</button>
                     <button type='submit' name='editProduct' value='editProduct'>Edit</button>
                     <button type='submit' name='viewProduct' value='viewProduct'>View</button>
+                    <button type='submit' name='logProduce' value='logProduce'>Log Produce</button>
                 </form>
                 </div>";
         }
