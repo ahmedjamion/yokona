@@ -7,7 +7,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
 
@@ -19,51 +19,105 @@ body {
     display: flex;
     flex-direction: column;
     height: 100dvh;
+    background-color: #d5e8ff;
 }
 /* END OF BODY STYLES... */
 
 
-
-
 /* HEADER STYLES */
 .main-header {
+    height: 60px;
     display: flex;
-    flex-direction: column;
-    justify-content: start;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.main-header h1{
+    color: #0f0f86;
     padding: 10px;
 }
 
-.log-out {
-    display: flex;
+.logout-button{
+    position: absolute;
+    right: 0;
+    top: 13px;
+    padding: 8px 12px;
+    width: 100px;
+    border-radius: 16px 0 0 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #0f0f86;
+    color: white;
+    font-weight: bold;
 }
+
+.logout-button:hover{
+    background-color: rgba(15, 15, 133, 0.2);
+    color: #0f0f86;
+}
+
 /* END OF HEADER STYLES... */
+
+/* FOOTER STYLES */
+.footer {
+    height: 20px;
+    display: block;
+    text-align: center;
+    padding: 10px;
+}
+/* END OF FOOTER STYLES... */
 
 
 
 
 /* MAIN TABS STYLES */
 .tabs {
+    height: calc(100dvh - 100px);
     display: flex;
-    flex-grow: 1;
 }
 
 .tab-nav {
+    padding-left: 20px;
+    padding-top: 40px;
+    height: 100%;
     width: 200px;
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .tab-button {
     display: flex;
     width: 100%;
     cursor: pointer;
-    font-size: 1.25rem;
-    padding: 10px;
+    font-size: 18px;
+    padding: 10px 18px;
     border: none;
     background-color: transparent;
+    font-weight: bold;
+    border-radius: 25px 0 0 25px;
+    transition: background-color .15s ease-in-out;
+    color: #0f0f86;
+}
+
+.tab-button:hover {
+    background-color: rgba(15, 15, 134, 0.20);
+    border-radius: 25px 0 0 25px;
 }
 
 .tab-button-active {
     font-weight: bold;
+    background-color: #0f0f86;
+    color: white;
+    border-radius: 25px 0 0 25px;
+}
+
+.tab-button-active:hover {
+    font-weight: bold;
+    background-color: #0f0f86;
+    color: white;
+    border-radius: 25px 0 0 25px;
 }
 
 .tab-content {
@@ -71,14 +125,39 @@ body {
 }
 
 .tab-content-active {
-    flex-grow: 1;
+    height: calc(100vh - 100px);
+    overflow-y: auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: start;
-    flex-grow: 1;
     padding: 10px;
+    background-color: white;
+    border-left: 5px solid #0f0f86;
+    border-top: 5px solid #0f0f86;
+    border-bottom: 5px solid #0f0f86;
+    border-radius: 25px 0 0 25px;
 }
 /* END OF MAIN TABS STYLES... */
+
+
+@media screen and (max-width: 1000px) {
+.main-header h1 {
+    display: none;
+}
+.tab-nav {
+    display: none;
+}
+}
+
+@media screen and (max-width: 600px) {
+.tab-nav {
+    display: none;
+}
+.footer {
+    font-size: 10px;
+}
+}
 
 
 
@@ -122,19 +201,92 @@ body {
 
 
 
-
-/*  LOG IN PAGE STYLES  */
-.login-page {
+/* LOGIN PAGE STYLES */
+.login-page{
+    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
 }
 
-.login-form {
+.login-container{
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+    background-color: #d5e8ff;
+}
+
+.login-title{
+    text-align: center;
+    font-weight: bold;
+}
+
+.login-errors{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: red;
+}
+
+.login-form{
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 10px;
 }
-/* END LOG IN PAGE STYLES... */
+
+.login-button{
+    align-self: center;
+    padding: 8px 20px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #0f0f86;
+    color: white;
+    font-weight: bold;
+    transition: background-color .3s ease-in-out;
+    transition: color .3s ease-in-out;
+}
+
+.login-button:hover{
+    background-color: rgba(15, 15, 134, 0.20);
+    border-radius: 16px;
+    color: #0f0f86;
+}
+
+.input-group{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form label{
+    padding-left: 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+
+.login-form input{
+    font-size: 16px;
+    padding: 8px 15px;
+    border-radius: 18px;
+    border: none;
+    transition: outline .1s ease-in-out;
+}
+
+.login-form input:focus, input:hover{
+    outline: 2px solid #0f0f86;
+}
+
 
 
 
@@ -155,10 +307,3 @@ body {
 
 
 
-/* FOOTER STYLES */
-.footer {
-    display: block;
-    text-align: center;
-    padding: 10px;
-}
-/* END OF FOOTER STYLES... */
