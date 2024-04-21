@@ -2,19 +2,20 @@
 // CUSTOMER PROCESSES
 
 
-
+header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
+    $data = json_decode(trim(file_get_contents("php://input")));
 
     // ADD EMPLOYEE PROCESS
-    if (isset($_POST['addEmployee']) && $_POST['addEmployee'] === 'addEmployee') {
-        $firstName = $_POST["firstName"];
-        $lastName = $_POST["lastName"];
-        $gender = $_POST["gender"];
-        $address = $_POST["address"];
-        $contactNumber = $_POST["contactNumber"];
-        $typeId = $_POST["employeeType"];
+    if (isset($data->action) && $data->action === 'addEmployee') {
+        $firstName = $data->firstName;
+        $lastName = $data->lastName;
+        $gender = $data->gender;
+        $address = $data->address;
+        $contactNumber = $data->contactNumber;
+        $typeId = $data->employeeType;
 
         try {
             require_once '../config/Database.php';
@@ -26,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // ERROR HANDLERS
 
             $errors = [];
+            $success = [];
 
 
             if (isEmpty($firstName, $lastName, $gender, $address, $contactNumber, $typeId)) {
@@ -36,14 +38,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($errors) {
                 $_SESSION["emptyInput"] = $errors;
 
+                echo json_encode($errors);
+                exit;
+            } else {
 
-                header("Location: ../index.php");
-                die();
+                addEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
+                $success["success"] = "New employee data added successfully";
+                echo json_encode($success);
             }
-
-            addEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
-
-            header("Location: ../index.php");
 
 
             $pdo = null;
@@ -54,6 +56,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF ADD EMPLOYEE PROCESS...
+
+
+
+    else if (isset($data->action) && $data->action === 'getAllEmployees') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/EmployeeModel.php';
+            require_once '../views/EmployeeView.php';
+            require_once '../controllers/EmployeeController.php';
+
+            $result = getAllEmployees($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 
 
 

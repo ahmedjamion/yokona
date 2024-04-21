@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 26, 2024 at 08:10 PM
+-- Generation Time: Apr 21, 2024 at 07:05 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,7 +42,9 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `profile_picture`) VALUES
-(1, 'Ahmed Rashad', 'Jamion', 'Male', 'Cabatangan', '09060364709', NULL);
+(1, 'Ahmed Rashad', 'Jamion', 'Male', 'Cabatangan', '09060364709', NULL),
+(5, 'Elon', 'Musk', 'Male', 'Mars', '2323', NULL),
+(6, 'Ahmed', 'Jamion', 'Male', 'Cabatangan', '09060364709', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,8 +68,10 @@ CREATE TABLE `employee` (
 --
 
 INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `type_id`, `profile_picture`) VALUES
-(1, 'Ahmed Rashad', 'Jamion', 'Male', 'Cabatangan', '09060364709', 1, NULL),
-(2, 'Albert', 'Einstein', 'Male', 'Space', '999', 4, NULL);
+(9, 'Albert', 'Einstein', 'Male', 'Baliwasan', '123', 3, NULL),
+(10, 'Elon', 'Musk', 'Male', 'Mars', '222', 3, NULL),
+(11, 'Bill', 'Gates', 'Male', 'Manila', '111', 2, NULL),
+(12, 'Jack', 'Ma', 'Male', 'China', '2112', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -153,8 +157,7 @@ CREATE TABLE `produce` (
   `id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `produce_date` date NOT NULL DEFAULT current_timestamp(),
-  `product_id` int(11) NOT NULL,
-  `house_id` int(11) NOT NULL
+  `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -172,6 +175,14 @@ CREATE TABLE `product` (
   `price` decimal(10,2) NOT NULL,
   `product_picture` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`id`, `name`, `size`, `type`, `tray_size`, `price`, `product_picture`) VALUES
+(12, 'Eggcellent', 'Small', 'Standard', '30', 170.00, NULL),
+(17, 'Egg', 'Small', 'Organic', '15', 222.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -218,8 +229,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `employee_id`, `username`, `password`, `role`) VALUES
-(1, 1, 'admin', '$2y$10$CMdwgXMwNKZ7KYXBlo1c6.V5/BRGihmcW5cJyG8dULwrv1mWbAdCS', 'admin'),
-(2, 1, 'inventory', '$2y$10$zqkVFxSzvZgsLnaS5P/8F.LHmQ.Eg80i6OQfo5ibG78fQni0d8pZK', 'inventory');
+(2, 10, 'elon', '$2y$12$5hFk9Hb.2d5vXG91XuD5uu2cf2no4OMkDvW/H0DINuvmibnJoh5uO', 'order'),
+(3, 9, 'admin', '$2a$12$oMSRHIGx3.qAJY6oKoX0tOVjAvxKMXxYQJJ2rRPtQseGtpIRir/92', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -271,7 +282,6 @@ ALTER TABLE `order_item`
 --
 ALTER TABLE `produce`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `produce_house_id` (`house_id`),
   ADD KEY `produce_product_id` (`product_id`);
 
 --
@@ -307,13 +317,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `employee_type`
@@ -349,7 +359,7 @@ ALTER TABLE `produce`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `repair`
@@ -367,7 +377,7 @@ ALTER TABLE `supply`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -397,7 +407,6 @@ ALTER TABLE `order_item`
 -- Constraints for table `produce`
 --
 ALTER TABLE `produce`
-  ADD CONSTRAINT `produce_house_id` FOREIGN KEY (`house_id`) REFERENCES `house` (`id`),
   ADD CONSTRAINT `produce_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
 
 --

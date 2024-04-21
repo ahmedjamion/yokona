@@ -2,18 +2,19 @@
 // CUSTOMER PROCESSES
 
 
-
+header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $data = json_decode(trim(file_get_contents("php://input")));
 
 
     // ADD CUSTOMER PROCESS
-    if (isset($_POST['addCustomer']) && $_POST['addCustomer'] === 'addCustomer') {
-        $firstName = $_POST["firstName"];
-        $lastName = $_POST["lastName"];
-        $gender = $_POST["gender"];
-        $address = $_POST["address"];
-        $contactNumber = $_POST["contactNumber"];
+    if (isset($data->action) && $data->action === 'addCustomer') {
+        $firstName = $data->firstName;
+        $lastName = $data->lastName;
+        $gender = $data->gender;
+        $address = $data->address;
+        $contactNumber = $data->contactNumber;
 
         try {
             require_once '../config/Database.php';
@@ -24,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ERROR HANDLERS
 
+            $success = [];
             $errors = [];
 
 
@@ -33,36 +35,46 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if ($errors) {
-                //NEED TO ADD SOMETHING HERE
-                /*$_SESSION["errorsSignUp"] = $errors;
-    
-                $signUpData = [
-                    "username" => $username,
-                    "email" => $email
-                ];
-    
-                $_SESSION["signUpData"] = $signUpData;*/
 
                 $_SESSION["emptyInput"] = $errors;
+                echo json_encode($errors);
+                exit;
+            } else {
+
+                addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
+
+                $success["success"] = "New customer data added successfully";
+                echo json_encode($success);
 
 
-                header("Location: ../index.php");
-                die();
+                $pdo = null;
+                $stmt = null;
+                exit;
             }
-
-            addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
-
-            header("Location: ../index.php");
-
-
-            $pdo = null;
-            $stmt = null;
-            die();
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
     }
     // END OF ADD CUSTOMER PROCESS...
+
+
+
+
+    else if (isset($data->action) && $data->action === 'getAllCustomers') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/CustomerModel.php';
+            require_once '../views/CustomerView.php';
+            require_once '../controllers/CustomerController.php';
+
+            $result = getAllCustomers($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 
 
 

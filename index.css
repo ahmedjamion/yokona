@@ -50,6 +50,8 @@ body {
     background-color: #0f0f86;
     color: white;
     font-weight: bold;
+    transition: background-color .3s ease-in-out;
+    transition: color .3s ease-in-out;
 }
 
 .logout-button:hover{
@@ -97,8 +99,8 @@ body {
     background-color: transparent;
     font-weight: bold;
     border-radius: 25px 0 0 25px;
-    transition: background-color .15s ease-in-out;
     color: #0f0f86;
+    transition: background-color .15s ease-in-out;
 }
 
 .tab-button:hover {
@@ -132,6 +134,7 @@ body {
     flex-direction: column;
     align-items: start;
     padding: 10px;
+    gap: 10px;
     background-color: white;
     border-left: 5px solid #0f0f86;
     border-top: 5px solid #0f0f86;
@@ -252,8 +255,8 @@ body {
     background-color: #0f0f86;
     color: white;
     font-weight: bold;
-    transition: background-color .3s ease-in-out;
-    transition: color .3s ease-in-out;
+    transition: background-color .15s ease-in-out;
+    transition: color .15s ease-in-out;
 }
 
 .login-button:hover{
@@ -283,7 +286,7 @@ body {
     transition: outline .1s ease-in-out;
 }
 
-.login-form input:focus, input:hover{
+.login-form input:focus, .login-form input:hover{
     outline: 2px solid #0f0f86;
 }
 
@@ -291,19 +294,148 @@ body {
 
 
 
-/*  ADD PRODUCT FORM STYLES  */
-.add-product-container {
-    display: flex;
-    flex-direction: column;
+
+/* TABLE STYLES */
+.table-container {
+    width: 100%;
 }
 
-.add-product-form {
+table {
+    width: 100%;
+}
+
+table, th, tr, td {
+    border: solid 1px;
+    border-collapse: collapse;
+    padding: 6px;
+}
+
+thead, tbody, tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+tbody {
+    display: block;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+tbody::-webkit-scrollbar {
+    display: none;
+}
+
+
+
+
+/* BUTTONS */
+button {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-button {
+    background-color: #d5d5ff;
+}
+
+.submit-button {
+    background-color: #d3eaee;
+}
+
+
+
+/* MODAL STYLES */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: white;
+    width: 400px;
+    padding: 14px;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
-    align-items: start;
+    gap: 10px;
 }
-/* END ADD PRODUCT FORM STYLES... */
+
+@keyframes open-modal {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes close-modal {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.close-modal {
+    cursor: pointer;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+form .input-group{
+    display: flex;
+}
+
+form input, form select{
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid gray;
+}
+
+form label{
+    cursor: pointer;
+}
+
+form select {
+    cursor: pointer;
+}
 
 
 
 
+
+
+
+/* REMOVE NUMBER INPUT ARROWS */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -2,27 +2,28 @@
 // USER PROCESSES
 
 
-
+header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
+    $data = json_decode(trim(file_get_contents("php://input")));
 
     // ADD USER PROCESS
-    if (isset($_POST['addUser']) && $_POST['addUser'] === 'addUser') {
-        $employeeId = $_POST["employeeId"];
-        $username = $_POST["username"];
-        $password = $_POST["password"];
-        $role = $_POST["role"];
+    if (isset($data->action) && $data->action === 'addUser') {
+        $employeeId = $data->employeeId;
+        $username = $data->username;
+        $password = $data->password;
+        $role = $data->role;
 
         try {
             require_once '../config/Database.php';
             require_once '../models/UserModel.php';
-            require_once '../controllers/UsersController.php';
+            require_once '../controllers/UserController.php';
 
 
             // ERROR HANDLERS
 
             $errors = [];
+            $success = [];
 
 
             if (isEmpty($employeeId, $username, $password, $role)) {
@@ -33,24 +34,44 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             if ($errors) {
                 $_SESSION["emptyInput"] = $errors;
 
+                echo json_encode($errors);
+                exit;
+            } else {
 
-                header("Location: ../index.php");
-                die();
+                addUser($pdo, $employeeId, $username, $password, $role);
+                $success["success"] = "New product data added successfully";
+                echo json_encode($success);
+                exit;
             }
-
-            addUser($pdo, $employeeId, $username, $password, $role);
-
-            header("Location: ../index.php");
 
 
             $pdo = null;
             $stmt = null;
-            die();
+            exit;
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
     }
     // END OF ADD USER PROCESS...
+
+
+
+
+    else if (isset($data->action) && $data->action === 'getAllUsers') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/UserModel.php';
+            require_once '../views/UserView.php';
+            require_once '../controllers/UserController.php';
+
+            $result = getAllUsers($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 
 
 

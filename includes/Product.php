@@ -2,18 +2,18 @@
 // PRODUCT PROCESSES
 
 
-
+header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-
+    $data = json_decode(trim(file_get_contents("php://input")));
 
     // ADD PRODUCT PROCESS
-    if (isset($_POST['addProduct']) && $_POST['addProduct'] === 'addProduct') {
-        $productName = $_POST["productName"];
-        $size = $_POST["size"];
-        $type = $_POST["type"];
-        $traySize = $_POST["traySize"];
-        $price = $_POST["price"];
+    if (isset($data->action) && $data->action === 'addProduct') {
+        $productName = $data->productName;
+        $size = $data->size;
+        $type = $data->type;
+        $traySize = $data->traySize;
+        $price = $data->price;
 
         try {
             require_once '../config/Database.php';
@@ -25,6 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             // ERROR HANDLERS
 
             $errors = [];
+            $success = [];
 
 
             if (isEmpty($productName, $size, $type, $traySize, $price)) {
@@ -33,27 +34,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if ($errors) {
-                //NEED TO ADD SOMETHING HERE
-                /*$_SESSION["errorsSignUp"] = $errors;
-    
-                $signUpData = [
-                    "username" => $username,
-                    "email" => $email
-                ];
-    
-                $_SESSION["signUpData"] = $signUpData;*/
 
                 $_SESSION["emptyInput"] = $errors;
+                echo json_encode($errors);
+                exit;
+            } else {
 
-
-                header("Location: ../index.php");
-                die();
+                addProduct($pdo, $productName, $size, $type, $traySize, $price);
+                echo json_encode($success);
+                exit;
             }
 
-            addProduct($pdo, $productName, $size, $type, $traySize, $price);
-
-            header("Location: ../index.php");
-            //echo showAllProducts($pdo);
 
 
             $pdo = null;
@@ -64,6 +55,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
     // END OF ADD PRODUCT PROCESS...
+
+
+
+
+    else if (isset($data->action) && $data->action === 'getAllProducts') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getAllProducts($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 
 
 
