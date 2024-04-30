@@ -30,20 +30,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if (isEmpty($firstName, $lastName, $gender, $address, $contactNumber)) {
-                $errors["emptyInput"] = "Fill in all fields.";
+                $errors["message"] = "Fill in all fields.";
             }
 
 
             if ($errors) {
-
-                $_SESSION["emptyInput"] = $errors;
                 echo json_encode($errors);
                 exit;
             } else {
 
                 addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
 
-                $success["success"] = "New customer data added successfully";
+                $success["success"] = true;
+                $success["message"] = "New customer data added successfully";
                 echo json_encode($success);
 
 
@@ -80,9 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE CUSTOMER PROCESS
-    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+    else if (isset($data->action) && $data->action === 'delete') {
 
-        $id = $_POST["id"];
+        $id = $data->id;
 
         try {
             require_once '../config/Database.php';
@@ -92,6 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ERROR HANDLERS
             $errors = [];
+            $success = [];
 
             $result = getCustomer($pdo, $id);
 
@@ -100,15 +100,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($errors) {
-                header("Location: ../index.php");
-                die();
+                echo json_encode($errors);
+                exit;
+            } else {
+                removeCustomer($pdo, $id);
+                $success["success"] = true;
+                $success["message"] = "Customer data deleted successfully";
+                echo json_encode($success);
+                exit;
             }
-
-
-            removeCustomer($pdo, $id);
-
-            header("Location: ../index.php");
-
 
             $pdo = null;
             $stmt = null;

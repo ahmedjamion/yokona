@@ -31,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if (isEmpty($firstName, $lastName, $gender, $address, $contactNumber, $typeId)) {
-                $errors["emptyInput"] = "Fill in all fields.";
+                $errors["message"] = "Fill in all fields.";
             }
 
 
@@ -43,7 +43,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
 
                 addEmployee($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $typeId);
-                $success["success"] = "New employee data added successfully";
+
+                $success['success'] = true;
+                $success["message"] = "New employee data added successfully";
                 echo json_encode($success);
             }
 

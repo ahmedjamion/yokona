@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if (isEmpty($productName, $size, $type, $traySize, $price)) {
-                $errors["emptyInput"] = "Fill in all fields.";
+                $errors["message"] = "Fill in all fields.";
             }
 
 
@@ -41,6 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
 
                 addProduct($pdo, $productName, $size, $type, $traySize, $price);
+                $success["success"] = true;
+                $success["message"] = "New product data added successfully";
                 echo json_encode($success);
                 exit;
             }
@@ -77,11 +79,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-
     // DELETE PRODUCT PROCESS
-    else if (isset($_POST['deleteProduct']) && $_POST['deleteProduct'] === 'deleteProduct') {
+    else if (isset($data->action) && $data->action === 'delete') {
 
-        $id = $_POST["id"];
+        $id = $data->id;
 
         try {
             require_once '../config/Database.php';
@@ -91,23 +92,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ERROR HANDLERS
             $errors = [];
+            $success = [];
 
             $result = getProduct($pdo, $id);
 
             if (!$result) {
-                $errors["productNotFound"] = "Product not found.";
+                $errors["message"] = "Product not found.";
             }
 
             if ($errors) {
-                header("Location: ../index.php");
-                die();
+                echo json_encode($errors);
+                exit;
+            } else {
+                removeProduct($pdo, $id);
+                $success["success"] = true;
+                $success["message"] = "Product deleted";
             }
 
 
-            removeProduct($pdo, $id);
-
-            header("Location: ../index.php");
-            //echo showAllProducts($pdo);
 
 
             $pdo = null;

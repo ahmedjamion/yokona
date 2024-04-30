@@ -38,7 +38,7 @@ require_once './views/EmployeeView.php';
             <div class="input-group">
                 <label for="empGender">Tray Size</label>
                 <select name="gender" id="empGender">
-                    <option hidden disabled selected value> Gender </option>
+                    <option hidden selected value=""> Gender </option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
@@ -57,7 +57,7 @@ require_once './views/EmployeeView.php';
             <div class="input-group">
                 <label for="employeeType">Employee Type</label>
                 <select name="employeeType" id="employeeType">
-                    <option hidden disabled selected value> Employee Type </option>
+                    <option hidden selected value=""> Employee Type </option>
                     <option value="1">Manager</option>
                     <option value="2">Sales</option>
                     <option value="3">Checker</option>
@@ -88,6 +88,7 @@ require_once './views/EmployeeView.php';
                 <th>Gender</th>
                 <th>Address</th>
                 <th>Contact #</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="et-body">

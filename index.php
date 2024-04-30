@@ -13,12 +13,13 @@ require_once 'config/Session.php';
     <!-- JAVASCRIPT LINKS -->
     <!-- echo time(); auto reloads the css file -->
     <link rel="stylesheet" type="text/css" href="index.css?v=<?php echo time(); ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css?v=<?php echo time(); ?>" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="assets/fontawesome-free-6.5.2-web/css/all.min.css?v=<?php echo time(); ?>">
 
     <title>Eggcellent</title>
 </head>
 
 <body>
+    <div class="overlay"></div>
 
     <?php
 

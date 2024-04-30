@@ -37,7 +37,7 @@ require_once './views/CustomerView.php';
             <div class="input-group">
                 <label for="custGender">Gender</label>
                 <select name="gender" id="custGender">
-                    <option hidden disabled selected value> Gender </option>
+                    <option hidden selected value=""> Gender </option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
@@ -74,6 +74,7 @@ require_once './views/CustomerView.php';
                 <th>Gender</th>
                 <th>Address</th>
                 <th>Contact #</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="ct-body">

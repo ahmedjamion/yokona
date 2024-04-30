@@ -24,12 +24,24 @@ body {
 /* END OF BODY STYLES... */
 
 
+
+.overlay {
+    display: none;
+    height: 100dvh;
+    width: 100dvw;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
 /* HEADER STYLES */
 .main-header {
+    position: relative;
     height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
+    align-content: center;
     text-align: center;
 }
 
@@ -52,6 +64,14 @@ body {
     font-weight: bold;
     transition: background-color .3s ease-in-out;
     transition: color .3s ease-in-out;
+}
+
+.main-header .open-sidebar {
+    display: none;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    font-size: 1.8rem;
 }
 
 .logout-button:hover{
@@ -141,6 +161,10 @@ body {
     border-bottom: 5px solid #0f0f86;
     border-radius: 25px 0 0 25px;
 }
+
+.tab-nav .close-sidebar {
+    display: none;
+}
 /* END OF MAIN TABS STYLES... */
 
 
@@ -148,18 +172,55 @@ body {
 .main-header h1 {
     display: none;
 }
-.tab-nav {
-    display: none;
-}
+
+
 }
 
 @media screen and (max-width: 600px) {
-.tab-nav {
-    display: none;
-}
 .footer {
     font-size: 10px;
 }
+
+.main-header .open-sidebar {
+    display: block;
+    cursor: pointer;
+}
+
+.tab-nav {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    background-color: lightseagreen;
+    padding-top: 0;
+    z-index: 1;
+}
+
+.tab-nav .close-sidebar {
+    display: block;
+    font-size: 2rem;
+    align-self: end;
+    padding: 2px 8px;
+    cursor: pointer;
+}
+}
+
+
+@keyframes slideIn {
+    from {
+        left: -200px;
+    }
+    to {
+        left: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        left: 0;
+    }
+    to {
+        left: -200px;
+    }
 }
 
 
@@ -223,7 +284,6 @@ body {
     gap: 10px;
     padding: 15px;
     border-radius: 15px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
     background-color: #d5e8ff;
 }
 
@@ -302,6 +362,7 @@ body {
 
 table {
     width: 100%;
+    table-layout: auto;
 }
 
 table, th, tr, td {
@@ -326,6 +387,70 @@ tbody::-webkit-scrollbar {
     display: none;
 }
 
+.action-form {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.action-form button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    padding: 0;
+}
+
+.action-form button i {
+    font-size: 1.2rem;
+    color: #a1a1a1;
+}
+
+.tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    padding: 4px 8px;
+    right: 120%;
+    text-align: center;
+    z-index: 1;
+    transition: opacity .10s ease-in-out;
+    font-weight: bolder;
+    border-radius: 5px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);;
+}
+
+.action-form button:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.view-button:hover .tooltip {
+    background-color: rgba(0, 0, 255, 0.8);
+    color: white;
+}
+
+.view-button i:hover {
+    color: blue;
+}
+
+.delete-button:hover .tooltip {
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+}
+
+.delete-button i:hover {
+    color: red;
+}
+
+.edit-button:hover .tooltip {
+    background-color: rgba(0, 128, 0, 0.8);
+    color: white;
+}
+
+.edit-button i:hover {
+    color: green;
+}
 
 
 
@@ -371,7 +496,7 @@ button {
     gap: 10px;
 }
 
-@keyframes open-modal {
+@keyframes appear {
     from {
         opacity: 0;
     }
@@ -380,7 +505,7 @@ button {
     }
 }
 
-@keyframes close-modal {
+@keyframes disappear {
     from {
         opacity: 1;
     }

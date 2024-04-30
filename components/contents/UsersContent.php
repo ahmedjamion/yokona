@@ -32,7 +32,7 @@ require_once './views/EmployeeView.php';
                     echo 'NO EMPLOYEE FOUND';
                 } else {
                     echo '<select name="employeeId" id="employeeId">';
-                    echo '<option hidden disabled selected value>Select Employee</option>';
+                    echo '<option hidden selected value="">Select Employee</option>';
                     foreach ($result as $row) {
                         $id = $row["id"];
                         $firstName = htmlspecialchars($row["first_name"]);
@@ -57,7 +57,7 @@ require_once './views/EmployeeView.php';
             <div class="input-group">
                 <label for="role">Role</label>
                 <select name="role" id="role">
-                    <option hidden disabled selected value> Select Role </option>
+                    <option hidden selected value=""> Select Role </option>
                     <option value="admin">Admin</option>
                     <option value="inventory">Inventory</option>
                     <option value="order">Order</option>
@@ -85,6 +85,7 @@ require_once './views/EmployeeView.php';
             <tr>
                 <th>Username</th>
                 <th>Role</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="ut-body">

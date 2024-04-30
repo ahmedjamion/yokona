@@ -17,66 +17,88 @@ const userForm = document.getElementById('user-form');
 
 
 
+
+
+
 // AUTOMATICALLY CREATE TABLE
 document.addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault();
-    getAllData(custUrl, createCustomersTable, 'getAllCustomers');
-    getAllData(empUrl, createEmployeesTable, 'getAllEmployees');
-    getAllData(prodUrl, createProductsTable, 'getAllProducts');
-    getAllData(userUrl, createUsersTable, 'getAllUsers');
+
+    showCustomers();
+    showEmployees();
+    showProducts();
+    showUsers();
+
+
+    // HANDLE FORM SUBMIT
+    customerForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm);
+    });
+
+
+    employeeForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+        submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm);
+    });
+
+
+    productForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+        submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm);
+    });
+
+
+    userForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+        submitForm(data, userUrl, getAllData, createUsersTable, 'getAllUsers', userForm);
+    });
+
+
+
+    const mainComponent = document.getElementById('main-component');
+
+    mainComponent.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        if (e.target.classList.contains('action-form')) {
+            console.log(e.target);
+
+            const form = e.target.closest(".action-form");
+
+            const url = form.getAttribute('action');
+
+            const formData = new FormData(e.target);
+            formData.append(e.submitter.name, e.submitter.value);
+            const data = Object.fromEntries(formData.entries());
+
+            submitAction(data, url);
+        }
+    });
+
+
+
+
 });
-
-
-
-
-// HANDLE FORM SUBMIT
-customerForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    formData.append(e.submitter.name, e.submitter.value);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers');
-});
-
-
-employeeForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    formData.append(e.submitter.name, e.submitter.value);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees');
-});
-
-
-productForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    formData.append(e.submitter.name, e.submitter.value);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts');
-});
-
-
-userForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    formData.append(e.submitter.name, e.submitter.value);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-    submitForm(data, userUrl, getAllData, createUsersTable, 'getAllUsers');
-});
-
-
-
-
-
-
 
 // SUBMIT FORM PROCESS AND UPDATE TABLE
-async function submitForm(data, url, callback, callbackFunction, value) {
+async function submitForm(data, url, callback, callbackFunction, value, form) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -86,18 +108,117 @@ async function submitForm(data, url, callback, callbackFunction, value) {
             body: JSON.stringify(data)
         });
 
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const result = await response.json();
         console.log(response);
+        console.log(result);
+        callback(url, callbackFunction, value);
+
+
+        const message = document.createElement('p');
+        message.textContent = result.message;
+        message.style.textAlign = 'center';
+
+
+        const modalContent = form.parentElement;
+        const modal = modalContent.parentElement;
+
+
+        if (result.success === true) {
+
+            message.style.color = 'green';
+            modalContent.appendChild(message);
+
+            setTimeout(() => {
+                hideModal(modal);
+                message.remove();
+            }, 3000);
+        } else {
+
+            message.style.color = 'red';
+            modalContent.appendChild(message);
+
+            setTimeout(() => {
+                message.remove();
+            }, 3000);
+        }
+
+        form.reset();
+
+
+
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
+
+
+async function submitAction(data, url) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data)
+        });
 
         if (!response.ok) {
             throw new Error('Network response was not ok.');
         }
 
         const result = await response.json();
-        callback(url, callbackFunction, value);
-        console.log(result);
+
+        if (result.success === true) {
+            switch (url) {
+                case 'includes/Customer.php':
+                    showCustomers();
+                    break;
+
+                case 'includes/Employee.php':
+                    showEmployees();
+                    break;
+
+                case 'includes/Product.php':
+                    showProducts();
+                    break;
+
+                case 'includes/User.php':
+                    showUsers();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
     } catch (error) {
         console.error(error);
     }
+}
+
+
+
+function showCustomers() {
+    getAllData(custUrl, createCustomersTable, 'getAllCustomers');
+}
+
+function showEmployees() {
+    getAllData(empUrl, createEmployeesTable, 'getAllEmployees');
+}
+
+function showProducts() {
+    getAllData(prodUrl, createProductsTable, 'getAllProducts');
+}
+
+function showUsers() {
+    getAllData(userUrl, createUsersTable, 'getAllUsers');
 }
 
 
@@ -112,7 +233,7 @@ async function getAllData(url, callback, value) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ action: value }) // Include any other data you need to send
+            body: JSON.stringify({ action: value })
         });
 
         if (!response.ok) {
@@ -133,6 +254,43 @@ async function getAllData(url, callback, value) {
 
 
 
+// FUNCTION FOR CREATING INPUT SUBMITS (ACTION COLUMN OF TABLES)
+function createButtonSubmit(value, buttonName, buttonClass) {
+    const button = document.createElement('button');
+    button.innerHTML = buttonName;
+    button.className = buttonClass;
+    button.type = 'submit';
+    button.name = 'action';
+    button.value = value;
+    return button;
+}
+
+
+// CREATE ACTIONS COLUMN FOR TABLES
+function createActions(td, id) {
+    const actionForm = document.createElement('form');
+    actionForm.method = 'POST';
+    actionForm.action = 'includes/Customer.php';
+    actionForm.className = 'action-form';
+
+    const actionId = document.createElement('input');
+    actionId.type = 'hidden';
+    actionId.name = 'id';
+    actionId.value = id;
+
+    const view = createButtonSubmit('view', '<i class="fa-solid fa-image"></i><span class="tooltip">View</span>', 'view-button');
+    const edit = createButtonSubmit('edit', '<i class="fa-solid fa-square-pen"></i><span class="tooltip">Edit</span>', 'edit-button');
+    const remove = createButtonSubmit('delete', '<i class="fa-solid fa-trash"></i><span class="tooltip">Delete</span>', 'delete-button');
+
+
+    actionForm.appendChild(actionId);
+    actionForm.appendChild(view);
+    actionForm.appendChild(edit);
+    actionForm.appendChild(remove);
+    td.appendChild(actionForm);
+}
+
+
 
 // CREATE CUSTOMERS TABLE
 function createCustomersTable(data) {
@@ -142,11 +300,15 @@ function createCustomersTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number'];
+        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number', 'actions'];
 
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
-            td.textContent = row[column];
+            if (column === 'actions') {
+                createActions(td, row.id);
+            } else {
+                td.textContent = row[column];
+            }
             tr.appendChild(td);
         });
 
@@ -162,11 +324,15 @@ function createEmployeesTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number'];
+        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number', 'actions'];
 
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
-            td.textContent = row[column];
+            if (column === 'actions') {
+                createActions(td, row.id);
+            } else {
+                td.textContent = row[column];
+            }
             tr.appendChild(td);
         });
 
@@ -183,11 +349,15 @@ function createProductsTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['name', 'size', 'type', 'tray_size', 'price'];
+        const columnsToDisplay = ['name', 'size', 'type', 'tray_size', 'price', 'actions'];
 
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
-            td.textContent = row[column];
+            if (column === 'actions') {
+                createActions(td, row.id);
+            } else {
+                td.textContent = row[column];
+            }
             tr.appendChild(td);
         });
 
@@ -204,11 +374,15 @@ function createUsersTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['username', 'role'];
+        const columnsToDisplay = ['username', 'role', 'actions'];
 
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
-            td.textContent = row[column];
+            if (column === 'actions') {
+                createActions(td, row.id);
+            } else {
+                td.textContent = row[column];
+            }
             tr.appendChild(td);
         });
 
@@ -225,31 +399,42 @@ const modalButtons = document.querySelectorAll('.open-modal');
 const modals = document.querySelectorAll('.modal');
 const closeButtons = document.querySelectorAll('.close-modal');
 
+
+function showModal(modal) {
+    if (modal) {
+        modal.style.display = 'flex';
+        modal.style.animation = 'appear .25s';
+        modal.setAttribute('tabindex', '0');
+        modal.focus();
+    }
+}
+
 modalButtons.forEach(function (button) {
     button.onclick = function () {
         const modalId = button.getAttribute('data-modal');
         const modal = document.getElementById(modalId);
-        if (modal) {
-            modal.style.display = 'flex';
-            modal.style.animation = 'open-modal .25s';
-            modal.setAttribute('tabindex', '0');
-            modal.focus();
-        }
+        console.log('this is the modal value: ' + modal);
+        showModal(modal);
     }
 });
+
+
+function hideModal(modal) {
+    if (modal) {
+        modal.style.animation = 'disappear .25s';
+        setTimeout(function () {
+            modal.style.display = 'none';
+        }, 250);
+
+        modal.removeAttribute('tabindex');
+    }
+}
 
 
 closeButtons.forEach(function (button) {
     button.onclick = function () {
         const modal = button.closest('.modal');
-        if (modal) {
-            modal.style.animation = 'close-modal .25s';
-            setTimeout(function () {
-                modal.style.display = 'none';
-            }, 250);
-
-            modal.removeAttribute('tabindex');
-        }
+        hideModal(modal);
     }
 });
 
@@ -272,7 +457,7 @@ modals.forEach(function (modal) {
 
 window.onclick = function (event) {
     if (event.target.className === 'modal') {
-        event.target.style.display = 'none';
+        hideModal(event.target);
     }
 }
 
@@ -302,6 +487,9 @@ function setUpTabs() {
 
             tabsContainer.querySelectorAll(".tab-content").forEach(tab => {
                 tab.classList.remove("tab-content-active");
+                setTimeout(() => {
+                    closeSidebar();
+                }, 500);
             })
 
             button.classList.add("tab-button-active");
@@ -357,3 +545,48 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 // END OF SET UP CONTENTS TABS...
 */
+
+
+const openSidebarIcon = document.querySelector('.open-sidebar');
+const closeSidebarIcon = document.querySelector('.close-sidebar');
+const sideBar = document.querySelector('.tab-nav');
+const overlay = document.querySelector('.overlay');
+let sidebarOpen = false;
+
+openSidebarIcon.addEventListener('click', () => {
+    openSidebar();
+});
+
+closeSidebarIcon.addEventListener('click', () => {
+    closeSidebar();
+})
+
+// Add event listener to the window
+window.addEventListener('click', function (event) {
+    // Check if the clicked element is not part of the sidebar or its toggle buttons
+    if (!sideBar.contains(event.target) && event.target !== openSidebarIcon && event.target !== closeSidebarIcon && sidebarOpen) {
+        closeSidebar(sideBar); // Close the sidebar if it's open
+        sidebarOpen = false; // Update the flag
+    }
+});
+
+function openSidebar() {
+    sideBar.style.left = '0';
+    sideBar.style.animation = 'slideIn .25s forwards ease';
+    overlay.style.display = 'block';
+    overlay.style.animation = 'appear .25s';
+    sidebarOpen = true;
+}
+
+function closeSidebar() {
+    if (sidebarOpen) {
+        sideBar.style.left = '-200px';
+        sideBar.style.animation = 'slideOut .25s forwards ease';
+        overlay.style.animation = 'disappear .25s';
+        setTimeout(() => {
+            overlay.style.display = 'none';
+        }, 250);
+    }
+    sidebarOpen = false;
+}
+

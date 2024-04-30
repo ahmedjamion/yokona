@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
             if (isEmpty($employeeId, $username, $password, $role)) {
-                $errors["emptyInput"] = "Fill in all fields.";
+                $errors["message"] = "Fill in all fields.";
             }
 
 
@@ -39,7 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
 
                 addUser($pdo, $employeeId, $username, $password, $role);
-                $success["success"] = "New product data added successfully";
+                $success["success"] = true;
+                $success["message"] = "New product data added successfully";
                 echo json_encode($success);
                 exit;
             }

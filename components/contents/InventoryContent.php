@@ -31,7 +31,7 @@ require_once './views/ProductView.php';
             <div class="input-group">
                 <label for="size">Size</label>
                 <select name="size" id="size">
-                    <option hidden disabled selected value> Egg Size </option>
+                    <option hidden selected value=""> Egg Size </option>
                     <option value="Small">Small</option>
                     <option value="Medium">Medium</option>
                     <option value="Large">Large</option>
@@ -44,7 +44,7 @@ require_once './views/ProductView.php';
             <div class="input-group">
                 <label for="type">Type</label>
                 <select name="type" id="type">
-                    <option hidden disabled selected value> Egg Type </option>
+                    <option hidden selected value=""> Egg Type </option>
                     <option value="Standard">Standard</option>
                     <option value="Organic">Organic</option>
                     <option value="Cage-Free">Cage-Free</option>
@@ -55,7 +55,7 @@ require_once './views/ProductView.php';
             <div class="input-group">
                 <label for="traySize">Tray Size</label>
                 <select name="traySize" id="traySize">
-                    <option hidden disabled selected value> Tray Size </option>
+                    <option hidden selected value=""> Tray Size </option>
                     <option value="30">30</option>
                     <option value="15">15</option>
                     <option value="10">10</option>
@@ -91,6 +91,7 @@ require_once './views/ProductView.php';
                 <th>Type</th>
                 <th>Tray</th>
                 <th>Price</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody id="pt-body">
