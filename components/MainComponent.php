@@ -26,6 +26,12 @@
 
         <button class="tab-button" data-for-tab="users">Users</button>
 
+        <div class="log-out">
+            <form action="includes/LogIn.php" method="post">
+                <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out</button>
+            </form>
+        </div>
+
     </div>
     <!-- END OF MAIN MAIN COMPONENT SIDEBAR -->
 

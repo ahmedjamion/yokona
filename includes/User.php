@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
                 addUser($pdo, $employeeId, $username, $password, $role);
                 $success["success"] = true;
-                $success["message"] = "New product data added successfully";
+                $success["message"] = "New user data added successfully";
                 echo json_encode($success);
                 exit;
             }
@@ -78,18 +78,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE USER PROCESS
-    else if (isset($_POST['deleteUser']) && $_POST['deleteUser'] === 'deleteUser') {
+    else if (isset($data->action) && $data->action === 'delete') {
 
-        $id = $_POST["id"];
+        $id = $data->id;
 
         try {
             require_once '../config/Database.php';
             require_once '../models/UserModel.php';
-            require_once '../controllers/UsersController.php';
+            require_once '../controllers/UserController.php';
 
 
             // ERROR HANDLERS
             $errors = [];
+            $success = [];
 
             $result = getUser($pdo, $id);
 
@@ -98,14 +99,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($errors) {
-                header("Location: ../index.php");
-                die();
+                echo json_encode($errors);
+                exit;
+            } else {
+                removeUser($pdo, $id);
+                $success['success'] = true;
+                $success['message'] = 'User data deleted successfully';
+                echo json_encode($success);
+                exit;
             }
 
 
-            removeUser($pdo, $id);
 
-            header("Location: ../index.php");
 
 
             $pdo = null;

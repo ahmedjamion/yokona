@@ -81,9 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE EMPLOYEE PROCESS
-    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
+    else if (isset($data->action) && $data->action === 'delete') {
 
-        $id = $_POST["id"];
+        $id = $data->id;
 
         try {
             require_once '../config/Database.php';
@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ERROR HANDLERS
             $errors = [];
+            $success = [];
 
             $result = getEmployee($pdo, $id);
 
@@ -101,14 +102,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
 
             if ($errors) {
-                header("Location: ../index.php");
-                die();
+                echo json_encode($errors);
+                exit;
+            } else {
+                removeEmployee($pdo, $id);
+                $success['success'] = true;
+                $success['message'] = 'Employee data deleted successfully';
+                echo json_encode($success);
+                exit;
             }
 
-
-            removeEmployee($pdo, $id);
-
-            header("Location: ../index.php");
 
 
             $pdo = null;

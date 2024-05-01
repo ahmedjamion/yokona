@@ -267,10 +267,10 @@ function createButtonSubmit(value, buttonName, buttonClass) {
 
 
 // CREATE ACTIONS COLUMN FOR TABLES
-function createActions(td, id) {
+function createActions(td, id, url) {
     const actionForm = document.createElement('form');
     actionForm.method = 'POST';
-    actionForm.action = 'includes/Customer.php';
+    actionForm.action = url;
     actionForm.className = 'action-form';
 
     const actionId = document.createElement('input');
@@ -305,7 +305,7 @@ function createCustomersTable(data) {
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
             if (column === 'actions') {
-                createActions(td, row.id);
+                createActions(td, row.id, 'includes/Customer.php');
             } else {
                 td.textContent = row[column];
             }
@@ -329,7 +329,7 @@ function createEmployeesTable(data) {
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
             if (column === 'actions') {
-                createActions(td, row.id);
+                createActions(td, row.id, 'includes/Employee.php');
             } else {
                 td.textContent = row[column];
             }
@@ -354,7 +354,7 @@ function createProductsTable(data) {
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
             if (column === 'actions') {
-                createActions(td, row.id);
+                createActions(td, row.id, 'includes/Product.php');
             } else {
                 td.textContent = row[column];
             }
@@ -379,7 +379,7 @@ function createUsersTable(data) {
         columnsToDisplay.forEach(column => {
             const td = document.createElement('td');
             if (column === 'actions') {
-                createActions(td, row.id);
+                createActions(td, row.id, 'includes/User.php');
             } else {
                 td.textContent = row[column];
             }
@@ -389,6 +389,13 @@ function createUsersTable(data) {
         tableBody.appendChild(tr);
     });
 }
+
+
+
+
+
+
+
 
 
 
@@ -470,7 +477,7 @@ window.onclick = function (event) {
 
 
 
-// SET UP TABS FOR MAIN COMPONENT
+// TABS
 function setUpTabs() {
     document.querySelectorAll(".tab-button").forEach(button => {
         button.addEventListener("click", () => {
@@ -487,9 +494,6 @@ function setUpTabs() {
 
             tabsContainer.querySelectorAll(".tab-content").forEach(tab => {
                 tab.classList.remove("tab-content-active");
-                setTimeout(() => {
-                    closeSidebar();
-                }, 500);
             })
 
             button.classList.add("tab-button-active");
@@ -505,13 +509,12 @@ document.addEventListener("DOMContentLoaded", () => {
         tabsContainer.querySelector(".tab-nav .tab-button").click();
     })
 })
-// END OF SET UP TABS FOR MAIN COMPONENT...
 
 
 
 
 /*
-// SET UP CONTENTS TABS
+// INNER TABS
 function setUpContentTabs() {
     document.querySelectorAll(".c-tab-button").forEach(button => {
         button.addEventListener("click", () => {
@@ -547,6 +550,9 @@ document.addEventListener("DOMContentLoaded", () => {
 */
 
 
+
+
+// MOBILE SIDEBAR
 const openSidebarIcon = document.querySelector('.open-sidebar');
 const closeSidebarIcon = document.querySelector('.close-sidebar');
 const sideBar = document.querySelector('.tab-nav');

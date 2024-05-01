@@ -106,7 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 removeProduct($pdo, $id);
                 $success["success"] = true;
-                $success["message"] = "Product deleted";
+                $success["message"] = "Product data deleted successfully";
+                echo json_encode($success);
+                exit;
             }
 
 
@@ -114,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             $pdo = null;
             $stmt = null;
-            die();
+            exit;
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }

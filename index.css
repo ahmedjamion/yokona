@@ -19,7 +19,10 @@ body {
     display: flex;
     flex-direction: column;
     height: 100dvh;
-    background-color: #d5e8ff;
+    background-image: url(assets/bg/egg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 /* END OF BODY STYLES... */
 
@@ -36,7 +39,6 @@ body {
 
 /* HEADER STYLES */
 .main-header {
-    position: relative;
     height: 60px;
     display: flex;
     justify-content: center;
@@ -46,25 +48,11 @@ body {
 }
 
 .main-header h1{
-    color: #0f0f86;
+    color: white;
     padding: 10px;
 }
 
-.logout-button{
-    position: absolute;
-    right: 0;
-    top: 13px;
-    padding: 8px 12px;
-    width: 100px;
-    border-radius: 16px 0 0 16px;
-    border: none;
-    cursor: pointer;
-    background-color: #0f0f86;
-    color: white;
-    font-weight: bold;
-    transition: background-color .3s ease-in-out;
-    transition: color .3s ease-in-out;
-}
+
 
 .main-header .open-sidebar {
     display: none;
@@ -72,12 +60,11 @@ body {
     left: 10px;
     top: 10px;
     font-size: 1.8rem;
+    color: white;
 }
 
-.logout-button:hover{
-    background-color: rgba(15, 15, 133, 0.2);
-    color: #0f0f86;
-}
+
+
 
 /* END OF HEADER STYLES... */
 
@@ -87,6 +74,7 @@ body {
     display: block;
     text-align: center;
     padding: 10px;
+    color: white;
 }
 /* END OF FOOTER STYLES... */
 
@@ -95,13 +83,11 @@ body {
 
 /* MAIN TABS STYLES */
 .tabs {
-    height: calc(100dvh - 100px);
+    height: calc(100dvh - 60px);
     display: flex;
 }
 
 .tab-nav {
-    padding-left: 20px;
-    padding-top: 40px;
     height: 100%;
     width: 200px;
     flex-shrink: 0;
@@ -117,29 +103,25 @@ body {
     padding: 10px 18px;
     border: none;
     background-color: transparent;
-    font-weight: bold;
-    border-radius: 25px 0 0 25px;
-    color: #0f0f86;
+    color: white;
     transition: background-color .15s ease-in-out;
+    border-radius: 0;
 }
 
 .tab-button:hover {
-    background-color: rgba(15, 15, 134, 0.20);
-    border-radius: 25px 0 0 25px;
+    background-color: rgba(213, 213, 255, 0.4);
 }
 
 .tab-button-active {
     font-weight: bold;
-    background-color: #0f0f86;
-    color: white;
-    border-radius: 25px 0 0 25px;
+    background-color: #d5d5ff;
+    color: black;
 }
 
 .tab-button-active:hover {
     font-weight: bold;
-    background-color: #0f0f86;
-    color: white;
-    border-radius: 25px 0 0 25px;
+    background-color: #d5d5ff;
+    color: black;
 }
 
 .tab-content {
@@ -153,13 +135,37 @@ body {
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding: 10px;
+    padding: 20px;
     gap: 10px;
-    background-color: white;
-    border-left: 5px solid #0f0f86;
-    border-top: 5px solid #0f0f86;
-    border-bottom: 5px solid #0f0f86;
-    border-radius: 25px 0 0 25px;
+}
+
+.log-out {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.log-out form {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.logout-button{
+    padding: 8px 12px;
+    border-radius: 16px;
+    border: none;
+    cursor: pointer;
+    background-color: #d5d5ff;
+    color: black;
+    font-weight: bold;
+    transition: background-color .3s ease-in-out;
+}
+
+.logout-button:hover{
+    filter: brightness(90%);
 }
 
 .tab-nav .close-sidebar {
@@ -168,60 +174,12 @@ body {
 /* END OF MAIN TABS STYLES... */
 
 
-@media screen and (max-width: 1000px) {
-.main-header h1 {
-    display: none;
-}
 
 
+h1, h2, h3, h4 {
+    color: white;
 }
 
-@media screen and (max-width: 600px) {
-.footer {
-    font-size: 10px;
-}
-
-.main-header .open-sidebar {
-    display: block;
-    cursor: pointer;
-}
-
-.tab-nav {
-    position: fixed;
-    top: 0;
-    left: -200px;
-    background-color: lightseagreen;
-    padding-top: 0;
-    z-index: 1;
-}
-
-.tab-nav .close-sidebar {
-    display: block;
-    font-size: 2rem;
-    align-self: end;
-    padding: 2px 8px;
-    cursor: pointer;
-}
-}
-
-
-@keyframes slideIn {
-    from {
-        left: -200px;
-    }
-    to {
-        left: 0;
-    }
-}
-
-@keyframes slideOut {
-    from {
-        left: 0;
-    }
-    to {
-        left: -200px;
-    }
-}
 
 
 
@@ -273,7 +231,6 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
 }
 
 .login-container{
@@ -283,8 +240,8 @@ body {
     justify-content: center;
     gap: 10px;
     padding: 15px;
-    border-radius: 15px;
-    background-color: #d5e8ff;
+    border-radius: 10px;
+    background-color: #d5d5ff;
 }
 
 .login-title{
@@ -363,6 +320,7 @@ body {
 table {
     width: 100%;
     table-layout: auto;
+    background-color: white;
 }
 
 table, th, tr, td {
@@ -387,6 +345,11 @@ tbody::-webkit-scrollbar {
     display: none;
 }
 
+
+
+
+
+/* ACTIONS */
 .action-form {
     display: flex;
     flex-direction: row;
@@ -417,7 +380,6 @@ tbody::-webkit-scrollbar {
     transition: opacity .10s ease-in-out;
     font-weight: bolder;
     border-radius: 5px;
-    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.7);;
 }
 
 .action-form button:hover .tooltip {
@@ -425,32 +387,36 @@ tbody::-webkit-scrollbar {
     opacity: 1;
 }
 
-.view-button:hover .tooltip {
-    background-color: rgba(0, 0, 255, 0.8);
+.view-button .tooltip {
+    background-color: rgba(0, 0, 128, 0.8);
     color: white;
 }
 
 .view-button i:hover {
-    color: blue;
+    color: rgb(0, 0, 128);
 }
 
-.delete-button:hover .tooltip {
-    background-color: rgba(255, 0, 0, 0.8);
+.delete-button .tooltip {
+    background-color: rgba(139, 0, 0, 0.8);
     color: white;
 }
 
 .delete-button i:hover {
-    color: red;
+    color: darkred;
 }
 
-.edit-button:hover .tooltip {
+.edit-button .tooltip {
     background-color: rgba(0, 128, 0, 0.8);
     color: white;
 }
 
 .edit-button i:hover {
-    color: green;
+    color: rgb(0, 128, 0);
 }
+
+
+
+
 
 
 
@@ -495,25 +461,6 @@ button {
     flex-direction: column;
     gap: 10px;
 }
-
-@keyframes appear {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes disappear {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}
-
 
 .modal-header {
     display: flex;
@@ -563,4 +510,93 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+
+
+
+
+/* FOR DIFFERENT SCREEN SIZES */
+@media screen and (max-width: 600px) {
+    .main-header h1 {
+        display: none;
+    }
+
+    .footer {
+        font-size: 10px;
+    }
+
+    .main-header .open-sidebar {
+        display: block;
+        cursor: pointer;
+    }
+
+    .tab-nav {
+        position: fixed;
+        top: 0;
+        left: -200px;
+        background-color: lightseagreen;
+        padding-top: 0;
+        z-index: 1;
+    }
+
+    .tab-nav .close-sidebar {
+        display: block;
+        font-size: 2rem;
+        align-self: end;
+        padding: 2px 8px;
+        cursor: pointer;
+    }
+}
+
+
+
+@media screen and (max-width: 960px) {
+    .main-header h1 {
+        font-size: 1.6rem;
+    }
+}
+
+
+
+@media screen and (max-width: 1280px) {
+
+}
+
+
+/* ANIMATIONS */
+@keyframes slideIn {
+    from {
+        left: -200px;
+    }
+    to {
+        left: 0;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        left: 0;
+    }
+    to {
+        left: -200px;
+    }
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes disappear {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
 }
