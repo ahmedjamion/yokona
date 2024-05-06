@@ -2,14 +2,24 @@
 
 
 
+
+@font-face {
+    font-family: Roboto;
+    src: url(assets/font/Roboto-Regular.ttf);
+  }
+
+
 /* RESET BORDERS, MARGINS AND PADDINGS */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Helvetica, Arial, sans-serif;
+    font-family:  Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
+
+
 
 
 
@@ -19,7 +29,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 100dvh;
-    background-image: url(assets/bg/egg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -93,6 +102,7 @@ body {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    padding-bottom: 20px;
 }
 
 .tab-button {
@@ -105,7 +115,7 @@ body {
     background-color: transparent;
     color: white;
     transition: background-color .15s ease-in-out;
-    border-radius: 0;
+    border-radius: 0 30px 30px 0;
 }
 
 .tab-button:hover {
@@ -129,14 +139,29 @@ body {
 }
 
 .tab-content-active {
-    height: calc(100vh - 100px);
+    height: calc(100dvh - 60px);
     overflow-y: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: start;
-    padding: 20px;
+    padding: 2px 20px 20px 20px;
     gap: 10px;
+}
+
+
+.c-container {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    backdrop-filter: blur(4px);
+    border-radius: 10px;
+    outline: 3px solid #d5d5ff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
 }
 
 .log-out {
@@ -170,6 +195,7 @@ body {
 
 .tab-nav .close-sidebar {
     display: none;
+    color: white;
 }
 /* END OF MAIN TABS STYLES... */
 
@@ -181,14 +207,23 @@ h1, h2, h3, h4 {
 }
 
 
+.modal-content h4 {
+    color: black;
+}
+
+form h3 {
+    color: black;
+}
+
 
 
 /* CONTENT TABS STYLES */
-.content-tabs {
+.c-tabs {
     display: flex;
     flex-direction: column;
     width: 100%;
     flex-grow: 1;
+    gap: 10px;
 }
 
 .c-tab-nav {
@@ -197,15 +232,33 @@ h1, h2, h3, h4 {
 
 .c-tab-nav {
     display: flex;
+    gap: 10px;
 }
 
 .c-tab-button {
     display: flex;
     cursor: pointer;
+    background-color: transparent;
+    color: white;
+    font-size: 14px;
+    gap: 3px;
+    align-items: center;
+}
+
+.c-tab-button:hover {
+    background-color: rgba(213, 213, 255, 0.4);
+}
+
+.c-tab-button-active:hover {
+    font-weight: bold;
+    background-color: #d5d5ff;
+    color: black;
 }
 
 .c-tab-button-active {
     font-weight: bold;
+    background-color: #d5d5ff;
+    color: black;
 }
 
 .c-tab-content {
@@ -217,6 +270,15 @@ h1, h2, h3, h4 {
     display: flex;
     flex-direction: column;
     align-items: start;
+    gap: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    outline: 3px solid #d5d5ff;
+}
+
+.c-tab-content-active div {
+    backdrop-filter: blur(4px);
 }
 /* END OF CONTENT TABS STYLES... */
 
@@ -241,7 +303,9 @@ h1, h2, h3, h4 {
     gap: 10px;
     padding: 15px;
     border-radius: 10px;
-    background-color: #d5d5ff;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    outline: 3px solid #d5d5ff;
 }
 
 .login-title{
@@ -253,7 +317,7 @@ h1, h2, h3, h4 {
     display: flex;
     flex-direction: column;
     text-align: center;
-    color: red;
+    color: rgb(255, 150, 150);
 }
 
 .login-form{
@@ -269,42 +333,56 @@ h1, h2, h3, h4 {
     border-radius: 16px;
     border: none;
     cursor: pointer;
-    background-color: #0f0f86;
-    color: white;
+    background-color: #d5d5ff;
+    color: rgb(0, 0, 0);
     font-weight: bold;
-    transition: background-color .15s ease-in-out;
-    transition: color .15s ease-in-out;
+    transition: filter .3s ease-in-out;
 }
 
 .login-button:hover{
-    background-color: rgba(15, 15, 134, 0.20);
-    border-radius: 16px;
-    color: #0f0f86;
+    filter: brightness(90%);
 }
 
 .input-group{
     width: 100%;
     display: flex;
     flex-direction: column;
+    gap: 3px;
+}
+
+.input-cont {
+    position: relative;
+    display: flex;
+}
+
+.input-icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .login-form label{
-    padding-left: 15px;
+    text-align: center;
     font-size: 14px;
     cursor: pointer;
+    color: white;
 }
 
 
 .login-form input{
+    width: 100%;
     font-size: 16px;
-    padding: 8px 15px;
+    padding: 10px 16px;
     border-radius: 18px;
     border: none;
     transition: outline .1s ease-in-out;
+    cursor: pointer;
 }
 
+
 .login-form input:focus, .login-form input:hover{
-    outline: 2px solid #0f0f86;
+    outline: 3px solid #d5d5ff;
 }
 
 
@@ -324,7 +402,7 @@ table {
 }
 
 table, th, tr, td {
-    border: solid 1px;
+    border: solid 1px grey;
     border-collapse: collapse;
     padding: 6px;
 }
@@ -378,8 +456,8 @@ tbody::-webkit-scrollbar {
     text-align: center;
     z-index: 1;
     transition: opacity .10s ease-in-out;
-    font-weight: bolder;
     border-radius: 5px;
+    pointer-events: none;
 }
 
 .action-form button:hover .tooltip {
@@ -426,6 +504,7 @@ button {
     border-radius: 20px;
     border: none;
     cursor: pointer;
+    align-self: start;
 }
 
 .add-button {
@@ -519,7 +598,8 @@ input::-webkit-inner-spin-button {
 /* FOR DIFFERENT SCREEN SIZES */
 @media screen and (max-width: 600px) {
     .main-header h1 {
-        display: none;
+        font-size: 1rem;
+        width: 230px;
     }
 
     .footer {
@@ -535,9 +615,10 @@ input::-webkit-inner-spin-button {
         position: fixed;
         top: 0;
         left: -200px;
-        background-color: lightseagreen;
+        background-color: rgb(25, 25, 25);
         padding-top: 0;
         z-index: 1;
+        border-radius: 0 10px 10px 0;
     }
 
     .tab-nav .close-sidebar {
@@ -547,11 +628,15 @@ input::-webkit-inner-spin-button {
         padding: 2px 8px;
         cursor: pointer;
     }
+
+    .tab-button {
+        border-radius: 0;
+    }
 }
 
 
 
-@media screen and (max-width: 960px) {
+@media screen and (min-width: 601px) and (max-width: 960px) {
     .main-header h1 {
         font-size: 1.6rem;
     }

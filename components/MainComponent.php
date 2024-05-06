@@ -27,7 +27,7 @@
         <button class="tab-button" data-for-tab="users">Users</button>
 
         <div class="log-out">
-            <form action="includes/LogIn.php" method="post">
+            <form action="includes/LogIn.php" method="post" id="logOutForm">
                 <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out</button>
             </form>
         </div>
@@ -63,7 +63,7 @@
 
 
     <!-- PRODUCTS -->
-    <div class="tab-content" data-tab="inventory">
+    <div class="tab-content inv" data-tab="inventory">
         <?php
         include 'contents/InventoryContent.php';
         ?>

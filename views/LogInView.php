@@ -14,7 +14,8 @@ function logInErrors()
         $errors = $_SESSION["logInErrors"];
 
         foreach ($errors as $error) {
-            echo '<p>' . $error . '</p>';
+            echo $error;
+            echo '</br>';
         }
 
         unset($_SESSION["logInErrors"]);

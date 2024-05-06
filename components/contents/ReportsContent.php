@@ -1,4 +1,6 @@
 <!-- REPORTS COMPONENT CONTENTS -->
 
 
-<h2>Reports</h2>
+<div class="c-container">
+    <h2>Reports</h2>
+</div>

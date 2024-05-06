@@ -78,6 +78,27 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
 
+    ///
+    else if (isset($data->action) && $data->action === 'getProduct') {
+
+        $id = $data->id;
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getProduct($pdo, $id);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
 
     // DELETE PRODUCT PROCESS
     else if (isset($data->action) && $data->action === 'delete') {

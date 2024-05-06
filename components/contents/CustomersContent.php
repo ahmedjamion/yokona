@@ -10,9 +10,39 @@ require_once './views/CustomerView.php';
 
 
 
-<h2>Customers</h2>
-<button class="open-modal add-button" data-modal="addCustomer">Add Customer</button>
+<div class="c-container">
+    <h2>Customers</h2>
+    <button class="open-modal add-button" data-modal="addCustomer">Add Customer</button>
 
+
+
+
+
+
+    <div class="table-container">
+        <table id="customers-table">
+
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Gender</th>
+                    <th>Address</th>
+                    <th>Contact #</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ct-body">
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+
+<!-- MODALS -->
 
 
 <div class="modal" id="addCustomer">
@@ -61,25 +91,4 @@ require_once './views/CustomerView.php';
         </form>
 
     </div>
-</div>
-
-
-<div class="table-container">
-    <table id="customers-table">
-
-        <thead>
-            <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Gender</th>
-                <th>Address</th>
-                <th>Contact #</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="ct-body">
-
-        </tbody>
-
-    </table>
 </div>

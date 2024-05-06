@@ -18,7 +18,7 @@ require_once 'config/Session.php';
     <title>Eggcellent</title>
 </head>
 
-<body>
+<body style="background-image: url(assets/bg/egg.jpg);">
     <div class="overlay"></div>
 
     <?php
@@ -36,8 +36,21 @@ require_once 'config/Session.php';
     }
     ?>
 
+
+
+
+
+
     <!-- JAVASCRIPT LINKS -->
-    <script src="index.js?v=<?php echo time(); ?>"></script>
+    <?php
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
+    ?>
+
+        <script src="index.js?v=<?php echo time(); ?>"></script>
+
+    <?php
+    }
+    ?>
 </body>
 
 </html>

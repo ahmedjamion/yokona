@@ -15,15 +15,11 @@ const productForm = document.getElementById('product-form');
 const userForm = document.getElementById('user-form');
 
 
-
-
-
-
-
-// AUTOMATICALLY CREATE TABLE
 document.addEventListener('DOMContentLoaded', (e) => {
     e.preventDefault();
 
+
+    // CREATING TABLES
     showCustomers();
     showEmployees();
     showProducts();
@@ -91,11 +87,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
             submitAction(data, url);
         }
     });
-
-
-
-
 });
+
+
+
+
 
 // SUBMIT FORM PROCESS AND UPDATE TABLE
 async function submitForm(data, url, callback, callbackFunction, value, form) {
@@ -158,7 +154,7 @@ async function submitForm(data, url, callback, callbackFunction, value, form) {
 
 
 
-
+// PROCESSING ACTION BUTTONS
 async function submitAction(data, url) {
     try {
         const response = await fetch(url, {
@@ -205,6 +201,8 @@ async function submitAction(data, url) {
 
 
 
+
+// FUNCTIONS FOR CREATING TABLES
 function showCustomers() {
     getAllData(custUrl, createCustomersTable, 'getAllCustomers');
 }
@@ -247,6 +245,33 @@ async function getAllData(url, callback, value) {
 
         callback(data);
 
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+
+// GET A SINGLE DATA FROM DATABASE
+async function getData(url, callback, action, id) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: action, id: id })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const data = await response.json();
+
+        console.log(response);
+        console.log(data);
+
+        callback(data);
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -393,7 +418,75 @@ function createUsersTable(data) {
 
 
 
+// PRODUCE LOGS SCRIPTS
+const productSelection = document.querySelector('.product-selection');
+const prodIdInput = document.getElementById('pp-id');
+const spId = prodIdInput.value;
 
+// FUNCTION TO CREATE PRODUCTS CARDS
+function createProductsCards(data) {
+
+    data.forEach(product => {
+        const card = document.createElement('div');
+        card.classList.add('product-card');
+        card.setAttribute('data-id', product.id);
+
+        const cardContent = `
+            <div class="product-details">
+                <h3>${product.name}</h3>
+                <p>Size: ${product.size}</p>
+                <p>Type: ${product.type}</p>
+                <p>Tray Size: ${product.tray_size}</p>
+                <p>Price: ${product.price}</p>
+            </div>
+        `;
+        card.innerHTML = cardContent;
+        productSelection.appendChild(card);
+
+
+        card.addEventListener('click', function () {
+            const id = card.getAttribute('data-id');
+            prodIdInput.value = id;
+
+            getData(prodUrl, createProductCard, 'getProduct', id);
+
+
+            const modal = card.closest('.modal');
+            hideModal(modal);
+            console.log('Product ID set:', id);
+        });
+    });
+}
+
+
+
+
+function createProductCard(data) {
+
+    console.log("this is data: ", data)
+
+    const card = document.querySelector('.sp-card');
+    card.innerHTML = '';
+
+    if (data) {
+
+        const cardContent = `
+                <div class="product-details">
+                    <h3>${data[0].name}</h3>
+                    <p>Size: ${data[0].size}</p>
+                    <p>Type: ${data[0].type}</p>
+                    <p>Tray Size: ${data[0].tray_size}</p>
+                    <p>Price: ${data[0].price}</p>
+                </div>
+            `;
+        card.innerHTML = cardContent;
+    }
+}
+
+// CREATE CARDS
+document.addEventListener('DOMContentLoaded', () => {
+    getAllData(prodUrl, createProductsCards, 'getAllProducts');
+});
 
 
 
@@ -512,8 +605,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-/*
 // INNER TABS
 function setUpContentTabs() {
     document.querySelectorAll(".c-tab-button").forEach(button => {
@@ -542,12 +633,11 @@ function setUpContentTabs() {
 document.addEventListener("DOMContentLoaded", () => {
     setUpContentTabs();
 
-    document.querySelectorAll(".content-tabs").forEach(tabsContainer => {
+    document.querySelectorAll(".c-tabs").forEach(tabsContainer => {
         tabsContainer.querySelector(".c-tab-nav .c-tab-button").click();
     })
 })
 // END OF SET UP CONTENTS TABS...
-*/
 
 
 
@@ -596,3 +686,41 @@ function closeSidebar() {
     sidebarOpen = false;
 }
 
+
+
+
+// LOG OUT PROCESS
+const logOutForm = document.getElementById('logOutForm');
+
+logOutForm.addEventListener('submit', (e) => {
+
+    e.preventDefault();
+    logOut();
+
+});
+
+
+// LOG OUT FUNCTION USING FETCH
+async function logOut() {
+    try {
+        const response = await fetch('includes/Login.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ action: 'logOut' })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const data = await response.json();
+
+        console.log(response);
+        window.location.href = 'index.php';
+
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}

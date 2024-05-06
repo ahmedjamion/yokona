@@ -6,11 +6,38 @@ require_once './views/EmployeeView.php';
 ?>
 <!-- USERS COMPONENT CONTENTS -->
 
-<h2>Users</h2>
-<button class="open-modal add-button" data-modal="addUser">Add User</button>
+<div class="c-container">
+    <h2>Users</h2>
+    <button class="open-modal add-button" data-modal="addUser">Add User</button>
 
 
 
+
+
+
+
+
+
+    <div class="table-container">
+        <table id="users-table">
+
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="ut-body">
+
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+
+<!-- MODALS -->
 
 <div class="modal" id="addUser">
     <!-- USER FORM CONTAINER -->
@@ -73,24 +100,4 @@ require_once './views/EmployeeView.php';
         <!-- END OF USER FORM... -->
     </div>
     <!-- END OF USER FORM CONTAINER... -->
-</div>
-
-
-
-
-<div class="table-container">
-    <table id="users-table">
-
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Role</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="ut-body">
-
-        </tbody>
-
-    </table>
 </div>
