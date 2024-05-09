@@ -6,8 +6,12 @@
 @font-face {
     font-family: Roboto;
     src: url(assets/font/Roboto-Regular.ttf);
-  }
+}
 
+@font-face {
+    font-family: homemade-apple;
+    src: url(assets/font/HomemadeApple-Regular.ttf)
+}
 
 /* RESET BORDERS, MARGINS AND PADDINGS */
 * {
@@ -16,6 +20,7 @@
     padding: 0;
     font-family:  Roboto, Helvetica, Arial, sans-serif;
     -webkit-tap-highlight-color: transparent;
+    scrollbar-width: thin;
 }
 /* END RESET BORDERS, MARGINS AND PADDINGS... */
 
@@ -48,12 +53,10 @@ body {
 
 /* HEADER STYLES */
 .main-header {
+    position: relative;
     height: 60px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    align-content: center;
-    text-align: center;
 }
 
 .main-header h1{
@@ -67,7 +70,8 @@ body {
     display: none;
     position: absolute;
     left: 10px;
-    top: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     font-size: 1.8rem;
     color: white;
 }
@@ -134,8 +138,22 @@ body {
     color: black;
 }
 
+.c-container {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    outline: 3px solid #d5d5ff;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: start;
+}
+
 .tab-content {
     display: none;
+    opacity: 0;
 }
 
 .tab-content-active {
@@ -147,22 +165,31 @@ body {
     align-items: start;
     padding: 2px 20px 20px 20px;
     gap: 10px;
+    opacity: 1;
 }
 
-
-.c-container {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px;
-    backdrop-filter: blur(4px);
-    border-radius: 10px;
-    outline: 3px solid #d5d5ff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: start;
+/*
+.dash, .mon, .ord, .rep {
+    background-image: url('assets/uc/bear.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: relative;
 }
+
+.bear {
+    font-size: 40px;
+    font-weight: bold;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: white;
+    font-family: homemade-apple;
+}
+*/
+
 
 .log-out {
     position: relative;
@@ -171,14 +198,11 @@ body {
     flex-direction: column;
 }
 
-.log-out form {
+.logout-button{
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-}
-
-.logout-button{
     padding: 8px 12px;
     border-radius: 16px;
     border: none;
@@ -208,11 +232,11 @@ h1, h2, h3, h4 {
 
 
 .modal-content h4 {
-    color: black;
+    color: white;
 }
 
 form h3 {
-    color: black;
+    color: white;
 }
 
 
@@ -240,7 +264,7 @@ form h3 {
     cursor: pointer;
     background-color: transparent;
     color: white;
-    font-size: 14px;
+    font-size: 16px;
     gap: 3px;
     align-items: center;
 }
@@ -277,11 +301,15 @@ form h3 {
     outline: 3px solid #d5d5ff;
 }
 
-.c-tab-content-active div {
-    backdrop-filter: blur(4px);
-}
 /* END OF CONTENT TABS STYLES... */
 
+
+
+.s-group {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 
 
 
@@ -296,6 +324,7 @@ form h3 {
 }
 
 .login-container{
+    position: relative;
     width: 320px;
     display: flex;
     flex-direction: column;
@@ -303,10 +332,10 @@ form h3 {
     gap: 10px;
     padding: 15px;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.8);
     outline: 3px solid #d5d5ff;
 }
+
 
 .login-title{
     text-align: center;
@@ -336,6 +365,7 @@ form h3 {
     background-color: #d5d5ff;
     color: rgb(0, 0, 0);
     font-weight: bold;
+    font-size: 16px;
     transition: filter .3s ease-in-out;
 }
 
@@ -374,6 +404,7 @@ form h3 {
     width: 100%;
     font-size: 16px;
     padding: 10px 16px;
+    padding-right: 30px;
     border-radius: 18px;
     border: none;
     transition: outline .1s ease-in-out;
@@ -393,18 +424,41 @@ form h3 {
 /* TABLE STYLES */
 .table-container {
     width: 100%;
+    overflow-x: auto;
+    border-radius: 10px;
 }
 
 table {
     width: 100%;
     table-layout: auto;
-    background-color: white;
+    border-radius: 10px;
+    border: none;
+    border-width: 0;
+    border-collapse: collapse;
+    min-width: 600px;
 }
 
-table, th, tr, td {
-    border: solid 1px grey;
-    border-collapse: collapse;
+th, td {
     padding: 6px;
+    white-space: nowrap;
+}
+
+tbody tr {
+    border-bottom: solid 1px #d5d5ff;
+    transition: background-color .25s ease-in-out;
+}
+
+tbody tr:hover {
+    background-color: rgba(213, 213, 255, 0.3);
+}
+
+thead {
+    background-color: #d5d5ff;
+    border-radius: 10px 10px 0 0;
+}
+
+td, th{
+    text-align: center;
 }
 
 thead, tbody, tr {
@@ -415,16 +469,12 @@ thead, tbody, tr {
 
 tbody {
     display: block;
-    max-height: 300px;
+    max-height: calc(100dvh - 275px);
     overflow-y: auto;
+    padding-bottom: 10px;
+    background-color: white;
+    border-radius: 0 0 10px 10px;
 }
-
-tbody::-webkit-scrollbar {
-    display: none;
-}
-
-
-
 
 
 /* ACTIONS */
@@ -444,7 +494,8 @@ tbody::-webkit-scrollbar {
 
 .action-form button i {
     font-size: 1.2rem;
-    color: #a1a1a1;
+    color: #d5d5ff;
+    transition: color .2s ease-in-out;
 }
 
 .tooltip {
@@ -455,7 +506,7 @@ tbody::-webkit-scrollbar {
     right: 120%;
     text-align: center;
     z-index: 1;
-    transition: opacity .10s ease-in-out;
+    transition: opacity .2s ease-in-out;
     border-radius: 5px;
     pointer-events: none;
 }
@@ -505,15 +556,35 @@ button {
     border: none;
     cursor: pointer;
     align-self: start;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .add-button {
     background-color: #d5d5ff;
+    transition: filter .25s ease-in-out;
+}
+
+.add-button:hover,
+.submit-button:hover {
+    filter: brightness(90%);
 }
 
 .submit-button {
-    background-color: #d3eaee;
+    background-color: #d5d5ff;
 }
+
+.cancel-button {
+    background-color: transparent;
+    outline: solid 2px #d5d5ff;
+    color: white;
+    transition: background-color .25s ease-in-out;
+}
+
+.cancel-button:hover {
+    background-color: rgba(213, 213, 255, 0.2);
+}
+
 
 
 
@@ -525,15 +596,19 @@ button {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: transparent;
     z-index: 2;
     align-items: center;
     justify-content: center;
+    background: rgba(0, 0, 0, 0.6);
 }
 
 .modal-content {
-    background: white;
-    width: 400px;
+    position: relative;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    outline: 3px solid #d5d5ff;
+    min-width: 540px;
     padding: 14px;
     border-radius: 10px;
     display: flex;
@@ -544,42 +619,141 @@ button {
 .modal-header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
 }
+
 
 .close-modal {
     cursor: pointer;
 }
 
+.x {
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    height: 30px;
+    width: 30px;
+    color: black;
+    background-color: #d5d5ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 10px;
+}
+
+.x:hover i {
+    color: #ff45ab ;
+}
+
 form{
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
 }
+
+.product-selection, .item-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+    padding: 6px;
+}
+
+.product-card,
+.sp-card,
+.customer-card,
+.cust-details,
+.item-details{
+    border-radius: 6px;
+    width: 100%;
+    background-color: #d5d5ff;
+    color: black;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.customer-details, .cust-details, .product-details, .item-details, .item-input {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.item-details {
+    justify-content: space-between;
+}
+
+.customer-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.order-details h3 {
+    color: white;
+}
+
+.product-card h3, .product-details h3, .cust-details h3, .customer-details h3, .item-details h3 {
+    color: black;
+}
+
+.order-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.order {
+    width: 80%;
+    height: 80%;
+}
+
+
 
 form .input-group{
     display: flex;
 }
 
-form input, form select{
-    padding: 6px;
-    border-radius: 6px;
-    border: 1px solid gray;
+input, select{
+    padding: 6px 10px;
+    border-radius: 4px;
+    border: none;
+}
+
+input:hover, input:focus, select:hover, select:focus {
+    outline: solid 2px #afafff;
 }
 
 form label{
     cursor: pointer;
+    font-size: 14px;
 }
 
 form select {
     cursor: pointer;
 }
 
+.button-group {
+    display: flex;
+    gap: 10px;
+}
 
-
-
+.search {
+    border-radius: 18px;
+    min-width: none;
+}
 
 
 
@@ -597,9 +771,17 @@ input::-webkit-inner-spin-button {
 
 /* FOR DIFFERENT SCREEN SIZES */
 @media screen and (max-width: 600px) {
+    .add-button .button-text {
+        display: none;
+    }
+    .add-button {
+        text-align: center;
+        padding: 6px;
+        width: 28px;
+    }
+
     .main-header h1 {
-        font-size: 1rem;
-        width: 230px;
+        padding-left: 50px;
     }
 
     .footer {
@@ -632,14 +814,15 @@ input::-webkit-inner-spin-button {
     .tab-button {
         border-radius: 0;
     }
+
+    .modal-content {
+        width: 90%;
+    }
 }
 
 
 
 @media screen and (min-width: 601px) and (max-width: 960px) {
-    .main-header h1 {
-        font-size: 1.6rem;
-    }
 }
 
 

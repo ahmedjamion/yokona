@@ -8,7 +8,10 @@ require_once './views/EmployeeView.php';
 
 <div class="c-container">
     <h2>Users</h2>
-    <button class="open-modal add-button" data-modal="addUser">Add User</button>
+    <div class="s-group">
+        <button class="open-modal add-button" data-modal="addUser"><span class="button-text">New User</span> <i class="fa-solid fa-plus"></i></button>
+        <input class="search" type="search" id="user-search" name="search" placeholder="Search user">
+    </div>
 
 
 
@@ -23,6 +26,7 @@ require_once './views/EmployeeView.php';
 
             <thead>
                 <tr>
+                    <th>Employee</th>
                     <th>Username</th>
                     <th>Role</th>
                     <th>Actions</th>
@@ -45,8 +49,9 @@ require_once './views/EmployeeView.php';
 
         <div class="modal-header">
             <h4>User Datails</h4>
-            <i class="fa-solid fa-xmark close-modal"></i>
         </div>
+
+        <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
         <!-- USER FORM -->
         <form class="user-form" id="user-form" action="./includes/User.php" method="post">
@@ -59,7 +64,7 @@ require_once './views/EmployeeView.php';
                     echo 'NO EMPLOYEE FOUND';
                 } else {
                     echo '<select name="employeeId" id="employeeId">';
-                    echo '<option hidden selected value="">Select Employee</option>';
+                    echo '<option hidden selected value="">--Select Employee--</option>';
                     foreach ($result as $row) {
                         $id = $row["id"];
                         $firstName = htmlspecialchars($row["first_name"]);
@@ -73,18 +78,18 @@ require_once './views/EmployeeView.php';
 
             <div class="input-group">
                 <label for="username">Username</label>
-                <input type="text" name="username" id="username" placeholder="Username" autocomplete="off">
+                <input type="text" name="username" id="username" placeholder="e.g. beastMaster64" autocomplete="off">
             </div>
 
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Password" autocomplete="off">
+                <input type="password" name="password" id="password" placeholder="At least 6 characters" autocomplete="off">
             </div>
 
             <div class="input-group">
                 <label for="role">Role</label>
                 <select name="role" id="role">
-                    <option hidden selected value=""> Select Role </option>
+                    <option hidden selected value="">--Select Role--</option>
                     <option value="admin">Admin</option>
                     <option value="inventory">Inventory</option>
                     <option value="order">Order</option>

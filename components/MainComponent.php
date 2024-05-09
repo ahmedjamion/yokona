@@ -28,7 +28,7 @@
 
         <div class="log-out">
             <form action="includes/LogIn.php" method="post" id="logOutForm">
-                <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out</button>
+                <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out <i class="fa-solid fa-right-from-bracket"></i></button>
             </form>
         </div>
 
@@ -128,7 +128,7 @@
 
 
     <!-- EMPLOYEES -->
-    <div class="tab-content" data-tab="users">
+    <div class="tab-content use" data-tab="users">
         <?php
         include 'contents/UsersContent.php';
         ?>

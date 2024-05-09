@@ -11,7 +11,8 @@ declare(strict_types=1);
 function getAllUsers(object $pdo)
 {
     try {
-        $query = "SELECT * FROM user";
+        $query = "SELECT user.id, employee.first_name, employee.last_name, user.username, user.role
+        FROM user INNER JOIN employee ON user.employee_id = employee.id;";
         $stmt = $pdo->prepare($query);
 
         $stmt->execute();

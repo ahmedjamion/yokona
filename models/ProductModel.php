@@ -19,7 +19,7 @@ function getAllProducts(object $pdo)
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     } catch (PDOException $e) {
-        echo "Error deleting product: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -39,7 +39,7 @@ function getProduct(object $pdo, int $id)
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     } catch (PDOException $e) {
-        echo "Error deleting product: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -100,5 +100,77 @@ function deleteProduct(object $pdo, int $id)
         $stmt->execute();
     } catch (PDOException $e) {
         echo "Error deleting product: " . $e->getMessage();
+    }
+}
+
+
+
+
+
+
+
+function getProduce(object $pdo, int $id)
+{
+    try {
+        $query = "SELECT * FROM produce WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error : " . $e->getMessage();
+    }
+}
+
+
+// LOG PRODUCE
+function logProduce(object $pdo, int $id, string $date, int $quantity)
+{
+    try {
+        $query = "INSERT INTO produce (product_id, produce_date, quantity) VALUES (:product_id, :produce_date, :quantity);";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":product_id", $id);
+        $stmt->bindParam(":produce_date", $date);
+        $stmt->bindParam(":quantity", $quantity);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error inserting product: " . $e->getMessage();
+    }
+}
+
+
+// GET ALL PRODUCE
+function getAllProduce(object $pdo)
+{
+    try {
+        $query = "SELECT produce.id, product.name, product.size, product.type, product.tray_size, produce.produce_date, produce.quantity
+        FROM produce INNER JOIN product ON produce.product_id = product.id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error deleting product: " . $e->getMessage();
+    }
+}
+
+
+
+function deleteProduce(object $pdo, int $id)
+{
+    try {
+        $query = "DELETE FROM produce WHERE id = :id;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error deleting produce log: " . $e->getMessage();
     }
 }

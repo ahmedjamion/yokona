@@ -12,7 +12,10 @@ require_once './views/CustomerView.php';
 
 <div class="c-container">
     <h2>Customers</h2>
-    <button class="open-modal add-button" data-modal="addCustomer">Add Customer</button>
+    <div class="s-group">
+        <button class="open-modal add-button" data-modal="addCustomer"><span class="button-text">New Customer</span> <i class="fa-solid fa-plus"></i></button>
+        <input class="search" type="search" id="customer-search" name="search" placeholder="Search customer">
+    </div>
 
 
 
@@ -49,25 +52,26 @@ require_once './views/CustomerView.php';
     <div class="modal-content">
         <div class="modal-header">
             <h4>Customer Details</h4>
-            <i class="fa-solid fa-xmark close-modal"></i>
         </div>
+
+        <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
         <form class="customer-form" id="customer-form" action="./includes/Customer.php" method="post">
 
             <div class="input-group">
                 <label for="custFirstName">First Name</label>
-                <input type="text" name="firstName" id="custFirstName" placeholder="First Name" autocomplete="off">
+                <input type="text" name="firstName" id="custFirstName" placeholder="e.g. Albert" autocomplete="off">
             </div>
 
             <div class="input-group">
                 <label for="custLastName">Last Name</label>
-                <input type="text" name="lastName" id="custLastName" placeholder="Last Name" autocomplete="off">
+                <input type="text" name="lastName" id="custLastName" placeholder="e.g. Einstein" autocomplete="off">
             </div>
 
             <div class="input-group">
                 <label for="custGender">Gender</label>
                 <select name="gender" id="custGender">
-                    <option hidden selected value=""> Gender </option>
+                    <option hidden selected value="">--Select gender--</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
@@ -75,12 +79,12 @@ require_once './views/CustomerView.php';
 
             <div class="input-group">
                 <label for="custAddress">Address</label>
-                <input type="text" name="address" id="custAddress" placeholder="Address" autocomplete="off">
+                <input type="text" name="address" id="custAddress" placeholder="e.g. Sta. Maria, ZC" autocomplete="off">
             </div>
 
             <div class="input-group">
                 <label for="custContactNumber">Contact Number</label>
-                <input type="text" name="contactNumber" id="custContactNumber" placeholder="Contact Number" autocomplete="off">
+                <input type="text" name="contactNumber" id="custContactNumber" placeholder="e.g. 09123456789" autocomplete="off">
             </div>
 
             <div class="button-group">

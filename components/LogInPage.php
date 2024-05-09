@@ -8,7 +8,6 @@
         <p class="login-errors">
             <?php logInErrors() ?>
         </p>
-
         <!-- LOG IN FORM -->
         <form class="login-form" id="loginForm" action="./includes/LogIn.php" method="post">
             <div class="input-group">

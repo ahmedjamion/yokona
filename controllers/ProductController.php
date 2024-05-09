@@ -8,9 +8,18 @@ declare(strict_types=1);
 
 
 // CHECK FOR EMPTY INPUTS
-function isEmpty($productName, $size, $type, $traySize, $price)
+function areEmpty($productName, $size, $type, $traySize, $price)
 {
     if (empty($productName) || empty($type) || empty($size)  || empty($traySize) || empty($price)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function isEmpty($value)
+{
+    if (empty($value)) {
         return true;
     } else {
         return false;

@@ -1,7 +1,7 @@
 <!-- DASHBOARD COMPONENT CONTENTS -->
 
 
-<div class="c-container">
+<div class="c-container dash">
     <h2>Dashboard</h2>
 
     <div>

@@ -115,17 +115,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $errors = [];
             $success = [];
 
-            $result = getProduct($pdo, $id);
+            $result = getProduce($pdo, $id);
 
             if (!$result) {
-                $errors["message"] = "Product not found.";
+                $errors["message"] = "Produce log not found.";
             }
 
             if ($errors) {
                 echo json_encode($errors);
                 exit;
             } else {
-                removeProduct($pdo, $id);
+                deleteProduce($pdo, $id);
                 $success["success"] = true;
                 $success["message"] = "Product data deleted successfully";
                 echo json_encode($success);

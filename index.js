@@ -6,13 +6,16 @@ const custUrl = "includes/Customer.php";
 const empUrl = "includes/Employee.php";
 const prodUrl = "includes/Product.php";
 const userUrl = "includes/User.php";
+const produceUrl = "includes/Produce.php";
 
 
 // FORM ELEMENTS
 const customerForm = document.getElementById('customer-form');
+const customerForm1 = document.getElementById('customer-form1');
 const employeeForm = document.getElementById('employee-form');
 const productForm = document.getElementById('product-form');
 const userForm = document.getElementById('user-form');
+const produceForm = document.getElementById('produce-form');
 
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -24,6 +27,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     showEmployees();
     showProducts();
     showUsers();
+    showProduces();
 
 
     // HANDLE FORM SUBMIT
@@ -34,6 +38,21 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const data = Object.fromEntries(formData.entries());
         console.log(data);
         submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm);
+    });
+
+    customerForm1.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+
+        const submitCallback = () => {
+            getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+        };
+
+
+        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm1, submitCallback);
     });
 
 
@@ -53,7 +72,21 @@ document.addEventListener('DOMContentLoaded', (e) => {
         formData.append(e.submitter.name, e.submitter.value);
         const data = Object.fromEntries(formData.entries());
         console.log(data);
-        submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm);
+
+        const submitCallback = () => {
+            getAllData(prodUrl, createItemsCards, 'getAllProducts');
+            getAllData(prodUrl, createProductsCards, 'getAllProducts');
+        };
+        submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm, submitCallback);
+    });
+
+    produceForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+        console.log(data);
+        submitForm(data, produceUrl, getAllData, createProduceTable, 'getAllProduce', produceForm);
     });
 
 
@@ -94,7 +127,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 
 // SUBMIT FORM PROCESS AND UPDATE TABLE
-async function submitForm(data, url, callback, callbackFunction, value, form) {
+async function submitForm(data, url, callback, callbackFunction, value, form, submitCallback) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -111,7 +144,10 @@ async function submitForm(data, url, callback, callbackFunction, value, form) {
         const result = await response.json();
         console.log(response);
         console.log(result);
-        callback(url, callbackFunction, value);
+
+        if (callback) {
+            callback(url, callbackFunction, value);
+        }
 
 
         const message = document.createElement('p');
@@ -129,7 +165,7 @@ async function submitForm(data, url, callback, callbackFunction, value, form) {
             modalContent.appendChild(message);
 
             setTimeout(() => {
-                hideModal(modal);
+                //hideModal(modal);
                 message.remove();
             }, 3000);
         } else {
@@ -142,6 +178,10 @@ async function submitForm(data, url, callback, callbackFunction, value, form) {
             }, 3000);
         }
 
+
+        if (submitCallback) {
+            submitCallback();
+        }
         form.reset();
 
 
@@ -175,6 +215,7 @@ async function submitAction(data, url) {
             switch (url) {
                 case 'includes/Customer.php':
                     showCustomers();
+                    getAllData(custUrl, createCustomersCards, 'getAllCustomers');
                     break;
 
                 case 'includes/Employee.php':
@@ -183,6 +224,12 @@ async function submitAction(data, url) {
 
                 case 'includes/Product.php':
                     showProducts();
+                    getAllData(prodUrl, createItemsCards, 'getAllProducts');
+                    getAllData(prodUrl, createProductsCards, 'getAllProducts');
+                    break;
+
+                case 'includes/Produce.php':
+                    showProduces();
                     break;
 
                 case 'includes/User.php':
@@ -213,6 +260,10 @@ function showEmployees() {
 
 function showProducts() {
     getAllData(prodUrl, createProductsTable, 'getAllProducts');
+}
+
+function showProduces() {
+    getAllData(prodUrl, createProduceTable, 'getAllProduce');
 }
 
 function showUsers() {
@@ -391,13 +442,49 @@ function createProductsTable(data) {
 }
 
 
+
+// CREATE PRODUCE TABLE
+function createProduceTable(data) {
+    const tableBody = document.getElementById('pd-body');
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+
+        const mergedColumnCell = document.createElement('td');
+        mergedColumnCell.textContent = `${row.name} ${row.size} ${row.type} ${row.tray_size}s`;
+        tr.appendChild(mergedColumnCell);
+
+        const columnsToDisplay = ['produce_date', 'quantity', 'actions'];
+
+        columnsToDisplay.forEach(column => {
+            const td = document.createElement('td');
+            if (column === 'actions') {
+                createActions(td, row.id, 'includes/Produce.php');
+            } else {
+                td.textContent = row[column];
+            }
+            tr.appendChild(td);
+        });
+
+        tableBody.appendChild(tr);
+    });
+}
+
+
 // CREATE USERS TABLE
 function createUsersTable(data) {
     const tableBody = document.getElementById('ut-body');
     tableBody.innerHTML = '';
 
+
+
     data.forEach(row => {
         const tr = document.createElement('tr');
+
+        const mergedColumnCell = document.createElement('td');
+        mergedColumnCell.textContent = `${row.first_name} ${row.last_name}`;
+        tr.appendChild(mergedColumnCell);
 
         const columnsToDisplay = ['username', 'role', 'actions'];
 
@@ -418,13 +505,13 @@ function createUsersTable(data) {
 
 
 
-// PRODUCE LOGS SCRIPTS
+// PRODUCE LOGS
 const productSelection = document.querySelector('.product-selection');
-const prodIdInput = document.getElementById('pp-id');
-const spId = prodIdInput.value;
+const productId = document.getElementById('pp-id');
 
 // FUNCTION TO CREATE PRODUCTS CARDS
 function createProductsCards(data) {
+    productSelection.innerHTML = "";
 
     data.forEach(product => {
         const card = document.createElement('div');
@@ -446,10 +533,9 @@ function createProductsCards(data) {
 
         card.addEventListener('click', function () {
             const id = card.getAttribute('data-id');
-            prodIdInput.value = id;
-
-            getData(prodUrl, createProductCard, 'getProduct', id);
-
+            productId.value = id;
+            const event = new Event('input', { bubbles: true });
+            productId.dispatchEvent(event);
 
             const modal = card.closest('.modal');
             hideModal(modal);
@@ -469,7 +555,6 @@ function createProductCard(data) {
     card.innerHTML = '';
 
     if (data) {
-
         const cardContent = `
                 <div class="product-details">
                     <h3>${data[0].name}</h3>
@@ -480,8 +565,19 @@ function createProductCard(data) {
                 </div>
             `;
         card.innerHTML = cardContent;
+    } else {
+        card.innerHTML = '<p>No Product Selected</p>';
     }
 }
+
+productId.addEventListener('input', () => {
+    const id = productId.value;
+    if (id) {
+        getData(prodUrl, createProductCard, 'getProduct', id);
+    }
+    console.log('input changed');
+})
+
 
 // CREATE CARDS
 document.addEventListener('DOMContentLoaded', () => {
@@ -491,6 +587,203 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+// ORDERS
+const customerSelection = document.querySelector('.customer-selection');
+const customerId = document.getElementById('cust-id');
+
+function createCustomersCards(data) {
+    customerSelection.innerHTML = "";
+
+    data.forEach(customer => {
+        const card = document.createElement('div');
+        card.classList.add('customer-card');
+        card.setAttribute('data-id', customer.id);
+
+        const cardContent = `
+            <div class="customer-details">
+                <h3>${customer.first_name} ${customer.last_name}</h3>
+                <p>Address: ${customer.address}</p>
+                <p>Contact #: ${customer.contact_number}</p>
+            </div>
+        `;
+        card.innerHTML = cardContent;
+        customerSelection.appendChild(card);
+
+
+        card.addEventListener('click', function () {
+            const id = card.getAttribute('data-id');
+            customerId.value = id;
+            const event = new Event('input', { bubbles: true });
+            customerId.dispatchEvent(event);
+
+            const modal = card.closest('.modal');
+            hideModal(modal);
+            console.log('Product ID set:', id);
+        });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+});
+
+
+function createCustomerCard(data) {
+
+    console.log("this is data: ", data)
+
+    const card = document.querySelector('.sc-card');
+    card.innerHTML = '';
+
+    if (data) {
+        const cardContent = `
+                <div class="cust-details">
+                    <h3>${data[0].first_name} ${data[0].last_name}</h3>
+                    <p>Address: ${data[0].address}</p>
+                    <p>Contact #: ${data[0].contact_number}</p>
+                </div>
+            `;
+        card.innerHTML = cardContent;
+    } else {
+        card.innerHTML = '<p>No Customer Selected</p>';
+    }
+}
+
+
+customerId.addEventListener('input', () => {
+    const id = customerId.value;
+    if (id) {
+        getData(custUrl, createCustomerCard, 'getCustomer', id);
+    }
+    console.log('input changed');
+})
+
+
+
+
+
+
+// PRODUCE LOGS
+const itemSelection = document.querySelector('.item-selection');
+const orderItems = document.querySelector('.order-items');
+
+// FUNCTION TO CREATE PRODUCTS CARDS
+function createItemsCards(data) {
+    itemSelection.innerHTML = "";
+
+    data.forEach(item => {
+        const card = document.createElement('div');
+        card.classList.add('input-item');
+        card.setAttribute('data-id', item.id);
+
+        const cardContent = `
+            <div class="item-details">
+                <h3>${item.name}</h3>
+                <p>Size: ${item.size}</p>
+                <p>Type: ${item.type}</p>
+                <p>Tray Size: ${item.tray_size}</p>
+                <p>Price: ${item.price}</p>
+            </div>
+        `;
+        card.innerHTML = cardContent;
+        itemSelection.appendChild(card);
+
+
+        card.addEventListener('click', function () {
+            const id = card.getAttribute('data-id');
+
+            getData(prodUrl, createOrderItem, 'getProduct', id);
+
+            const modal = card.closest('.modal');
+            hideModal(modal);
+            console.log('Product ID set:', id);
+        });
+    });
+}
+
+
+
+function createOrderItem(data) {
+    console.log("this is data: ", data)
+
+    const inputItem = document.createElement('div');
+    inputItem.classList.add('order-item');
+
+    if (data) {
+        const itemContent = `
+                    <div class="item-details">
+                    <div class="product-details">
+                        <h3>${data[0].name}</h3>
+                        <p>Size: ${data[0].size}</p>
+                        <p>Type: ${data[0].type}</p>
+                        <p>Tray Size: ${data[0].tray_size}</p>
+                        <p>Price: ${data[0].price}</p>
+                    </div>
+                    <div class="item-input">
+                        <input type="hidden" class="itemPrice" value="${data[0].price}">
+                        <input type="number" class="itemQuantity" name="quantity" placeholder="Quantity">
+                        <input type="number" class="subTotal" name="totalPrice" placeholder="Sub Total" readonly>
+                    </div>
+                </div>
+            `;
+        inputItem.innerHTML = itemContent;
+        orderItems.appendChild(inputItem);
+
+        const quantity = inputItem.querySelector('.itemQuantity');
+        const subTotal = inputItem.querySelector('.subTotal');
+        quantity.addEventListener('input', () => {
+            const itemQuantity = parseFloat(quantity.value);
+            const itemPrice = parseFloat(inputItem.querySelector('.itemPrice').value);
+            subTotal.value = itemQuantity * itemPrice;
+
+            showOrderTotals();
+        });
+    } else {
+        inputItem.innerHTML = '<p>No Customer Selected</p>';
+    }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    getAllData(prodUrl, createItemsCards, 'getAllProducts');
+});
+
+
+
+
+
+function showOrderTotals() {
+    const orderQuantity = document.getElementById('orderQ');
+    const orderPrice = document.getElementById('orderP');
+    const orderQs = document.querySelectorAll('.itemQuantity');
+    const subTotals = document.querySelectorAll('.subTotal');
+
+    let totalQ = 0;
+
+    orderQs.forEach((item) => {
+        totalQ += parseInt(item.value);
+    });
+
+    orderQuantity.innerText = totalQ;
+
+    let totalP = 0;
+    subTotals.forEach((item) => {
+        totalP += parseFloat(item.value);
+    })
+
+    orderPrice.innerText = totalP;
+}
+
+
+
+const addOrder = document.getElementById('order-form');
+const tbutton = document.getElementById('testing');
+
+tbutton.addEventListener('click', (e) => {
+    const formData = new FormData(addOrder);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+})
 
 
 
@@ -501,6 +794,7 @@ const closeButtons = document.querySelectorAll('.close-modal');
 
 
 function showModal(modal) {
+
     if (modal) {
         modal.style.display = 'flex';
         modal.style.animation = 'appear .25s';
@@ -514,6 +808,15 @@ modalButtons.forEach(function (button) {
         const modalId = button.getAttribute('data-modal');
         const modal = document.getElementById(modalId);
         console.log('this is the modal value: ' + modal);
+        const form = modal.querySelector('form');
+        if (form) {
+            form.reset();
+            const card = form.querySelector('.sp-card');
+            if (card) {
+                card.innerHTML = '<p>No Product Selected</p>';
+            }
+        }
+        console.log(form);
         showModal(modal);
     }
 });
@@ -532,7 +835,8 @@ function hideModal(modal) {
 
 
 closeButtons.forEach(function (button) {
-    button.onclick = function () {
+    button.onclick = function (e) {
+        e.preventDefault();
         const modal = button.closest('.modal');
         hideModal(modal);
     }

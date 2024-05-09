@@ -78,6 +78,29 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
+    ///
+    else if (isset($data->action) && $data->action === 'getCustomer') {
+
+        $id = $data->id;
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/CustomerModel.php';
+            require_once '../views/CustomerView.php';
+            require_once '../controllers/CustomerController.php';
+
+            $result = getCustomer($pdo, $id);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+
+
     // DELETE CUSTOMER PROCESS
     else if (isset($data->action) && $data->action === 'delete') {
 

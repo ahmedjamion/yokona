@@ -32,7 +32,10 @@ require_once './views/ProductView.php';
     <!-- PRODUCTS -->
     <div class="c-tab-content" data-tab="products">
         <h2>Products</h2>
-        <button class="open-modal add-button" data-modal="addProduct">New Product</button>
+        <div class="s-group">
+            <button class="open-modal add-button" data-modal="addProduct"><span class="button-text">New Product</span> <i class="fa-solid fa-plus"></i></button>
+            <input class="search" type="search" id="product-search" name="search" placeholder="Search product">
+        </div>
 
 
 
@@ -68,21 +71,22 @@ require_once './views/ProductView.php';
 
             <div class="modal-header">
                 <h4>Product Details</h4>
-                <i class="fa-solid fa-xmark close-modal"></i>
             </div>
+
+            <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
             <!-- ADD PRODUCT FORM -->
             <form class="product-form" id="product-form" action="./includes/Product.php" method="post">
 
                 <div class="input-group">
                     <label for="productName">Name</label>
-                    <input type="text" name="productName" id="productName" placeholder="Product Name" autocomplete="off">
+                    <input type="text" name="productName" id="productName" placeholder="e.g. Itlog na Pula" autocomplete="off">
                 </div>
 
                 <div class="input-group">
                     <label for="size">Size</label>
                     <select name="size" id="size">
-                        <option hidden selected value=""> Egg Size </option>
+                        <option hidden selected value="">--Select egg size--</option>
                         <option value="Small">Small</option>
                         <option value="Medium">Medium</option>
                         <option value="Large">Large</option>
@@ -95,7 +99,7 @@ require_once './views/ProductView.php';
                 <div class="input-group">
                     <label for="type">Type</label>
                     <select name="type" id="type">
-                        <option hidden selected value=""> Egg Type </option>
+                        <option hidden selected value="">--Select egg type--</option>
                         <option value="Standard">Standard</option>
                         <option value="Organic">Organic</option>
                         <option value="Cage-Free">Cage-Free</option>
@@ -106,7 +110,7 @@ require_once './views/ProductView.php';
                 <div class="input-group">
                     <label for="traySize">Tray Size</label>
                     <select name="traySize" id="traySize">
-                        <option hidden selected value=""> Tray Size </option>
+                        <option hidden selected value="">--Select tray size--</option>
                         <option value="30">30</option>
                         <option value="15">15</option>
                         <option value="10">10</option>
@@ -116,7 +120,7 @@ require_once './views/ProductView.php';
 
                 <div class="input-group">
                     <label for="price">Price</label>
-                    <input type="number" name="price" id="price" step="0.01" placeholder="Price">
+                    <input type="number" name="price" id="price" step="0.01" placeholder="Price per tray in Php (e.g. 280.69)">
                 </div>
 
                 <div class="button-group">
@@ -135,7 +139,23 @@ require_once './views/ProductView.php';
 
     <div class="c-tab-content" data-tab="producelogs">
         <h2>Produce Logs</h2>
-        <button class="open-modal add-button" data-modal="logProduce">New Log</button>
+        <button class="open-modal add-button" data-modal="logProduce"><span class="button-text">New Log</span> <i class="fa-solid fa-plus"></i></button>
+
+
+        <div class="table-container">
+            <table id="produce-table">
+
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Produce Date</th>
+                        <th>Quantity</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="pd-body"></tbody>
+            </table>
+        </div>
     </div>
 
 
@@ -144,8 +164,9 @@ require_once './views/ProductView.php';
 
             <div class="modal-header">
                 <h4>Log Details</h4>
-                <i class="fa-solid fa-xmark close-modal"></i>
             </div>
+
+            <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
 
             <button class="open-modal" data-modal="chooseProduct">Select Product</button>
@@ -154,8 +175,10 @@ require_once './views/ProductView.php';
 
                     <div class="modal-header">
                         <h4>Select a product</h4>
-                        <i class="fa-solid fa-xmark close-modal"></i>
                     </div>
+
+                    <button class="x close-modal"><i class=" fa-solid fa-xmark"></i></button>
+
                     <div class="product-selection">
 
                     </div>
@@ -164,13 +187,13 @@ require_once './views/ProductView.php';
 
 
 
-            <form class="produce-form" id="produce-form" action="./includes/Product.php" method="post">
+            <form class="form" id="produce-form" action="./includes/Produce.php" method="post">
 
                 <div class="sp-card">
-                    <p>Select a product to log</p>
+                    <p>No Product Selected</p>
                 </div>
 
-                <input type="hidden" name="id" id="pp-id">
+                <input type="text" style="display: none;" name="id" id="pp-id">
 
                 <div class="input-group">
                     <label for="log-date">Date</label>
@@ -178,8 +201,8 @@ require_once './views/ProductView.php';
                 </div>
 
                 <div class="input-group">
-                    <label for="quantity">Quantity</label>
-                    <input type="number" id="quantity" name="quantity">
+                    <label for="quantity">Quantity (by tray)</label>
+                    <input type="number" id="quantity" name="quantity" placeholder="e.g. 100">
                 </div>
 
                 <div class="button-group">
