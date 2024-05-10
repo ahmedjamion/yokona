@@ -17,15 +17,6 @@ function areEmpty($productName, $size, $type, $traySize, $price)
     }
 }
 
-function isEmpty($value)
-{
-    if (empty($value)) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
 
 
 

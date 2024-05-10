@@ -1,12 +1,16 @@
 // SCRIPTS
 
 
+console.log('user id: ', userId);
+
+
 // LINKS TO PHP
 const custUrl = "includes/Customer.php";
 const empUrl = "includes/Employee.php";
 const prodUrl = "includes/Product.php";
 const userUrl = "includes/User.php";
 const produceUrl = "includes/Produce.php";
+const orderUrl = "includes/Order.php";
 
 
 // FORM ELEMENTS
@@ -16,6 +20,7 @@ const employeeForm = document.getElementById('employee-form');
 const productForm = document.getElementById('product-form');
 const userForm = document.getElementById('user-form');
 const produceForm = document.getElementById('produce-form');
+const orderForm = document.getElementById('order-form');
 
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -28,6 +33,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     showProducts();
     showUsers();
     showProduces();
+    showOrders();
+    showEmpSelect();
 
 
     // HANDLE FORM SUBMIT
@@ -62,7 +69,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
         formData.append(e.submitter.name, e.submitter.value);
         const data = Object.fromEntries(formData.entries());
         console.log(data);
-        submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm);
+
+        const submitCallback = () => {
+            showEmpSelect();
+        };
+
+        submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm, submitCallback);
     });
 
 
@@ -87,6 +99,46 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const data = Object.fromEntries(formData.entries());
         console.log(data);
         submitForm(data, produceUrl, getAllData, createProduceTable, 'getAllProduce', produceForm);
+    });
+
+
+    orderForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const orderUserId = userId;
+        const ordCustId = addOrder.querySelector('.custId').value;
+
+        const data = {};
+
+        data.user_id = orderUserId;
+        data.customer_id = ordCustId;
+
+        const submitButton = orderForm.querySelector('button[type="submit"]');
+        data.action = submitButton.value;
+
+
+        const itemInputs = document.querySelectorAll('.item-input');
+        data.items = [];
+
+        itemInputs.forEach(itemInput => {
+            const productId = itemInput.querySelector('.productId').value;
+            const itemPrice = itemInput.querySelector('.itemPrice').value;
+            const itemQuantity = itemInput.querySelector('.itemQuantity').value;
+            const subTotal = itemInput.querySelector('.subTotal').value;
+
+            data.items.push({
+                prod_id: productId,
+                price: itemPrice,
+                quantity: itemQuantity,
+                sub_total: subTotal
+            });
+        });
+
+
+        console.log('order data: ', data);
+
+
+        submitForm(data, orderUrl, getAllData, createOrderTable, 'getAllOrders', orderForm);
     });
 
 
@@ -263,11 +315,19 @@ function showProducts() {
 }
 
 function showProduces() {
-    getAllData(prodUrl, createProduceTable, 'getAllProduce');
+    getAllData(produceUrl, createProduceTable, 'getAllProduce');
 }
 
 function showUsers() {
     getAllData(userUrl, createUsersTable, 'getAllUsers');
+}
+
+function showOrders() {
+    getAllData(orderUrl, createOrderTable, 'getAllOrders');
+}
+
+function showEmpSelect() {
+    getAllData(empUrl, createEmployeeSelect, 'getAllEmployees');
 }
 
 
@@ -416,6 +476,17 @@ function createEmployeesTable(data) {
     });
 }
 
+function createEmployeeSelect(data) {
+    const empSelect = document.getElementById('employeeId');
+
+    data.forEach(employee => {
+        const option = document.createElement('option');
+        option.value = employee.id;
+        option.textContent = `${employee.first_name} ${employee.last_name}`;
+        empSelect.appendChild(option);
+    });
+}
+
 
 // CREATE PRODUCTS TABLE
 function createProductsTable(data) {
@@ -470,6 +541,43 @@ function createProduceTable(data) {
         tableBody.appendChild(tr);
     });
 }
+
+
+
+
+function createOrderTable(data) {
+    const tableBody = document.getElementById('or-body');
+    tableBody.innerHTML = '';
+
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+
+        const dateCreated = document.createElement('td');
+        dateCreated.textContent = `${row.date_created}`;
+        tr.appendChild(dateCreated);
+
+        const custName = document.createElement('td');
+        custName.textContent = `${row.cfn} ${row.cln}`;
+        tr.appendChild(custName);
+
+        const userName = document.createElement('td');
+        userName.textContent = `${row.efn} ${row.eln} / ${row.role}`;
+        tr.appendChild(userName);
+
+        const datePaid = document.createElement('td');
+        datePaid.textContent = row.date_paid !== null ? row.date_paid : 'Unpaid';
+        tr.appendChild(datePaid);
+
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/Order.php');
+        tr.appendChild(actions);
+
+
+        tableBody.appendChild(tr);
+    });
+}
+
+
 
 
 // CREATE USERS TABLE
@@ -644,6 +752,7 @@ function createCustomerCard(data) {
                 </div>
             `;
         card.innerHTML = cardContent;
+
     } else {
         card.innerHTML = '<p>No Customer Selected</p>';
     }
@@ -711,7 +820,8 @@ function createOrderItem(data) {
 
     if (data) {
         const itemContent = `
-                    <div class="item-details">
+                <div class="item-details">
+                    <button class="removeItem" style="padding: 0; backgroud: transparent; align-self: center;"><i class="fa-solid fa-circle-minus"></i></button>
                     <div class="product-details">
                         <h3>${data[0].name}</h3>
                         <p>Size: ${data[0].size}</p>
@@ -720,13 +830,22 @@ function createOrderItem(data) {
                         <p>Price: ${data[0].price}</p>
                     </div>
                     <div class="item-input">
-                        <input type="hidden" class="itemPrice" value="${data[0].price}">
+                        <input type="hidden" class="productId" name="prod_id" value="${data[0].id}">
+                        <input type="hidden" class="itemPrice" name="price" value="${data[0].price}">
                         <input type="number" class="itemQuantity" name="quantity" placeholder="Quantity">
-                        <input type="number" class="subTotal" name="totalPrice" placeholder="Sub Total" readonly>
+                        <input type="number" class="subTotal" name="sub_total" placeholder="Sub Total" readonly>
                     </div>
                 </div>
             `;
         inputItem.innerHTML = itemContent;
+
+        const remove = inputItem.querySelector('.removeItem');
+        remove.addEventListener('click', () => {
+            inputItem.remove();
+            showOrderTotals();
+        })
+
+
         orderItems.appendChild(inputItem);
 
         const quantity = inputItem.querySelector('.itemQuantity');
@@ -776,16 +895,6 @@ function showOrderTotals() {
 
 
 
-const addOrder = document.getElementById('order-form');
-const tbutton = document.getElementById('testing');
-
-tbutton.addEventListener('click', (e) => {
-    const formData = new FormData(addOrder);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
-})
-
-
 
 // MODALS
 const modalButtons = document.querySelectorAll('.open-modal');
@@ -804,17 +913,14 @@ function showModal(modal) {
 }
 
 modalButtons.forEach(function (button) {
-    button.onclick = function () {
+    button.onclick = function (e) {
+        e.preventDefault();
         const modalId = button.getAttribute('data-modal');
         const modal = document.getElementById(modalId);
         console.log('this is the modal value: ' + modal);
         const form = modal.querySelector('form');
         if (form) {
             form.reset();
-            const card = form.querySelector('.sp-card');
-            if (card) {
-                card.innerHTML = '<p>No Product Selected</p>';
-            }
         }
         console.log(form);
         showModal(modal);

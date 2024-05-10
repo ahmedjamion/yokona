@@ -3,7 +3,10 @@
 
 <div class="c-container ord">
     <h2>Orders</h2>
-    <button class="open-modal add-button" data-modal="addOrder"><span class="button-text">New Order</span> <i class="fa-solid fa-plus"></i></button>
+    <div class="s-group">
+        <button class="open-modal add-button" data-modal="addOrder"><span class="button-text">New Order</span> <i class="fa-solid fa-plus"></i></button>
+        <input class="search" type="search" id="order-search" name="search" placeholder="Search orders">
+    </div>
 
 
     <div class="table-container">
@@ -11,9 +14,11 @@
 
             <thead>
                 <tr>
-                    <th>Customer</th>
                     <th>Order date</th>
+                    <th>Customer</th>
+                    <th>User/Employee</th>
                     <th>Paid date</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="or-body">
@@ -35,16 +40,15 @@
 
         <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
+        <button class="open-modal" data-modal="selectCustomer">Select customer</button>
         <form class="order-form" id="order-form" action="./includes/Order.php" method="post">
 
-            <button class="open-modal" data-modal="selectCustomer">Select customer</button>
 
-            <div class="cust-details">
-                <div class="sc-card">
-                    <p>No customer selected</p>
-                </div>
-                <input type="hidden" name="cust-id" id="cust-id">
+
+            <div class="sc-card">
             </div>
+            <input class="custId" type="hidden" name="cust-id" id="cust-id">
+
 
             <div class="order-details">
                 <h4>Order Items</h4>
@@ -53,18 +57,19 @@
 
                 </div>
 
-                <button class="open-modal" data-modal="selectItem">New Item</button>
+                <div class="st-group">
 
-                <div class="order-total">
-                    <p>Total Quantity: <span id="orderQ">0.00</span> Trays</p>
-                    <p>Total Price: <span id="orderP">0.00</span> Php</p>
+                    <div class="order-total">
+                        <p>Total Quantity: <span id="orderQ">0</span> Trays</p>
+                        <p>Total Price: <span id="orderP">0.00</span> Php</p>
+                    </div>
+                    <button class="open-modal" data-modal="selectItem" style="align-self: end;">New Item</button>
                 </div>
 
             </div>
 
 
             <div class="button-group">
-                <button id="testing">test</button>
                 <button class="submit-button" type="submit" name="action" value="addOrder">Submit</button>
                 <button class="close-modal cancel-button">Cancel</button>
             </div>

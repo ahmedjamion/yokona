@@ -58,22 +58,9 @@ require_once './views/EmployeeView.php';
             <div class="input-group">
                 <label for="employeeId">Employee</label>
                 <!-- SELECT EMPLOYEE -->
-                <?php
-                $result = getAllEmployees($pdo);
-                if (empty($result)) {
-                    echo 'NO EMPLOYEE FOUND';
-                } else {
-                    echo '<select name="employeeId" id="employeeId">';
-                    echo '<option hidden selected value="">--Select Employee--</option>';
-                    foreach ($result as $row) {
-                        $id = $row["id"];
-                        $firstName = htmlspecialchars($row["first_name"]);
-                        $lastName = htmlspecialchars($row["last_name"]);
-                        echo '<option value="' . $id . '">' . $firstName . " " . $lastName . '</option>';
-                    }
-                    echo '</select>';
-                }
-                ?>
+                <select name="employeeId" id="employeeId">
+                    <option hidden selected value="">--Select Employee--</option>
+                </select>
             </div>
 
             <div class="input-group">

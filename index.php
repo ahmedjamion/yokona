@@ -15,6 +15,11 @@ require_once 'config/Session.php';
     <link rel="stylesheet" type="text/css" href="index.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="assets/fontawesome-free-6.5.2-web/css/all.min.css?v=<?php echo time(); ?>">
 
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=<?php echo time(); ?>">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=<?php echo time(); ?>">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=<?php echo time(); ?>">
+    <link rel="manifest" href="favicon/site.webmanifest?v=<?php echo time(); ?>">
+
     <title>Eggcellent</title>
 </head>
 
@@ -27,6 +32,7 @@ require_once 'config/Session.php';
 
     // IF USER IS LOGGED IN
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
+        $userId = $_SESSION["userId"];
         include 'components/MainPage.php';
     }
 
@@ -35,10 +41,6 @@ require_once 'config/Session.php';
         include 'components/LoginPage.php';
     }
     ?>
-
-
-
-
 
 
     <!-- JAVASCRIPT LINKS -->

@@ -8,5 +8,5 @@ require_once 'views/LogInView.php';
 
 <div class="main-header">
     <i class="fa-solid fa-bars open-sidebar"></i>
-    <h1>Eggcellent</h1>
+    <h1>Itlugan ni Selso</h1>
 </div>

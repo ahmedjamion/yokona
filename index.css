@@ -26,7 +26,9 @@
 
 
 
-
+html {
+    scroll-behavior: smooth;
+}
 
 
 /* BODY STYLES */
@@ -120,6 +122,12 @@ body {
     color: white;
     transition: background-color .15s ease-in-out;
     border-radius: 0 30px 30px 0;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.tab-icon {
+    width: 30px;
 }
 
 .tab-button:hover {
@@ -308,9 +316,9 @@ form h3 {
 .s-group {
     display: flex;
     flex-direction: row;
+    width: 100%;
     gap: 10px;
 }
-
 
 
 /* LOGIN PAGE STYLES */
@@ -435,7 +443,6 @@ table {
     border: none;
     border-width: 0;
     border-collapse: collapse;
-    min-width: 600px;
 }
 
 th, td {
@@ -449,7 +456,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: rgba(213, 213, 255, 0.3);
+    background-color: rgba(213, 213, 255, 0.4);
 }
 
 thead {
@@ -469,11 +476,15 @@ thead, tbody, tr {
 
 tbody {
     display: block;
-    max-height: calc(100dvh - 275px);
+    max-height: calc(100dvh - 200px);
     overflow-y: auto;
     padding-bottom: 10px;
     background-color: white;
     border-radius: 0 0 10px 10px;
+}
+
+.c-tab-content-active tbody {
+    max-height: calc(100dvh - 220px);
 }
 
 
@@ -494,7 +505,7 @@ tbody {
 
 .action-form button i {
     font-size: 1.2rem;
-    color: #d5d5ff;
+    color: #626299;
     transition: color .2s ease-in-out;
 }
 
@@ -572,12 +583,13 @@ button {
 
 .submit-button {
     background-color: #d5d5ff;
+    transition: filter .25s ease-in-out;
 }
 
 .cancel-button {
     background-color: transparent;
-    outline: solid 2px #d5d5ff;
     color: white;
+    outline: 2px solid #d5d5ff;
     transition: background-color .25s ease-in-out;
 }
 
@@ -585,6 +597,24 @@ button {
     background-color: rgba(213, 213, 255, 0.2);
 }
 
+.button-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.st-group {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 4px;
+}
+
+.order-total {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
 
 
 
@@ -608,8 +638,8 @@ button {
     color: white;
     background: rgba(0, 0, 0, 0.8);
     outline: 3px solid #d5d5ff;
-    min-width: 540px;
     padding: 14px;
+    min-width: 300px;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -641,8 +671,12 @@ button {
     border-radius: 0 10px;
 }
 
+.x i {
+    transition: color .25s ease-in-out;
+}
+
 .x:hover i {
-    color: #ff45ab ;
+    color: white ;
 }
 
 form{
@@ -665,20 +699,23 @@ form{
 .product-card,
 .sp-card,
 .customer-card,
-.cust-details,
+.sc-card,
 .item-details{
     border-radius: 6px;
     width: 100%;
     background-color: #d5d5ff;
     color: black;
     cursor: pointer;
-    padding: 6px;
 }
+
+
 
 .customer-details, .cust-details, .product-details, .item-details, .item-input {
     display: flex;
     align-items: baseline;
     gap: 10px;
+    width: 100%;
+    padding: 6px;
 }
 
 .item-details {
@@ -752,7 +789,7 @@ form select {
 
 .search {
     border-radius: 18px;
-    min-width: none;
+    padding-left: 20px;
 }
 
 
@@ -815,8 +852,38 @@ input::-webkit-inner-spin-button {
         border-radius: 0;
     }
 
-    .modal-content {
-        width: 90%;
+    .tab-content-active {
+        padding: 2px 6px 6px 6px;
+    }
+
+
+    thead{
+        display: none;
+    }
+    tr{
+        display: flex;
+        flex-direction: column;
+        border-radius: 10px;
+        background: white;
+    }
+    tbody tr:hover{
+        background-color: white;
+    }
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-radius: 10px 10px 0 0;
+    }
+    tbody td:nth-child(1) {
+        background-color: #d5d5ff;
+        font-weight: bold;
+    }
+    tbody{
+        background: none;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
