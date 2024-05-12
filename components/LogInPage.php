@@ -2,6 +2,16 @@
 
 <!-- LOG IN PAGE -->
 
+<style>
+    #eggc {
+        font-family: gluten;
+        color: white;
+        text-align: center;
+        position: fixed;
+        bottom: 10px;
+    }
+</style>
+
 <div class="login-page">
     <div class="login-container">
         <h3 class="login-title">Log In</h3>
@@ -27,6 +37,8 @@
             <button class="login-button" type='submit' name='action' value='logIn' id="logIn">Log In <i class="fa-solid fa-right-to-bracket"></i></button>
         </form>
     </div>
+
+    <h1 id="eggc">Eggcellent</h1>
 </div>
 
 <script>
@@ -36,4 +48,18 @@
             loginErrors.innerHTML = '';
         }, 3000);
     }
+
+
+    const container = document.querySelector('.login-container');
+
+    const inputs = document.querySelectorAll('.login-input');
+
+    inputs.forEach((input) => {
+        input.addEventListener('focus', () => {
+            container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
+        })
+        input.addEventListener('blur', () => {
+            container.style.boxShadow = 'none';
+        });
+    })
 </script>

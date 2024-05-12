@@ -11,7 +11,7 @@ require_once './views/EmployeeView.php';
     <h2>Employees</h2>
     <div class="s-group">
         <button class="open-modal add-button" data-modal="addEmployee"><span class="button-text">New Employee</span> <i class="fa-solid fa-plus"></i></button>
-        <input class="search" type="search" id="employee-search" name="search" placeholder="Search employee">
+        <input class="search" type="search" id="employee-search" name="search" placeholder="Search employee" autocomplete="off">
     </div>
 
 

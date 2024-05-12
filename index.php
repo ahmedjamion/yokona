@@ -26,6 +26,7 @@ require_once 'config/Session.php';
 <body style="background-image: url(assets/bg/egg.jpg);">
     <div class="overlay"></div>
 
+
     <?php
 
     // CHECKING IF USER IS LOGGED IN OR NOT
@@ -48,6 +49,7 @@ require_once 'config/Session.php';
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
     ?>
 
+        <script src="assets/js/chart.js?v=<?php echo time(); ?>"></script>
         <script src="index.js?v=<?php echo time(); ?>"></script>
 
     <?php

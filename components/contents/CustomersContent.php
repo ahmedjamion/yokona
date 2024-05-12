@@ -14,7 +14,7 @@ require_once './views/CustomerView.php';
     <h2>Customers</h2>
     <div class="s-group">
         <button class="open-modal add-button" data-modal="addCustomer"><span class="button-text">New Customer</span> <i class="fa-solid fa-plus"></i></button>
-        <input class="search" type="search" id="customer-search" name="search" placeholder="Search customer">
+        <input class="search" type="search" id="customer-search" name="search" placeholder="Search customer" autocomplete="off">
     </div>
 
 

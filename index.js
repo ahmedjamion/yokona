@@ -833,7 +833,7 @@ function createOrderItem(data) {
                         <input type="hidden" class="productId" name="prod_id" value="${data[0].id}">
                         <input type="hidden" class="itemPrice" name="price" value="${data[0].price}">
                         <input type="number" class="itemQuantity" name="quantity" placeholder="Quantity">
-                        <input type="number" class="subTotal" name="sub_total" placeholder="Sub Total" readonly>
+                        <input type="number" class="subTotal" name="sub_total" placeholder="Sub Total" readonly></p>
                     </div>
                 </div>
             `;
@@ -858,13 +858,16 @@ function createOrderItem(data) {
             showOrderTotals();
         });
     } else {
-        inputItem.innerHTML = '<p>No Customer Selected</p>';
+        inputItem.innerHTML = '<p>No items yet</p>';
+        orderItems.appendChild(inputItem);
     }
 }
 
 
 document.addEventListener('DOMContentLoaded', () => {
     getAllData(prodUrl, createItemsCards, 'getAllProducts');
+    createOrderItem();
+    createCustomerCard();
 });
 
 
@@ -1001,6 +1004,7 @@ function setUpTabs() {
 
             button.classList.add("tab-button-active");
             tabToActivate.classList.add("tab-content-active");
+
         })
     })
 }
@@ -1134,3 +1138,21 @@ async function logOut() {
         console.error('Error fetching data:', error);
     }
 }
+
+
+function updateClock() {
+    const now = new Date();
+    const hours = now.getHours() % 12 || 12;
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    const seconds = now.getSeconds().toString().padStart(2, '0');
+    const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+
+    const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+    document.getElementById('clock').innerText = timeString;
+
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const dateString = now.toLocaleDateString('en-US', options);
+    document.getElementById('date').innerText = dateString;
+}
+
+setInterval(updateClock, 1000);

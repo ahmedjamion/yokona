@@ -139,7 +139,10 @@ require_once './views/ProductView.php';
 
     <div class="c-tab-content" data-tab="producelogs">
         <h2>Produce Logs</h2>
-        <button class="open-modal add-button" data-modal="logProduce"><span class="button-text">New Log</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="s-group">
+            <button class="open-modal add-button" data-modal="logProduce"><span class="button-text">New Log</span> <i class="fa-solid fa-plus"></i></button>
+            <input class="search" type="search" id="produce-search" name="search" placeholder="Search product" autocomplete="off">
+        </div>
 
 
         <div class="table-container">
@@ -190,14 +193,13 @@ require_once './views/ProductView.php';
             <form class="form" id="produce-form" action="./includes/Produce.php" method="post">
 
                 <div class="sp-card">
-                    <p>No Product Selected</p>
                 </div>
 
                 <input type="text" style="display: none;" name="id" id="pp-id">
 
                 <div class="input-group">
                     <label for="log-date">Date</label>
-                    <input type="date" id="log-date" name="date">
+                    <input type="datetime-local" id="log-date" name="date">
                 </div>
 
                 <div class="input-group">
