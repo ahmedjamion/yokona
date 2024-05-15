@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 21, 2024 at 07:05 PM
+-- Generation Time: May 12, 2024 at 07:57 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -42,9 +42,10 @@ CREATE TABLE `customer` (
 --
 
 INSERT INTO `customer` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `profile_picture`) VALUES
-(1, 'Ahmed Rashad', 'Jamion', 'Male', 'Cabatangan', '09060364709', NULL),
-(5, 'Elon', 'Musk', 'Male', 'Mars', '2323', NULL),
-(6, 'Ahmed', 'Jamion', 'Male', 'Cabatangan', '09060364709', NULL);
+(27, 'Albert', 'Einstein', 'Male', 'Earth', '123', NULL),
+(37, 'Elon', 'Musk', 'Male', 'Mars, SS', '88', NULL),
+(38, 'Mike', 'Tyson', 'Male', 'Niggaland', '123', NULL),
+(65, 'Jake', 'Paul', 'Male', 'Catalina', '1112', NULL);
 
 -- --------------------------------------------------------
 
@@ -69,9 +70,9 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `type_id`, `profile_picture`) VALUES
 (9, 'Albert', 'Einstein', 'Male', 'Baliwasan', '123', 3, NULL),
-(10, 'Elon', 'Musk', 'Male', 'Mars', '222', 3, NULL),
 (11, 'Bill', 'Gates', 'Male', 'Manila', '111', 2, NULL),
-(12, 'Jack', 'Ma', 'Male', 'China', '2112', 3, NULL);
+(17, 'Satoru', 'Gojo', 'Male', 'Shibuya', '333', 2, NULL),
+(18, 'Marie', 'Curie', 'Female', 'Chernobyl', '221', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -126,12 +127,21 @@ INSERT INTO `house` (`id`, `name`, `type`, `chicken_count`) VALUES
 
 CREATE TABLE `order` (
   `id` int(11) NOT NULL,
-  `date_created` timestamp NOT NULL DEFAULT current_timestamp(),
-  `unit_price` decimal(10,2) NOT NULL,
-  `employee_id` int(11) NOT NULL,
+  `date_created` datetime NOT NULL DEFAULT current_timestamp(),
+  `user_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
-  `date_paid` timestamp NULL DEFAULT NULL
+  `date_paid` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`id`, `date_created`, `user_id`, `customer_id`, `date_paid`) VALUES
+(4, '2024-05-10 14:46:19', 3, 37, NULL),
+(5, '2024-05-10 15:35:57', 3, 37, NULL),
+(6, '2024-05-10 16:09:45', 3, 65, NULL),
+(7, '2024-05-10 19:42:10', 11, 27, NULL);
 
 -- --------------------------------------------------------
 
@@ -144,8 +154,20 @@ CREATE TABLE `order_item` (
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `price` int(11) NOT NULL
+  `unit_price` float(10,2) NOT NULL,
+  `sub_total` float(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_item`
+--
+
+INSERT INTO `order_item` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`, `sub_total`) VALUES
+(5, 4, 33, 2, 123.00, 246.00),
+(7, 5, 34, 3, 200.00, 600.00),
+(9, 6, 34, 1, 200.00, 200.00),
+(11, 7, 33, 4, 123.00, 492.00),
+(13, 7, 34, 6, 200.00, 1200.00);
 
 -- --------------------------------------------------------
 
@@ -156,9 +178,17 @@ CREATE TABLE `order_item` (
 CREATE TABLE `produce` (
   `id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `produce_date` date NOT NULL DEFAULT current_timestamp(),
+  `produce_date` datetime NOT NULL,
   `product_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `produce`
+--
+
+INSERT INTO `produce` (`id`, `quantity`, `produce_date`, `product_id`) VALUES
+(8, 79, '2024-05-11 01:51:00', 33),
+(9, 200, '2024-05-11 18:20:00', 12);
 
 -- --------------------------------------------------------
 
@@ -182,7 +212,8 @@ CREATE TABLE `product` (
 
 INSERT INTO `product` (`id`, `name`, `size`, `type`, `tray_size`, `price`, `product_picture`) VALUES
 (12, 'Eggcellent', 'Small', 'Standard', '30', 170.00, NULL),
-(17, 'Egg', 'Small', 'Organic', '15', 222.00, NULL);
+(33, 'Itlog', 'Small', 'Cage-Free', '10', 123.00, NULL),
+(34, 'telur', 'Small', 'Free-Range', '15', 200.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -229,8 +260,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `employee_id`, `username`, `password`, `role`) VALUES
-(2, 10, 'elon', '$2y$12$5hFk9Hb.2d5vXG91XuD5uu2cf2no4OMkDvW/H0DINuvmibnJoh5uO', 'order'),
-(3, 9, 'admin', '$2a$12$oMSRHIGx3.qAJY6oKoX0tOVjAvxKMXxYQJJ2rRPtQseGtpIRir/92', 'admin');
+(3, 9, 'admin', '$2a$12$oMSRHIGx3.qAJY6oKoX0tOVjAvxKMXxYQJJ2rRPtQseGtpIRir/92', 'admin'),
+(11, 17, 'strongest', '$2y$12$XWg6Fvv09f5bJlCxA4WkWO3oFvppZuSP7I1HjLBt1U71WWgqINtIm', 'admin'),
+(12, 18, 'hello', '$2y$12$Y3EaggRZex9pb5yi1r4oduCqnOdO.bgKru.I1SlbxwYQ4znLr10UC', 'inventory');
 
 --
 -- Indexes for dumped tables
@@ -266,7 +298,7 @@ ALTER TABLE `house`
 --
 ALTER TABLE `order`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `order_employee_id_fk` (`employee_id`),
+  ADD KEY `order_employee_id_fk` (`user_id`),
   ADD KEY `order_customer_id_fk` (`customer_id`);
 
 --
@@ -317,13 +349,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `employee_type`
@@ -341,25 +373,25 @@ ALTER TABLE `house`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `produce`
 --
 ALTER TABLE `produce`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `repair`
@@ -377,7 +409,7 @@ ALTER TABLE `supply`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
@@ -394,14 +426,14 @@ ALTER TABLE `employee`
 --
 ALTER TABLE `order`
   ADD CONSTRAINT `order_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`id`),
-  ADD CONSTRAINT `order_employee_id_fk` FOREIGN KEY (`employee_id`) REFERENCES `employee` (`id`);
+  ADD CONSTRAINT `order_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
 -- Constraints for table `order_item`
 --
 ALTER TABLE `order_item`
-  ADD CONSTRAINT `order_item_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`),
-  ADD CONSTRAINT `order_item_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
+  ADD CONSTRAINT `order_item_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `order_item_product_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `produce`

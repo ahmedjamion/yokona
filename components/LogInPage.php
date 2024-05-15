@@ -57,9 +57,11 @@
     inputs.forEach((input) => {
         input.addEventListener('focus', () => {
             container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
+            container.style.transform = 'scale(1.05)';
         })
         input.addEventListener('blur', () => {
             container.style.boxShadow = 'none';
+            container.style.transform = 'scale(1)';
         });
     })
 </script>
