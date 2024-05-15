@@ -123,6 +123,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF DELETE USER PROCESS
 
 
+
+    else if (isset($data->action) && $data->action === 'getUserCount') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/UserModel.php';
+            require_once '../views/UserView.php';
+            require_once '../controllers/UserController.php';
+
+            $result = getUserCount($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 } else {
     header("Location: ../index.php");
     die();

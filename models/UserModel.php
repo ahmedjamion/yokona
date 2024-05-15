@@ -109,3 +109,20 @@ function deleteUser(object $pdo, int $id)
         echo "Error deleting employee: " . $e->getMessage();
     }
 }
+
+
+
+function getUserCount(object $pdo)
+{
+    try {
+        $query = "SELECT COUNT(*) AS user_count FROM user;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}

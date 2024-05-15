@@ -47,9 +47,14 @@
         <?php } ?>
 
         <div class="log-out">
-            <form action="includes/LogIn.php" method="post" id="logOutForm">
-                <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out <i class="fa-solid fa-right-from-bracket"></i></button>
-            </form>
+            <div class="logout-info">
+                <form action="includes/LogIn.php" method="post" id="logOutForm">
+                    <h3>Logged in as</h3>
+                    <p>username <span><?php echo htmlspecialchars($_SESSION['username']); ?></span></p>
+                    <p>role <span><?php echo htmlspecialchars($_SESSION['role']); ?></span></p>
+                    <button class="logout-button" type='submit' name='action' value='logOut' id="logOut">Log Out <i class="fa-solid fa-right-from-bracket"></i></button>
+                </form>
+            </div>
         </div>
 
     </div>

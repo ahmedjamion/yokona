@@ -31,7 +31,6 @@ require_once './views/ProductView.php';
 
     <!-- PRODUCTS -->
     <div class="c-tab-content" data-tab="products">
-        <h2>Products</h2>
         <div class="s-group">
             <button class="open-modal add-button" data-modal="addProduct"><span class="button-text">New Product</span> <i class="fa-solid fa-plus"></i></button>
             <input class="search" type="search" id="product-search" name="search" placeholder="Search product">
@@ -138,7 +137,6 @@ require_once './views/ProductView.php';
 
 
     <div class="c-tab-content" data-tab="producelogs">
-        <h2>Produce Logs</h2>
         <div class="s-group">
             <button class="open-modal add-button" data-modal="logProduce"><span class="button-text">New Log</span> <i class="fa-solid fa-plus"></i></button>
             <input class="search" type="search" id="produce-search" name="search" placeholder="Search product" autocomplete="off">

@@ -44,7 +44,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
         formData.append(e.submitter.name, e.submitter.value);
         const data = Object.fromEntries(formData.entries());
         console.log(data);
-        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm);
+        const submitCallback = () => {
+            getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+            updateCount(custUrl, 'getCustomerCount', custCount);
+        };
+        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm, submitCallback);
     });
 
     customerForm1.addEventListener('submit', function (e) {
@@ -56,8 +60,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         const submitCallback = () => {
             getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+            updateCount(custUrl, 'getCustomerCount', custCount);
         };
-
 
         submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm1, submitCallback);
     });
@@ -72,6 +76,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         const submitCallback = () => {
             showEmpSelect();
+
+            updateCount(empUrl, 'getEmployeeCount', empCount);
         };
 
         submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm, submitCallback);
@@ -88,6 +94,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const submitCallback = () => {
             getAllData(prodUrl, createItemsCards, 'getAllProducts');
             getAllData(prodUrl, createProductsCards, 'getAllProducts');
+
+            updateCount(prodUrl, 'getProductCount', prodCount);
         };
         submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm, submitCallback);
     });
@@ -148,7 +156,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
         formData.append(e.submitter.name, e.submitter.value);
         const data = Object.fromEntries(formData.entries());
         console.log(data);
-        submitForm(data, userUrl, getAllData, createUsersTable, 'getAllUsers', userForm);
+        const submitCallback = () => {
+            updateCount(userUrl, 'getUserCount', useCount);
+        }
+        submitForm(data, userUrl, getAllData, createUsersTable, 'getAllUsers', userForm, submitCallback);
     });
 
 
@@ -263,21 +274,24 @@ async function submitAction(data, url) {
 
         const result = await response.json();
 
-        if (result.success === true) {
+        if (result.success === true && data.action === 'delete') {
             switch (url) {
                 case 'includes/Customer.php':
                     showCustomers();
                     getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+                    updateCount(custUrl, 'getCustomerCount', custCount);
                     break;
 
                 case 'includes/Employee.php':
                     showEmployees();
+                    updateCount(empUrl, 'getEmployeeCount', empCount);
                     break;
 
                 case 'includes/Product.php':
                     showProducts();
                     getAllData(prodUrl, createItemsCards, 'getAllProducts');
                     getAllData(prodUrl, createProductsCards, 'getAllProducts');
+                    updateProductCount(prodUrl, 'getProductCount', prodCount);
                     break;
 
                 case 'includes/Produce.php':
@@ -286,6 +300,7 @@ async function submitAction(data, url) {
 
                 case 'includes/User.php':
                     showUsers();
+                    updateCount(userUrl, 'getUserCount', useCount);
                     break;
 
                 default:
@@ -478,6 +493,17 @@ function createEmployeesTable(data) {
 
 function createEmployeeSelect(data) {
     const empSelect = document.getElementById('employeeId');
+    empSelect.innerHTML = "";
+
+    const optionElement = document.createElement('option');
+
+    optionElement.setAttribute('hidden', '');
+    optionElement.setAttribute('selected', '');
+    optionElement.setAttribute('value', '');
+
+    optionElement.textContent = '--Select Employee--';
+
+    empSelect.appendChild(optionElement);
 
     data.forEach(employee => {
         const option = document.createElement('option');
@@ -519,11 +545,14 @@ function createProduceTable(data) {
     const tableBody = document.getElementById('pd-body');
     tableBody.innerHTML = '';
 
+    data.sort((a, b) => new Date(b.produce_date) - new Date(a.produce_date));
+
+    let num = 1;
     data.forEach(row => {
         const tr = document.createElement('tr');
 
         const mergedColumnCell = document.createElement('td');
-        mergedColumnCell.textContent = `${row.name} ${row.size} ${row.type} ${row.tray_size}s`;
+        mergedColumnCell.textContent = `${num}. ${row.name} ${row.size} ${row.type} ${row.tray_size}s`;
         tr.appendChild(mergedColumnCell);
 
         const columnsToDisplay = ['produce_date', 'quantity', 'actions'];
@@ -538,6 +567,7 @@ function createProduceTable(data) {
             tr.appendChild(td);
         });
 
+        num++;
         tableBody.appendChild(tr);
     });
 }
@@ -666,10 +696,10 @@ function createProductCard(data) {
         const cardContent = `
                 <div class="product-details">
                     <h3>${data[0].name}</h3>
-                    <p>Size: ${data[0].size}</p>
-                    <p>Type: ${data[0].type}</p>
-                    <p>Tray Size: ${data[0].tray_size}</p>
-                    <p>Price: ${data[0].price}</p>
+                    <p>${data[0].size}</p>
+                    <p>${data[0].type}</p>
+                    <p>${data[0].tray_size}/tray</p>
+                    <p>Php ${data[0].price}</p>
                 </div>
             `;
         card.innerHTML = cardContent;
@@ -710,8 +740,8 @@ function createCustomersCards(data) {
         const cardContent = `
             <div class="customer-details">
                 <h3>${customer.first_name} ${customer.last_name}</h3>
-                <p>Address: ${customer.address}</p>
-                <p>Contact #: ${customer.contact_number}</p>
+                <p>${customer.address}</p>
+                <p>${customer.contact_number}</p>
             </div>
         `;
         card.innerHTML = cardContent;
@@ -747,8 +777,8 @@ function createCustomerCard(data) {
         const cardContent = `
                 <div class="cust-details">
                     <h3>${data[0].first_name} ${data[0].last_name}</h3>
-                    <p>Address: ${data[0].address}</p>
-                    <p>Contact #: ${data[0].contact_number}</p>
+                    <p>${data[0].address}</p>
+                    <p>${data[0].contact_number}</p>
                 </div>
             `;
         card.innerHTML = cardContent;
@@ -788,10 +818,10 @@ function createItemsCards(data) {
         const cardContent = `
             <div class="item-details">
                 <h3>${item.name}</h3>
-                <p>Size: ${item.size}</p>
-                <p>Type: ${item.type}</p>
-                <p>Tray Size: ${item.tray_size}</p>
-                <p>Price: ${item.price}</p>
+                <p>${item.size}</p>
+                <p>${item.type}</p>
+                <p>${item.tray_size}/tray</p>
+                <p>Php ${item.price}/tray</p>
             </div>
         `;
         card.innerHTML = cardContent;
@@ -824,10 +854,10 @@ function createOrderItem(data) {
                     <button class="removeItem" style="padding: 0; backgroud: transparent; align-self: center;"><i class="fa-solid fa-circle-minus"></i></button>
                     <div class="product-details">
                         <h3>${data[0].name}</h3>
-                        <p>Size: ${data[0].size}</p>
-                        <p>Type: ${data[0].type}</p>
-                        <p>Tray Size: ${data[0].tray_size}</p>
-                        <p>Price: ${data[0].price}</p>
+                        <p>${data[0].size}</p>
+                        <p>${data[0].type}</p>
+                        <p>${data[0].tray_size}/tray</p>
+                        <p>${data[0].price}</p>
                     </div>
                     <div class="item-input">
                         <input type="hidden" class="productId" name="prod_id" value="${data[0].id}">
@@ -1156,3 +1186,268 @@ function updateClock() {
 }
 
 setInterval(updateClock, 1000);
+
+
+
+
+
+
+
+const salesBar = document.getElementById('sales-bar');
+
+var salesBarX = ["Italy", "France", "Spain", "USA", "Argentina"];
+var salesBArY = [55, 49, 44, 24, 15];
+
+new Chart(salesBar, {
+    type: "bar",
+    data: {
+        labels: salesBarX,
+        datasets: [{
+            backgroundColor: '#d5d5ff',
+            data: salesBArY
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: false,
+                labels: {
+                    color: "white", // Change legend label font color
+                }
+            },
+            title: {
+                display: true,
+                text: "Sales",
+                color: "white", // Change chart title font color
+            }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                ticks: {
+                    // Change y-axis tick font color
+                    color: 'white'
+                },
+                grid: {
+                    color: 'transparent'
+                }
+            },
+            x: {
+                ticks: {
+                    // Change x-axis tick font color
+                    color: 'white',
+                },
+                grid: {
+                    color: 'transparent',
+                    backgroundColor: 'white'
+                }
+            }
+        }
+    }
+});
+
+
+
+
+
+const salesPie = document.getElementById('sales-pie');
+var salesPieX = ["Italy", "France", "Spain", "USA", "Argentina"];
+var salesPieY = [55, 49, 44, 24, 15];
+var barColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797",
+    "#e8c3b9",
+    "#1e7145"
+];
+
+new Chart(salesPie, {
+    type: "pie",
+    data: {
+        labels: salesPieX,
+        datasets: [{
+            backgroundColor: barColors,
+            data: salesPieY,
+            borderWidth: '0',
+            borderColor: 'transparent'
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'right',
+                align: 'center',
+                labels: {
+                    color: "white", // Change legend label font color
+                }
+            },
+            title: {
+                display: true,
+                text: "Sales",
+                color: "white", // Change chart title font color
+            }
+        },
+        aspectRatio: 2,
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+
+
+
+const prodLine = document.getElementById('prod-line');
+const prodLineX = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
+const prodLineY = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
+
+new Chart(prodLine, {
+    type: "line",
+    data: {
+        labels: prodLineX,
+        datasets: [{
+            fill: true,
+            backgroundColor: "#d5d5ff",
+            pointBackgroundColor: "#2b5797",
+            borderWidth: 0,
+            data: prodLineY,
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                borderWidth: '0',
+                borderColor: 'red',
+                display: false,
+                labels: {
+                    color: "white",
+                    text: "Amounts",
+                }
+            },
+            title: {
+                display: true,
+                text: "Production",
+                color: "white"
+            }
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        animations: {
+            tension: {
+                duration: 1000,
+                easing: 'linear',
+                from: .5,
+                to: 0,
+                loop: true
+            }
+        },
+        scales: {
+            y: {
+                ticks: {
+                    // Change y-axis tick font color
+                    color: 'white'
+                },
+                grid: {
+                    color: 'transparent'
+                }
+            },
+            x: {
+                ticks: {
+                    // Change x-axis tick font color
+                    color: 'white',
+                },
+                grid: {
+                    color: 'transparent',
+                    backgroundColor: 'white'
+                }
+            }
+        }
+    }
+});
+
+
+
+
+const prodPie = document.getElementById('prod-pie');
+var prodPieX = ["Italy", "France", "Spain", "USA", "Argentina"];
+var prodPieY = [55, 49, 44, 24, 15];
+var pieColors = [
+    "#b91d47",
+    "#00aba9",
+    "#2b5797",
+    "#e8c3b9",
+    "#1e7145"
+];
+
+new Chart(prodPie, {
+    type: "doughnut",
+    data: {
+        labels: prodPieX,
+        datasets: [{
+            backgroundColor: pieColors,
+            data: prodPieY,
+            borderWidth: '0',
+            borderColor: 'transparent'
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'left',
+                align: 'center',
+                labels: {
+                    color: "white", // Change legend label font color
+                }
+            },
+            title: {
+                display: true,
+                text: "Production",
+                color: "white", // Change chart title font color
+            }
+        },
+        aspectRatio: 2,
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+
+const prodCount = document.getElementById('d-prod');
+const custCount = document.getElementById('d-cust');
+const empCount = document.getElementById('d-emp');
+const useCount = document.getElementById('d-use');
+
+
+async function updateCount(url, action, count) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: action })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const result = await response.json();
+        console.log(response);
+        console.log(result);
+
+        count.innerHTML = result;
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    updateCount(prodUrl, 'getProductCount', prodCount);
+    updateCount(custUrl, 'getCustomerCount', custCount);
+    updateCount(empUrl, 'getEmployeeCount', empCount);
+    updateCount(userUrl, 'getUserCount', useCount);
+})

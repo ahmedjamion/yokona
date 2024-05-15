@@ -143,6 +143,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF DELETE CUSTOMER PROCESS
 
 
+
+    ///
+    else if (isset($data->action) && $data->action === 'getCustomerCount') {
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/CustomerModel.php';
+            require_once '../views/CustomerView.php';
+            require_once '../controllers/CustomerController.php';
+
+            $result = getCustomerCount($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 } else {
     header("Location: ../index.php");
     die();

@@ -1,34 +1,21 @@
-<?php
-require_once './models/CustomerModel.php';
-require_once './views/CustomerView.php';
-?>
-
-
-
 <!-- CUSTOMERS COMPONENT CONTENTS -->
 
 
 
 
 <div class="c-container">
-    <h2>Customers</h2>
     <div class="s-group">
         <button class="open-modal add-button" data-modal="addCustomer"><span class="button-text">New Customer</span> <i class="fa-solid fa-plus"></i></button>
         <input class="search" type="search" id="customer-search" name="search" placeholder="Search customer" autocomplete="off">
     </div>
-
-
-
-
-
 
     <div class="table-container">
         <table id="customers-table">
 
             <thead>
                 <tr>
-                    <th>First Name</th>
-                    <th>Last Name</th>
+                    <th>Firstname</th>
+                    <th>Lastname</th>
                     <th>Gender</th>
                     <th>Address</th>
                     <th>Contact #</th>

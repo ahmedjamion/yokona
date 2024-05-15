@@ -7,7 +7,6 @@ require_once './views/EmployeeView.php';
 <!-- USERS COMPONENT CONTENTS -->
 
 <div class="c-container">
-    <h2>Users</h2>
     <div class="s-group">
         <button class="open-modal add-button" data-modal="addUser"><span class="button-text">New User</span> <i class="fa-solid fa-plus"></i></button>
         <input class="search" type="search" id="user-search" name="search" placeholder="Search user" autocomplete="off">
@@ -59,7 +58,7 @@ require_once './views/EmployeeView.php';
                 <label for="employeeId">Employee</label>
                 <!-- SELECT EMPLOYEE -->
                 <select name="employeeId" id="employeeId">
-                    <option hidden selected value="">--Select Employee--</option>
+
                 </select>
             </div>
 

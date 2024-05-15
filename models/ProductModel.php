@@ -174,3 +174,21 @@ function deleteProduce(object $pdo, int $id)
         echo "Error deleting produce log: " . $e->getMessage();
     }
 }
+
+
+
+
+function getProductCount(object $pdo)
+{
+    try {
+        $query = "SELECT COUNT(*) AS product_count FROM product;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}

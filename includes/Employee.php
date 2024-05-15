@@ -124,6 +124,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF DELETE EMPLOYEE PROCESS
 
 
+    else if (isset($data->action) && $data->action === 'getEmployeeCount') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/EmployeeModel.php';
+            require_once '../views/EmployeeView.php';
+            require_once '../controllers/EmployeeController.php';
+
+            $result = getEmployeeCount($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 } else {
     header("Location: ../index.php");
     die();

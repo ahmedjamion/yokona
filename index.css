@@ -93,19 +93,20 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
+.updates h3 {
+    padding-left: 10px;
+}
+
 .heads-up {
     font-size: 1.2rem;
-    color: black;
+    color: white;
     padding: 4px 10px;
-    border-radius: 25px;
-    background-color: #d5d5ff;
     backdrop-filter: blur(5px);
     cursor: default;
-    transition: box-shadow .3s ease-in-out;
 }
 
 .heads-up:hover {
-    box-shadow: 0 0 10px white;
+    text-shadow: 0 0 10px white;
 }
 
 .heads-up:hover i{
@@ -170,14 +171,10 @@ body {
     align-items: baseline;
     gap: 4px;
     transition-delay: 0s, .25s;
-    perspective: 1000px;
 }
 
 .tab-icon {
     width: 30px;
-    
-    transform-style: preserve-3d;
-    transform: rotateX(-10deg) rotateY(30deg);
 }
 
 .tab-button:hover {
@@ -219,7 +216,6 @@ body {
 
 .tab-content-active {
     height: calc(100dvh - 60px);
-    overflow-y: auto;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -264,11 +260,35 @@ body {
     flex-direction: column;
 }
 
-.logout-button{
+
+#logOutForm{
+    display: flex;
+    color: white;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    transition: box-shadow .3s ease-in-out;
+}
+
+.logout-info {
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 0;
+    width: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+    align-self: flex-end;
+}
+
+#logOutForm:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+#logOutForm span {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.logout-button {
     padding: 8px 12px;
     border-radius: 16px;
     border: none;
@@ -277,6 +297,7 @@ body {
     color: black;
     font-weight: bold;
     transition: filter .3s ease-in-out;
+    align-self: center;
 }
 
 .logout-button:hover{
@@ -512,7 +533,6 @@ table {
 
 th, td {
     padding: 6px;
-    white-space: nowrap;
 }
 
 tbody tr {
@@ -529,8 +549,13 @@ thead {
     border-radius: 6px 6px 0 0;
 }
 
-td, th{
+th, td{
     text-align: center;
+}
+
+td:nth-child(1) {
+    text-align: start;
+    text-wrap:balance;
 }
 
 thead, tbody, tr {
@@ -541,14 +566,15 @@ thead, tbody, tr {
 
 tbody {
     display: block;
-    max-height: calc(100dvh - 200px);
+    height: calc(100dvh - 170px);
+    overflow-y: auto;
     padding-bottom: 10px;
     background-color: white;
     border-radius: 0 0 6px 6px;
 }
 
 .c-tab-content-active tbody {
-    max-height: calc(100dvh - 220px);
+    height: calc(100dvh - 200px);
 }
 
 
@@ -884,7 +910,7 @@ form select {
 }
 
 .d-sales, .d-inv {
-    flex: 3;
+    flex: 5;
     height: 100%;
 }
 
@@ -898,14 +924,32 @@ form select {
     backdrop-filter: blur(6px);
     border-radius: 10px;
     padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    gap: 10px;
+    width: auto;
+    height: auto;
 }
 
 .dm-group {
     flex: 1;
 }
 
- .s-bar, .i-bar  {
-    flex: 2;
+.dm-group p {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #d5d5ff;
+}
+
+.dm-group i {
+    font-size: 1.5rem;
+    animation: flip 5s linear infinite;
+}
+
+ .s-bar, .i-line  {
+    flex: 1.4;
  }
 
  .s-pie, .i-pie, .m-mem {
@@ -1029,6 +1073,10 @@ input::-webkit-inner-spin-button {
         flex-direction: column;
         gap: 10px;
     }
+
+    .d-group {
+        flex-direction: column;
+    }
 }
 
 
@@ -1077,9 +1125,9 @@ input::-webkit-inner-spin-button {
 
 @keyframes flip {
     0% {
-        transform: rotateY(0deg);
+        transform: rotateY(360deg);
     }
     100% {
-        transform: rotateY(360deg);
+        transform: rotateY(0deg);
     }
 }

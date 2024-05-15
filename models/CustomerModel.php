@@ -102,3 +102,21 @@ function deleteCustomer(object $pdo, int $id)
         echo "Error deleting customer: " . $e->getMessage();
     }
 }
+
+
+
+
+function getCustomerCount(object $pdo)
+{
+    try {
+        $query = "SELECT COUNT(*) AS customer_count FROM customer;";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}

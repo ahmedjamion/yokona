@@ -145,6 +145,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF DELETE PRODUCT PROCESS
 
 
+    ///
+    else if (isset($data->action) && $data->action === 'getProductCount') {
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getProductCount($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 } else {
     header("Location: ../index.php");
     die();
