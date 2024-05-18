@@ -49,10 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } catch (PDOException $e) {
             die("Query failed: " . $e->getMessage());
         }
+    }
 
 
-        //
-    } else if (isset($data->action) && $data->action === 'getAllOrders') {
+    //
+
+    else if (isset($data->action) && $data->action === 'getAllOrders') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';
@@ -60,6 +62,122 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             require_once '../controllers/OrderController.php';
 
             $result = getAllOrders($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+    //
+
+
+    else if (isset($data->action) && $data->action === 'delete') {
+
+        $id = $data->id;
+
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/OrderModel.php';
+            require_once '../views/OrderView.php';
+            require_once '../controllers/OrderController.php';
+
+
+            // ERROR HANDLERS
+            $errors = [];
+            $success = [];
+
+            $result = getOrder($pdo, $id);
+
+            if (!$result) {
+                $errors["message"] = "Product not found.";
+            }
+
+            if ($errors) {
+                echo json_encode($errors);
+                exit;
+            } else {
+                deleteOrder($pdo, $id);
+                $success["success"] = true;
+                $success["message"] = "Product data deleted successfully";
+                echo json_encode($success);
+                exit;
+            }
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getTodaysOrderQuantity') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/OrderModel.php';
+            require_once '../views/OrderView.php';
+            require_once '../controllers/OrderController.php';
+
+            $result = getTodaysOrderQuantity($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getTodaysOrderTotal') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/OrderModel.php';
+            require_once '../views/OrderView.php';
+            require_once '../controllers/OrderController.php';
+
+            $result = getTodaysOrderTotal($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getSalesByDate') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/OrderModel.php';
+            require_once '../views/OrderView.php';
+            require_once '../controllers/OrderController.php';
+
+            $result = getSalesByDate($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getSalesBySize') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/OrderModel.php';
+            require_once '../views/OrderView.php';
+            require_once '../controllers/OrderController.php';
+
+            $result = getSalesBySize($pdo);
 
             echo json_encode($result);
             exit;

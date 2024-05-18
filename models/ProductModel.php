@@ -192,3 +192,76 @@ function getProductCount(object $pdo)
         echo "Error: " . $e->getMessage();
     }
 }
+
+
+
+function getTodaysProduceQuantity(object $pdo)
+{
+    try {
+        $query = "SELECT SUM(quantity) AS total_produce_today
+        FROM produce
+        WHERE DATE(produce_date) = CURDATE();";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+function getProduceByDate(object $pdo)
+{
+    try {
+        $query = "SELECT 
+                    DATE(produce_date) AS produce_date,
+                    SUM(quantity) AS total_quantity
+                FROM 
+                    produce
+                GROUP BY 
+                    DATE(produce_date)
+                ORDER BY 
+                    produce_date DESC
+                LIMIT 5;";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+function getProduceBySize(object $pdo)
+{
+    try {
+        $query = "SELECT 
+                    product.size,
+                    SUM(produce.quantity) AS total_quantity
+                FROM 
+                    product
+                JOIN
+                    produce
+                    ON
+                        produce.product_id = product.id
+                GROUP BY 
+                    product.size;";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}

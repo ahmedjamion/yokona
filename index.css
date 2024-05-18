@@ -63,7 +63,9 @@ body {
     position: relative;
     height: 60px;
     display: flex;
+    gap: 10px;
     align-items: center;
+    align-content: center;
     width: 100%;
     justify-content: space-between;
     padding-right: 20px;
@@ -84,42 +86,42 @@ body {
 
 
 .updates {
-    display: flex;
-    gap: 10px;
-    justify-content: end;
-    padding: 8px 10px;
-    border-radius: 25px;
-    align-items: center;
     background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.updates h3 {
-    padding-left: 10px;
+.u-content {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-wrap: nowrap;
+    padding: 10px 20px;
+    cursor: default;
 }
+
 
 .heads-up {
     font-size: 1.2rem;
     color: white;
-    padding: 4px 10px;
-    backdrop-filter: blur(5px);
-    cursor: default;
 }
 
 .heads-up:hover {
     text-shadow: 0 0 10px white;
 }
 
-.heads-up:hover i{
+.heads-up i{
     animation: flip 2s linear infinite;
 }
 
 
 .main-header .open-sidebar {
     display: none;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
     font-size: 1.8rem;
     color: white;
 }
@@ -145,6 +147,7 @@ body {
 /* MAIN TABS STYLES */
 .tabs {
     height: calc(100dvh - 60px);
+    width: 100%;
     display: flex;
 }
 
@@ -425,7 +428,7 @@ form h3 {
     gap: 10px;
     padding: 15px;
     border-radius: 10px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     transition: box-shadow .3s ease-in-out, transform .3s ease-in-out;
     transform: scale(1);
 }
@@ -434,13 +437,6 @@ form h3 {
 .login-title{
     text-align: center;
     font-weight: bold;
-}
-
-.login-errors{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: rgb(255, 150, 150);
 }
 
 .login-form{
@@ -524,7 +520,7 @@ form h3 {
 
 table {
     width: 100%;
-    table-layout: auto;
+    table-layout: fixed;
     border-radius: 6px;
     border: none;
     border-width: 0;
@@ -533,6 +529,7 @@ table {
 
 th, td {
     padding: 6px;
+    text-align: center;
 }
 
 tbody tr {
@@ -549,13 +546,11 @@ thead {
     border-radius: 6px 6px 0 0;
 }
 
-th, td{
-    text-align: center;
-}
 
 td:nth-child(1) {
     text-align: start;
-    text-wrap:balance;
+    width: auto;
+    text-wrap: nowrap;
 }
 
 thead, tbody, tr {
@@ -725,8 +720,7 @@ button {
 .modal-content {
     position: relative;
     color: white;
-    background: black;
-    outline: 3px solid #d5d5ff;
+    background: rgba(0, 0, 0, 0.8);
     padding: 14px;
     min-width: 300px;
     border-radius: 10px;
@@ -741,6 +735,19 @@ button {
     justify-content: center;
 }
 
+.submit-message {
+    position: absolute;
+    top: -50px;
+    left: 0px;
+    right: 0px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    text-wrap: pretty;
+}
+
 
 .close-modal {
     cursor: pointer;
@@ -748,8 +755,8 @@ button {
 
 .x {
     position: absolute;
-    top: -1px;
-    right: -1px;
+    top: 0px;
+    right: 0px;
     height: 30px;
     width: 30px;
     color: black;
@@ -890,38 +897,40 @@ form select {
 
 /* DASHBOARD */
 .dashboard {
-    height: 100%;
+    display: flex;
 }
 
 
 .dboard {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    gap: 10px;
     width: 100%;
     height: 100%;
-    gap: 10px;
-}
-.d-group {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    gap: 10px;
 }
 
-.d-sales, .d-inv {
-    flex: 5;
+.charts {
+    flex: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: 100%;
+}
+
+.d-group, .d-sales, .d-inv {
+    display: flex;
+    gap: 10px;
     height: 100%;
 }
 
 .d-misc {
     flex: 1;
-    height: 100%;
 }
 
 .ds-group, .di-group, .dm-group {
-    background: rgba(213, 213, 255, 0.3);
-    backdrop-filter: blur(6px);
+    background: rgba(213, 213, 255, 0.5);
+    backdrop-filter: blur(10px);
     border-radius: 10px;
     padding: 10px;
     display: flex;
@@ -929,8 +938,15 @@ form select {
     justify-content: center;
     color: white;
     gap: 10px;
-    width: auto;
-    height: auto;
+    height: 100%;
+}
+
+.s-line, .i-bar {
+    flex: 1.5;
+}
+
+.s-pie, .i-pie {
+    flex: 1;
 }
 
 .dm-group {
@@ -948,14 +964,6 @@ form select {
     animation: flip 5s linear infinite;
 }
 
- .s-bar, .i-line  {
-    flex: 1.4;
- }
-
- .s-pie, .i-pie, .m-mem {
-    flex: 1;
- }
-
 
 /* REMOVE NUMBER INPUT ARROWS */
 /* Chrome, Safari, Edge, Opera */
@@ -970,16 +978,6 @@ input::-webkit-inner-spin-button {
 
 
 /* FOR DIFFERENT SCREEN SIZES */
-@media screen and (max-width: 1240px) {
-    .updates #orders-today,
-    .updates #sales-today,
-    .updates #produce-today {
-        display: none;
-    }
-}
-
-
-
 @media screen and (max-width: 600px) {
     .add-button .button-text {
         display: none;
@@ -990,12 +988,11 @@ input::-webkit-inner-spin-button {
         width: 28px;
     }
 
-    .main-header h1 {
-        width: 100%;
-        text-align: center;
+    .main-header {
+        padding: 6px;
     }
 
-    .updates {
+    .main-header h1 {
         display: none;
     }
 
@@ -1033,17 +1030,11 @@ input::-webkit-inner-spin-button {
     .tab-content-active {
         padding: 2px 6px 6px 6px;
     }
-
-
-
 }
 
 
 
 @media screen and (max-width: 960px) {
-    .updates #date {
-        display: none;
-    }
 
     thead{
         display: none;
@@ -1053,6 +1044,7 @@ input::-webkit-inner-spin-button {
         flex-direction: column;
         border-radius: 10px;
         background: white;
+        width: 100%;
     }
     tbody tr:hover{
         background-color: white;
@@ -1066,6 +1058,8 @@ input::-webkit-inner-spin-button {
     tbody td:nth-child(1) {
         background-color: #d5d5ff;
         font-weight: bold;
+        width: auto;
+        text-wrap: nowrap;
     }
     tbody{
         background: none;
@@ -1074,8 +1068,38 @@ input::-webkit-inner-spin-button {
         gap: 10px;
     }
 
-    .d-group {
+    .dboard {
+        flex-direction: row;
+    }
+
+    .charts {
+        flex: 4;
+    }
+
+    .d-misc {
+        flex: 1;
         flex-direction: column;
+    }
+
+    .d-sales, .d-inv {
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .dm-group {
+        flex-direction: column;
+    }
+
+    .dm-group h3 {
+        font-size: .8rem;
+    }
+
+    .ds-group, .di-group {
+        flex: 1;
+    }
+
+    .u-content { 
+        animation: moveText 20s linear infinite;
     }
 }
 
@@ -1131,3 +1155,12 @@ input::-webkit-inner-spin-button {
         transform: rotateY(0deg);
     }
 }
+
+@keyframes moveText {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+  }

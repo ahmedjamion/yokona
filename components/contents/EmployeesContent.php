@@ -42,6 +42,8 @@ require_once './views/EmployeeView.php';
 <div class="modal" id="addEmployee">
     <!-- EMPLOYEE FORM CONTAINER -->
     <div class="modal-content">
+        <div class="submit-message" style="display: none; opacity: 0;">
+        </div>
 
         <div class="modal-header">
             <h4>Employee Details</h4>

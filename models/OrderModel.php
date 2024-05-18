@@ -31,10 +31,10 @@ function getAllOrders(object $pdo)
 
 
 //GET A CUSTOMER FROM THE DATABASE
-function getCustomer(object $pdo, int $id)
+function getOrder(object $pdo, int $id)
 {
     try {
-        $query = "SELECT * FROM customer WHERE id = :id;";
+        $query = "SELECT * FROM `order` WHERE id = :id;";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(":id", $id);
@@ -43,7 +43,7 @@ function getCustomer(object $pdo, int $id)
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         return $result;
     } catch (PDOException $e) {
-        echo "Error deleting customer data: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
     }
 }
 
@@ -109,15 +109,117 @@ function updateCustomer(object $pdo, int $id, string $firstName, string $lastNam
 
 
 // DELETE AN CUSTOMER FROM THE DATABASE
-function deleteCustomer(object $pdo, int $id)
+function deleteOrder(object $pdo, int $id)
 {
     try {
-        $query = "DELETE FROM customer WHERE id = :id;";
+        $query = "DELETE FROM `order` WHERE id = :id;";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(":id", $id);
         $stmt->execute();
     } catch (PDOException $e) {
-        echo "Error deleting customer: " . $e->getMessage();
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+function getTodaysOrderQuantity(object $pdo)
+{
+    try {
+        $query = "SELECT SUM(quantity) AS total_quantity_today
+        FROM order_item
+        JOIN `order` ON order_item.order_id = order.id
+        WHERE DATE(date_created) = CURDATE();";
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+function getTodaysOrderTotal(object $pdo)
+{
+    try {
+        $query = "SELECT
+                    SUM(sub_total) AS total_sales_today
+                FROM
+                    order_item
+                JOIN
+                    `order` ON order_item.order_id = order.id
+                WHERE DATE
+                    (date_created) = CURDATE();";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchColumn();
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+function getSalesByDate(object $pdo)
+{
+    try {
+        $query = "SELECT 
+                    DATE(`order`.date_created) AS date_created,
+                    SUM(order_item.sub_total) AS total_sales
+                FROM 
+                    `order`
+                JOIN
+                    order_item
+                    ON
+                    order_item.order_id = `order`.id
+                GROUP BY 
+                    DATE(`order`.date_created)
+                ORDER BY 
+                    `order`.date_created DESC
+                LIMIT 5;";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
+
+
+
+function getSalesBySize(object $pdo)
+{
+    try {
+        $query = "SELECT 
+                    product.size,
+                    SUM(order_item.sub_total) AS total_sales
+                FROM 
+                    product
+                JOIN
+                    order_item
+                    ON
+                    order_item.product_id = product.id
+                GROUP BY 
+                    product.size";
+
+        $stmt = $pdo->prepare($query);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
     }
 }

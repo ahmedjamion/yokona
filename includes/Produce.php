@@ -117,6 +117,63 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             die("Query failed: " . $e->getMessage());
         }
     }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getTodaysProduceQuantity') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getTodaysProduceQuantity($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getProduceByDate') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getProduceByDate($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
+
+
+    //
+
+    else if (isset($data->action) && $data->action === 'getProduceBySize') {
+        try {
+            require_once '../config/Database.php';
+            require_once '../models/ProductModel.php';
+            require_once '../views/ProductView.php';
+            require_once '../controllers/ProductController.php';
+
+            $result = getProduceBySize($pdo);
+
+            echo json_encode($result);
+            exit;
+        } catch (PDOException $e) {
+            die("Query failed: " . $e->getMessage());
+        }
+    }
 } else {
     header("Location: ../index.php");
     die();

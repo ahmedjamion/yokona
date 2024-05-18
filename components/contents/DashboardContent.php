@@ -4,21 +4,22 @@
 <div class="c-container dashboard">
 
     <div class="dboard">
-        <div class="d-group d-sales">
-            <div class="ds-group s-bar">
-                <canvas id="sales-bar"></canvas>
+        <div class="charts">
+            <div class="d-sales">
+                <div class="ds-group s-line">
+                    <canvas id="sales-line" style="max-height: 100%; max-width: 100%;"></canvas>
+                </div>
+                <div class="ds-group s-pie">
+                    <canvas id="sales-pie" style="max-height: 100%; max-width: 100%;"></canvas>
+                </div>
             </div>
-            <div class="ds-group s-pie">
-                <canvas id="sales-pie"></canvas>
-            </div>
-        </div>
-
-        <div class="d-group d-inv">
-            <div class="di-group i-pie">
-                <canvas id="prod-pie"></canvas>
-            </div>
-            <div class="di-group i-line">
-                <canvas id="prod-line"></canvas>
+            <div class="d-inv">
+                <div class="di-group i-pie">
+                    <canvas id="prod-pie" style="max-height: 100%; max-width: 100%;"></canvas>
+                </div>
+                <div class="di-group i-bar">
+                    <canvas id="prod-bar" style="max-height: 100%; max-width: 100%;"></canvas>
+                </div>
             </div>
         </div>
 
@@ -44,5 +45,6 @@
                 <i class="fa-solid fa-user"></i>
             </div>
         </div>
+
     </div>
 </div>

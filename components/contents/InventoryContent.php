@@ -67,6 +67,8 @@ require_once './views/ProductView.php';
     <div class="modal" id="addProduct">
         <!-- ADD PRODUCT FORM CONTAINER -->
         <div class="modal-content">
+            <div class="submit-message" style="display: none; opacity: 0;">
+            </div>
 
             <div class="modal-header">
                 <h4>Product Details</h4>
@@ -162,6 +164,8 @@ require_once './views/ProductView.php';
 
     <div class="modal" id="logProduce">
         <div class="modal-content">
+            <div class="submit-message" style="display: none; opacity: 0;">
+            </div>
 
             <div class="modal-header">
                 <h4>Log Details</h4>

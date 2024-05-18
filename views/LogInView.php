@@ -13,9 +13,26 @@ function logInErrors()
     if (isset($_SESSION["logInErrors"])) {
         $errors = $_SESSION["logInErrors"];
 
-        foreach ($errors as $error) {
-            echo $error;
-            echo '</br>';
+        if ($errors) {
+            foreach ($errors as $error) {
+                echo $error;
+                echo '</br>';
+            }
+        } else {
+            echo "";
+        }
+
+        unset($_SESSION["logInErrors"]);
+    }
+}
+
+function getErrors()
+{
+    if (isset($_SESSION["logInErrors"])) {
+        $errors = $_SESSION["logInErrors"];
+
+        if ($errors) {
+            echo json_encode($errors);
         }
 
         unset($_SESSION["logInErrors"]);

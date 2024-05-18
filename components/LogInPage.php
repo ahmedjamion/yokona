@@ -1,4 +1,8 @@
-<?php require_once './views/LogInView.php' ?>
+<?php
+
+require_once './views/LogInView.php'
+
+?>
 
 <!-- LOG IN PAGE -->
 
@@ -10,14 +14,27 @@
         position: fixed;
         bottom: 10px;
     }
+
+    .login-errors {
+        position: absolute;
+        top: -70px;
+        left: 0px;
+        right: 0px;
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        text-wrap: pretty;
+    }
 </style>
 
 <div class="login-page">
     <div class="login-container">
         <h3 class="login-title">Log In</h3>
-        <p class="login-errors">
-            <?php logInErrors() ?>
-        </p>
+        <div class="login-errors" style="display: none; opacity: 0;">
+            <?php echo logInErrors(); ?>
+        </div>
         <!-- LOG IN FORM -->
         <form class="login-form" id="loginForm" action="./includes/LogIn.php" method="post">
             <div class="input-group">
@@ -42,26 +59,42 @@
 </div>
 
 <script>
-    const loginErrors = document.querySelector('.login-errors');
-    if (loginErrors !== '') {
-        setTimeout(() => {
-            loginErrors.innerHTML = '';
-        }, 3000);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginErrors = document.querySelector('.login-errors');
+
+        loginErrors.style.color = 'lightsalmon';
+
+        if (loginErrors.innerText.trim() === '') {
+            loginErrors.style.display = 'none';
+            loginErrors.style.opacity = '0';
+        } else {
+            loginErrors.style.display = 'block';
+            loginErrors.style.opacity = '1';
+            loginErrors.style.animation = 'appear .25s';
+            setTimeout(() => {
+                setTimeout(() => {
+                    loginErrors.style.display = 'none';
+                }, 250);
+                loginErrors.style.opacity = '0';
+                loginErrors.style.animation = 'disappear .25s';
+            }, 3000);
+        }
 
 
-    const container = document.querySelector('.login-container');
 
-    const inputs = document.querySelectorAll('.login-input');
+        const container = document.querySelector('.login-container');
 
-    inputs.forEach((input) => {
-        input.addEventListener('focus', () => {
-            container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
-            container.style.transform = 'scale(1.05)';
+        const inputs = document.querySelectorAll('.login-input');
+
+        inputs.forEach((input) => {
+            input.addEventListener('focus', () => {
+                container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
+                container.style.transform = 'scale(1.05)';
+            })
+            input.addEventListener('blur', () => {
+                container.style.boxShadow = 'none';
+                container.style.transform = 'scale(1)';
+            });
         })
-        input.addEventListener('blur', () => {
-            container.style.boxShadow = 'none';
-            container.style.transform = 'scale(1)';
-        });
     })
 </script>

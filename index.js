@@ -1,7 +1,6 @@
 // SCRIPTS
 
 
-console.log('user id: ', userId);
 
 
 // LINKS TO PHP
@@ -23,10 +22,158 @@ const produceForm = document.getElementById('produce-form');
 const orderForm = document.getElementById('order-form');
 
 
-document.addEventListener('DOMContentLoaded', (e) => {
+
+
+// HANDLE FORM SUBMISSION
+
+function handleFormSubmit(e, url, getData, createTable, action, element, callback) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    formData.append(e.submitter.name, e.submitter.value);
+    const data = Object.fromEntries(formData.entries());
+    console.log(data);
+
+    submitForm(data, url, getData, createTable, action, element, callback);
+}
+
+
+const customerFormCallback = () => {
+    getAllData(custUrl, createCustomersCards, 'getAllCustomers');
+    updateCount(custUrl, 'getCustomerCount', custCount);
+};
+
+const employeeFormCallback = () => {
+    showEmpSelect();
+    updateCount(empUrl, 'getEmployeeCount', empCount);
+};
+
+const productFormCallback = () => {
+    getAllData(prodUrl, createItemsCards, 'getAllProducts');
+    getAllData(prodUrl, createProductsCards, 'getAllProducts');
+    updateCount(prodUrl, 'getProductCount', prodCount);
+};
+
+const produceFormCallback = () => {
+    updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
+};
+
+const userFormCallback = () => {
+    updateCount(userUrl, 'getUserCount', useCount);
+}
+
+
+
+
+customerForm.addEventListener('submit', (e) => handleFormSubmit(e, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm, customerFormCallback));
+customerForm1.addEventListener('submit', (e) => handleFormSubmit(e, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm1, customerFormCallback));
+employeeForm.addEventListener('submit', (e) => handleFormSubmit(e, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm, employeeFormCallback));
+productForm.addEventListener('submit', (e) => handleFormSubmit(e, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm, productFormCallback));
+produceForm.addEventListener('submit', (e) => handleFormSubmit(e, produceUrl, getAllData, createProduceTable, 'getAllProduce', produceForm, produceFormCallback));
+userForm.addEventListener('submit', (e) => handleFormSubmit(e, userUrl, getAllData, createUsersTable, 'getAllUsers', userForm, userFormCallback));
+
+
+orderForm.addEventListener('submit', function (e) {
     e.preventDefault();
 
+    const orderUserId = userId;
+    const ordCustId = addOrder.querySelector('.custId').value;
 
+    const data = {};
+
+    data.user_id = orderUserId;
+    data.customer_id = ordCustId;
+
+    const submitButton = orderForm.querySelector('button[type="submit"]');
+    data.action = submitButton.value;
+
+
+    const itemInputs = document.querySelectorAll('.item-input');
+    data.items = [];
+
+    itemInputs.forEach(itemInput => {
+        const productId = itemInput.querySelector('.productId').value;
+        const itemPrice = itemInput.querySelector('.itemPrice').value;
+        const itemQuantity = itemInput.querySelector('.itemQuantity').value;
+        const subTotal = itemInput.querySelector('.subTotal').value;
+
+        data.items.push({
+            prod_id: productId,
+            price: itemPrice,
+            quantity: itemQuantity,
+            sub_total: subTotal
+        });
+    });
+
+
+    console.log('order data: ', data);
+
+    const submitCallback = () => {
+        updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
+        updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
+    };
+
+
+    submitForm(data, orderUrl, getAllData, createOrderTable, 'getAllOrders', orderForm, submitCallback);
+});
+
+
+
+
+
+const mainComponent = document.getElementById('main-component');
+
+mainComponent.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    if (e.target.classList.contains('action-form')) {
+        console.log(e.target);
+
+        const form = e.target.closest(".action-form");
+
+        const url = form.getAttribute('action');
+
+        const formData = new FormData(e.target);
+        formData.append(e.submitter.name, e.submitter.value);
+        const data = Object.fromEntries(formData.entries());
+
+        submitAction(data, url);
+    }
+});
+
+
+
+
+// FUNCTIONS FOR CREATING TABLES
+function showCustomers() {
+    getAllData(custUrl, createCustomersTable, 'getAllCustomers');
+}
+
+function showEmployees() {
+    getAllData(empUrl, createEmployeesTable, 'getAllEmployees');
+}
+
+function showProducts() {
+    getAllData(prodUrl, createProductsTable, 'getAllProducts');
+}
+
+function showProduces() {
+    getAllData(produceUrl, createProduceTable, 'getAllProduce');
+}
+
+function showUsers() {
+    getAllData(userUrl, createUsersTable, 'getAllUsers');
+}
+
+function showOrders() {
+    getAllData(orderUrl, createOrderTable, 'getAllOrders');
+}
+
+function showEmpSelect() {
+    getAllData(empUrl, createEmployeeSelect, 'getAllEmployees');
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
     // CREATING TABLES
     showCustomers();
     showEmployees();
@@ -35,154 +182,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     showProduces();
     showOrders();
     showEmpSelect();
-
-
-    // HANDLE FORM SUBMIT
-    customerForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-        const submitCallback = () => {
-            getAllData(custUrl, createCustomersCards, 'getAllCustomers');
-            updateCount(custUrl, 'getCustomerCount', custCount);
-        };
-        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm, submitCallback);
-    });
-
-    customerForm1.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-
-        const submitCallback = () => {
-            getAllData(custUrl, createCustomersCards, 'getAllCustomers');
-            updateCount(custUrl, 'getCustomerCount', custCount);
-        };
-
-        submitForm(data, custUrl, getAllData, createCustomersTable, 'getAllCustomers', customerForm1, submitCallback);
-    });
-
-
-    employeeForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-
-        const submitCallback = () => {
-            showEmpSelect();
-
-            updateCount(empUrl, 'getEmployeeCount', empCount);
-        };
-
-        submitForm(data, empUrl, getAllData, createEmployeesTable, 'getAllEmployees', employeeForm, submitCallback);
-    });
-
-
-    productForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-
-        const submitCallback = () => {
-            getAllData(prodUrl, createItemsCards, 'getAllProducts');
-            getAllData(prodUrl, createProductsCards, 'getAllProducts');
-
-            updateCount(prodUrl, 'getProductCount', prodCount);
-        };
-        submitForm(data, prodUrl, getAllData, createProductsTable, 'getAllProducts', productForm, submitCallback);
-    });
-
-    produceForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-        submitForm(data, produceUrl, getAllData, createProduceTable, 'getAllProduce', produceForm);
-    });
-
-
-    orderForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        const orderUserId = userId;
-        const ordCustId = addOrder.querySelector('.custId').value;
-
-        const data = {};
-
-        data.user_id = orderUserId;
-        data.customer_id = ordCustId;
-
-        const submitButton = orderForm.querySelector('button[type="submit"]');
-        data.action = submitButton.value;
-
-
-        const itemInputs = document.querySelectorAll('.item-input');
-        data.items = [];
-
-        itemInputs.forEach(itemInput => {
-            const productId = itemInput.querySelector('.productId').value;
-            const itemPrice = itemInput.querySelector('.itemPrice').value;
-            const itemQuantity = itemInput.querySelector('.itemQuantity').value;
-            const subTotal = itemInput.querySelector('.subTotal').value;
-
-            data.items.push({
-                prod_id: productId,
-                price: itemPrice,
-                quantity: itemQuantity,
-                sub_total: subTotal
-            });
-        });
-
-
-        console.log('order data: ', data);
-
-
-        submitForm(data, orderUrl, getAllData, createOrderTable, 'getAllOrders', orderForm);
-    });
-
-
-    userForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
-        console.log(data);
-        const submitCallback = () => {
-            updateCount(userUrl, 'getUserCount', useCount);
-        }
-        submitForm(data, userUrl, getAllData, createUsersTable, 'getAllUsers', userForm, submitCallback);
-    });
-
-
-
-    const mainComponent = document.getElementById('main-component');
-
-    mainComponent.addEventListener("submit", (e) => {
-        e.preventDefault();
-
-        if (e.target.classList.contains('action-form')) {
-            console.log(e.target);
-
-            const form = e.target.closest(".action-form");
-
-            const url = form.getAttribute('action');
-
-            const formData = new FormData(e.target);
-            formData.append(e.submitter.name, e.submitter.value);
-            const data = Object.fromEntries(formData.entries());
-
-            submitAction(data, url);
-        }
-    });
 });
 
 
@@ -190,7 +189,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
 
 // SUBMIT FORM PROCESS AND UPDATE TABLE
-async function submitForm(data, url, callback, callbackFunction, value, form, submitCallback) {
+async function submitForm(data, url, getData, createTable, action, form, submitCallback) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -208,36 +207,46 @@ async function submitForm(data, url, callback, callbackFunction, value, form, su
         console.log(response);
         console.log(result);
 
-        if (callback) {
-            callback(url, callbackFunction, value);
+        if (getData) {
+            getData(url, createTable, action);
         }
 
-
-        const message = document.createElement('p');
-        message.textContent = result.message;
-        message.style.textAlign = 'center';
 
 
         const modalContent = form.parentElement;
         const modal = modalContent.parentElement;
 
+        const message = modal.querySelector('.submit-message');
+        message.innerHTML = result.message;
+
+
 
         if (result.success === true) {
 
-            message.style.color = 'green';
-            modalContent.appendChild(message);
+            message.style.display = 'block';
+            message.style.opacity = '1';
+            message.style.color = 'lightgreen';
+            message.style.animation = 'appear .25s';
 
             setTimeout(() => {
-                //hideModal(modal);
-                message.remove();
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 250);
+                message.style.animation = 'disappear .25s';
             }, 3000);
         } else {
-
-            message.style.color = 'red';
-            modalContent.appendChild(message);
+            message.style.display = 'block';
+            message.style.opacity = '1';
+            message.style.color = 'lightsalmon';
+            message.style.animation = 'appear .25s';
 
             setTimeout(() => {
-                message.remove();
+                message.style.opacity = '0';
+                setTimeout(() => {
+                    message.style.display = 'none';
+                }, 250);
+                message.style.animation = 'disappear .25s';
             }, 3000);
         }
 
@@ -291,16 +300,23 @@ async function submitAction(data, url) {
                     showProducts();
                     getAllData(prodUrl, createItemsCards, 'getAllProducts');
                     getAllData(prodUrl, createProductsCards, 'getAllProducts');
-                    updateProductCount(prodUrl, 'getProductCount', prodCount);
+                    updateCount(prodUrl, 'getProductCount', prodCount);
                     break;
 
                 case 'includes/Produce.php':
                     showProduces();
+                    updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
                     break;
 
                 case 'includes/User.php':
                     showUsers();
                     updateCount(userUrl, 'getUserCount', useCount);
+                    break;
+
+                case 'includes/Order.php':
+                    showOrders();
+                    updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
+                    updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
                     break;
 
                 default:
@@ -314,36 +330,6 @@ async function submitAction(data, url) {
 }
 
 
-
-
-// FUNCTIONS FOR CREATING TABLES
-function showCustomers() {
-    getAllData(custUrl, createCustomersTable, 'getAllCustomers');
-}
-
-function showEmployees() {
-    getAllData(empUrl, createEmployeesTable, 'getAllEmployees');
-}
-
-function showProducts() {
-    getAllData(prodUrl, createProductsTable, 'getAllProducts');
-}
-
-function showProduces() {
-    getAllData(produceUrl, createProduceTable, 'getAllProduce');
-}
-
-function showUsers() {
-    getAllData(userUrl, createUsersTable, 'getAllUsers');
-}
-
-function showOrders() {
-    getAllData(orderUrl, createOrderTable, 'getAllOrders');
-}
-
-function showEmpSelect() {
-    getAllData(empUrl, createEmployeeSelect, 'getAllEmployees');
-}
 
 
 
@@ -574,7 +560,7 @@ function createProduceTable(data) {
 
 
 
-
+// CREATE ORDER TABLE
 function createOrderTable(data) {
     const tableBody = document.getElementById('or-body');
     tableBody.innerHTML = '';
@@ -643,6 +629,11 @@ function createUsersTable(data) {
 
 
 
+
+
+
+
+
 // PRODUCE LOGS
 const productSelection = document.querySelector('.product-selection');
 const productId = document.getElementById('pp-id');
@@ -659,10 +650,10 @@ function createProductsCards(data) {
         const cardContent = `
             <div class="product-details">
                 <h3>${product.name}</h3>
-                <p>Size: ${product.size}</p>
-                <p>Type: ${product.type}</p>
-                <p>Tray Size: ${product.tray_size}</p>
-                <p>Price: ${product.price}</p>
+                <p>${product.size}</p>
+                <p>${product.type}</p>
+                <p>${product.tray_size}/tray</p>
+                <p>Php. ${product.price}</p>
             </div>
         `;
         card.innerHTML = cardContent;
@@ -721,6 +712,11 @@ productId.addEventListener('input', () => {
 document.addEventListener('DOMContentLoaded', () => {
     getAllData(prodUrl, createProductsCards, 'getAllProducts');
 });
+
+
+
+
+
 
 
 
@@ -802,7 +798,7 @@ customerId.addEventListener('input', () => {
 
 
 
-// PRODUCE LOGS
+// PRODUCT SELECTION
 const itemSelection = document.querySelector('.item-selection');
 const orderItems = document.querySelector('.order-items');
 
@@ -925,6 +921,12 @@ function showOrderTotals() {
 
     orderPrice.innerText = totalP;
 }
+
+
+
+
+
+
 
 
 
@@ -1086,6 +1088,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+
+
+
 // MOBILE SIDEBAR
 const openSidebarIcon = document.querySelector('.open-sidebar');
 const closeSidebarIcon = document.querySelector('.close-sidebar');
@@ -1101,12 +1106,11 @@ closeSidebarIcon.addEventListener('click', () => {
     closeSidebar();
 })
 
-// Add event listener to the window
+
 window.addEventListener('click', function (event) {
-    // Check if the clicked element is not part of the sidebar or its toggle buttons
     if (!sideBar.contains(event.target) && event.target !== openSidebarIcon && event.target !== closeSidebarIcon && sidebarOpen) {
-        closeSidebar(sideBar); // Close the sidebar if it's open
-        sidebarOpen = false; // Update the flag
+        closeSidebar(sideBar);
+        sidebarOpen = false;
     }
 });
 
@@ -1129,6 +1133,11 @@ function closeSidebar() {
     }
     sidebarOpen = false;
 }
+
+
+
+
+
 
 
 
@@ -1170,6 +1179,9 @@ async function logOut() {
 }
 
 
+
+
+// FUNCTION TO UPDATE DATE AND CLOCK DISPLAY
 function updateClock() {
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
@@ -1193,234 +1205,276 @@ setInterval(updateClock, 1000);
 
 
 
-const salesBar = document.getElementById('sales-bar');
 
-var salesBarX = ["Italy", "France", "Spain", "USA", "Argentina"];
-var salesBArY = [55, 49, 44, 24, 15];
+// DASHBOARD GRAPHS
 
-new Chart(salesBar, {
-    type: "bar",
-    data: {
-        labels: salesBarX,
-        datasets: [{
-            backgroundColor: '#d5d5ff',
-            data: salesBArY
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: false,
-                labels: {
-                    color: "white", // Change legend label font color
-                }
-            },
-            title: {
-                display: true,
-                text: "Sales",
-                color: "white", // Change chart title font color
-            }
+
+// SALES LINE GRAPH
+async function setUpSalesLIne() {
+    const salesLine = document.getElementById('sales-line');
+
+    const salesLineData = await getGraphData(orderUrl, "getSalesByDate");
+    salesLineData.sort((a, b) => new Date(a.produce_date) - new Date(b.produce_date));
+
+    const salesLineX = salesLineData.map(item => item.date_created);
+    const salesLineY = salesLineData.map(item => parseInt(item.total_sales));
+
+    new Chart(salesLine, {
+        type: "line",
+        data: {
+            labels: salesLineX,
+            datasets: [{
+                fill: true,
+                backgroundColor: "#d5d5ff",
+                pointBackgroundColor: "#2b5797",
+                borderWidth: 0,
+                data: salesLineY,
+            }]
         },
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                ticks: {
-                    // Change y-axis tick font color
-                    color: 'white'
+        options: {
+            plugins: {
+                legend: {
+                    borderWidth: '0',
+                    borderColor: 'red',
+                    display: false,
+                    labels: {
+                        color: "white",
+                        text: "Amounts",
+                    }
                 },
-                grid: {
-                    color: 'transparent'
+                title: {
+                    display: true,
+                    text: "Sales",
+                    color: "white"
                 }
             },
-            x: {
-                ticks: {
-                    // Change x-axis tick font color
-                    color: 'white',
+            responsive: true,
+            maintainAspectRatio: false,
+            animations: {
+                tension: {
+                    duration: 1000,
+                    easing: 'linear',
+                    from: .5,
+                    to: 0,
+                    loop: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        // Change y-axis tick font color
+                        color: 'white'
+                    },
+                    grid: {
+                        color: 'transparent'
+                    }
                 },
-                grid: {
-                    color: 'transparent',
-                    backgroundColor: 'white'
+                x: {
+                    ticks: {
+                        // Change x-axis tick font color
+                        color: 'white',
+                    },
+                    grid: {
+                        color: 'transparent'
+                    }
                 }
             }
         }
-    }
-});
+    });
+}
 
 
 
 
 
-const salesPie = document.getElementById('sales-pie');
-var salesPieX = ["Italy", "France", "Spain", "USA", "Argentina"];
-var salesPieY = [55, 49, 44, 24, 15];
-var barColors = [
-    "#b91d47",
-    "#00aba9",
-    "#2b5797",
-    "#e8c3b9",
-    "#1e7145"
-];
+// SALES PIE CHART
+async function setUpSalesPie() {
+    const salesPie = document.getElementById('sales-pie');
 
-new Chart(salesPie, {
-    type: "pie",
-    data: {
-        labels: salesPieX,
-        datasets: [{
-            backgroundColor: barColors,
-            data: salesPieY,
-            borderWidth: '0',
-            borderColor: 'transparent'
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'right',
-                align: 'center',
-                labels: {
-                    color: "white", // Change legend label font color
-                }
-            },
-            title: {
-                display: true,
-                text: "Sales",
-                color: "white", // Change chart title font color
-            }
-        },
-        aspectRatio: 2,
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
+    const salesPieData = await getGraphData(orderUrl, "getSalesBySize");
 
+    const salesPieX = salesPieData.map(item => item.size);
+    const salesPieY = salesPieData.map(item => parseFloat(item.total_sales));
 
+    var barColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+    ];
 
-
-const prodLine = document.getElementById('prod-line');
-const prodLineX = [50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150];
-const prodLineY = [7, 8, 8, 9, 9, 9, 10, 11, 14, 14, 15];
-
-new Chart(prodLine, {
-    type: "line",
-    data: {
-        labels: prodLineX,
-        datasets: [{
-            fill: true,
-            backgroundColor: "#d5d5ff",
-            pointBackgroundColor: "#2b5797",
-            borderWidth: 0,
-            data: prodLineY,
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
+    new Chart(salesPie, {
+        type: "pie",
+        data: {
+            labels: salesPieX,
+            datasets: [{
+                backgroundColor: barColors,
+                data: salesPieY,
                 borderWidth: '0',
-                borderColor: 'red',
-                display: false,
-                labels: {
-                    color: "white",
-                    text: "Amounts",
+                borderColor: 'transparent'
+            }]
+        },
+        options: {
+            animation: {
+                animateRotate: true, // Animate rotation
+                animateScale: true // Animate scaling
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right',
+                    align: 'center',
+                    labels: {
+                        color: "white", // Change legend label font color
+                    }
+                },
+                title: {
+                    display: true,
+                    text: "Sales",
+                    color: "white", // Change chart title font color
                 }
             },
-            title: {
-                display: true,
-                text: "Production",
-                color: "white"
-            }
+            aspectRatio: 2,
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+
+
+
+
+async function setUpProdPie() {
+    const prodPie = document.getElementById('prod-pie');
+
+
+    const prodPieData = await getGraphData(produceUrl, "getProduceBySize");
+
+
+    const prodPieX = prodPieData.map(item => item.size);
+    const prodPieY = prodPieData.map(item => parseInt(item.total_quantity));
+
+
+    var pieColors = [
+        "#b91d47",
+        "#00aba9",
+        "#2b5797",
+        "#e8c3b9",
+        "#1e7145"
+    ];
+
+    new Chart(prodPie, {
+        type: "doughnut",
+        data: {
+            labels: prodPieX,
+            datasets: [{
+                backgroundColor: pieColors,
+                data: prodPieY,
+                borderWidth: '0',
+                borderColor: 'transparent'
+            }]
         },
-        responsive: true,
-        maintainAspectRatio: false,
-        animations: {
-            tension: {
-                duration: 1000,
-                easing: 'linear',
-                from: .5,
-                to: 0,
-                loop: true
-            }
-        },
-        scales: {
-            y: {
-                ticks: {
-                    // Change y-axis tick font color
-                    color: 'white'
+        options: {
+            animation: {
+                animateRotate: true, // Animate rotation
+                animateScale: true // Animate scaling
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'left',
+                    align: 'center',
+                    labels: {
+                        color: "white", // Change legend label font color
+                    }
                 },
-                grid: {
-                    color: 'transparent'
+                title: {
+                    display: true,
+                    text: "Production",
+                    color: "white", // Change chart title font color
                 }
             },
-            x: {
-                ticks: {
-                    // Change x-axis tick font color
-                    color: 'white',
+            aspectRatio: 2,
+            responsive: true,
+            maintainAspectRatio: false
+        }
+    });
+}
+
+
+
+
+
+// PRODUCTION BAR GRAPH
+async function setUpProdBar() {
+    const prodBar = document.getElementById('prod-bar');
+    const prodBarData = await getGraphData(produceUrl, "getProduceByDate");
+
+
+    prodBarData.sort((a, b) => new Date(a.produce_date) - new Date(b.produce_date));
+
+    const prodBarX = prodBarData.map(item => item.produce_date);
+    const prodBarY = prodBarData.map(item => parseInt(item.total_quantity));
+
+
+    new Chart(prodBar, {
+        type: "bar",
+        data: {
+            labels: prodBarX,
+            datasets: [{
+                backgroundColor: '#d5d5ff',
+                data: prodBarY
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false,
+                    labels: {
+                        color: "white", // Change legend label font color
+                    }
                 },
-                grid: {
-                    color: 'transparent',
-                    backgroundColor: 'white'
+                title: {
+                    display: true,
+                    text: "Production",
+                    color: "white", // Change chart title font color
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    ticks: {
+                        // Change y-axis tick font color
+                        color: 'white'
+                    },
+                    grid: {
+                        color: 'transparent'
+                    }
+                },
+                x: {
+                    ticks: {
+                        // Change x-axis tick font color
+                        color: 'white',
+                    },
+                    grid: {
+                        color: 'transparent',
+                        backgroundColor: 'white'
+                    }
                 }
             }
         }
-    }
-});
+    });
+}
 
 
 
 
-const prodPie = document.getElementById('prod-pie');
-var prodPieX = ["Italy", "France", "Spain", "USA", "Argentina"];
-var prodPieY = [55, 49, 44, 24, 15];
-var pieColors = [
-    "#b91d47",
-    "#00aba9",
-    "#2b5797",
-    "#e8c3b9",
-    "#1e7145"
-];
-
-new Chart(prodPie, {
-    type: "doughnut",
-    data: {
-        labels: prodPieX,
-        datasets: [{
-            backgroundColor: pieColors,
-            data: prodPieY,
-            borderWidth: '0',
-            borderColor: 'transparent'
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'left',
-                align: 'center',
-                labels: {
-                    color: "white", // Change legend label font color
-                }
-            },
-            title: {
-                display: true,
-                text: "Production",
-                color: "white", // Change chart title font color
-            }
-        },
-        aspectRatio: 2,
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
-
-
-const prodCount = document.getElementById('d-prod');
-const custCount = document.getElementById('d-cust');
-const empCount = document.getElementById('d-emp');
-const useCount = document.getElementById('d-use');
-
-
-async function updateCount(url, action, count) {
+// FUNCTION THAT GETS GRAPH DATA FROM DATABASE
+async function getGraphData(url, action) {
     try {
         const response = await fetch(url, {
             method: 'POST',
@@ -1438,16 +1492,74 @@ async function updateCount(url, action, count) {
         console.log(response);
         console.log(result);
 
-        count.innerHTML = result;
+        return result;
 
     } catch (error) {
         console.error(error);
     }
 }
 
+
 document.addEventListener('DOMContentLoaded', () => {
+    setUpSalesLIne();
+    setUpProdBar();
+    setUpProdPie();
+    setUpSalesPie();
+})
+
+// END OF DASHBOARD GRAPHS
+
+
+
+
+
+
+
+// DASHBOARD INFOS
+
+// DASHBOARD INFO ELEMENTS
+const prodCount = document.getElementById('d-prod');
+const custCount = document.getElementById('d-cust');
+const empCount = document.getElementById('d-emp');
+const useCount = document.getElementById('d-use');
+
+const orderQ = document.querySelector('#orders-today span');
+const orderT = document.querySelector('#sales-today span');
+const prodQ = document.querySelector('#produce-today span');
+
+
+// FUNCTION THAT UPDATES INFO COUNTS
+async function updateCount(url, action, count) {
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ action: action })
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+
+        const result = await response.json();
+
+        count.innerHTML = (result) ? result : "0";
+
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// UPDATE INFO EVERY SECOND (PROBABLY NOT A GOOD IDEA)
+setInterval(() => {
     updateCount(prodUrl, 'getProductCount', prodCount);
     updateCount(custUrl, 'getCustomerCount', custCount);
     updateCount(empUrl, 'getEmployeeCount', empCount);
     updateCount(userUrl, 'getUserCount', useCount);
-})
+
+    updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
+    updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
+    updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
+}, 1000);

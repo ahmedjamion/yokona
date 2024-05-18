@@ -32,6 +32,8 @@
 <!-- ADD ORDER MODAL -->
 <div class="modal" id="addOrder">
     <div class="modal-content order">
+        <div class="submit-message" style="display: none; opacity: 0;">
+        </div>
 
         <div class="modal-header">
             <h4>Order Details</h4>
@@ -117,6 +119,8 @@
 <!-- ADD CUSTOMERS MODAL FOR ORDERS -->
 <div class="modal" id="addCustomer1">
     <div class="modal-content">
+        <div class="submit-message" style="display: none; opacity: 0;">
+        </div>
         <div class="modal-header">
             <h4>Customer Details</h4>
         </div>
