@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 15, 2024 at 03:52 PM
+-- Generation Time: May 18, 2024 at 07:04 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,8 @@ INSERT INTO `customer` (`id`, `first_name`, `last_name`, `gender`, `address`, `c
 (66, 'Albert', 'Einstein', 'Male', 'Sta. Maria', '1234', NULL),
 (67, 'Nikola', 'Tesla', 'Male', 'Putik', '4433', NULL),
 (68, 'Mike', 'Tyson', 'Male', 'Talo-talon', '5432', NULL),
-(70, 'Andrew', 'Tate', 'Male', 'Pasonanca', '2233', NULL);
+(70, 'Andrew', 'Tate', 'Male', 'Pasonanca', '2233', NULL),
+(71, 'Marie', 'Curie', 'Female', 'Pasonanca', '123123', NULL);
 
 -- --------------------------------------------------------
 
@@ -70,7 +71,8 @@ CREATE TABLE `employee` (
 
 INSERT INTO `employee` (`id`, `first_name`, `last_name`, `gender`, `address`, `contact_number`, `type_id`, `profile_picture`) VALUES
 (19, 'Jane', 'Doe', 'Female', 'Baliwasan', '1111', 1, NULL),
-(20, 'John', 'Doe', 'Male', 'San Roque', '2222', 2, NULL);
+(20, 'John', 'Doe', 'Male', 'San Roque', '2222', 2, NULL),
+(23, 'Gojo', 'Satoru', 'Male', 'Shibuya', '221122', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -136,9 +138,11 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`id`, `date_created`, `user_id`, `customer_id`, `date_paid`) VALUES
-(9, '2024-05-15 13:34:46', 13, 66, NULL),
-(10, '2024-05-15 13:37:43', 13, 67, NULL),
-(11, '2024-05-15 13:38:36', 13, 68, NULL);
+(12, '2024-05-13 08:40:23', 13, 66, NULL),
+(15, '2024-05-14 16:23:29', 13, 67, NULL),
+(16, '2024-05-15 16:30:05', 13, 70, NULL),
+(17, '2024-05-16 16:30:21', 13, 67, NULL),
+(18, '2024-05-17 16:30:35', 13, 68, NULL);
 
 -- --------------------------------------------------------
 
@@ -160,15 +164,21 @@ CREATE TABLE `order_item` (
 --
 
 INSERT INTO `order_item` (`id`, `order_id`, `product_id`, `quantity`, `unit_price`, `sub_total`) VALUES
-(16, 9, 59, 4, 200.00, 800.00),
-(17, 9, 60, 6, 180.00, 1080.00),
-(18, 9, 62, 2, 140.00, 280.00),
-(19, 10, 60, 10, 180.00, 1800.00),
-(20, 10, 61, 4, 160.00, 640.00),
-(21, 10, 62, 3, 140.00, 420.00),
-(22, 11, 62, 4, 140.00, 560.00),
-(23, 11, 61, 6, 160.00, 960.00),
-(24, 11, 59, 9, 200.00, 1800.00);
+(25, 12, 59, 9, 200.00, 1800.00),
+(26, 12, 61, 7, 160.00, 1120.00),
+(27, 12, 62, 3, 140.00, 420.00),
+(32, 15, 59, 10, 200.00, 2000.00),
+(33, 15, 61, 7, 160.00, 1120.00),
+(34, 15, 62, 3, 140.00, 420.00),
+(35, 16, 60, 6, 180.00, 1080.00),
+(36, 16, 59, 5, 200.00, 1000.00),
+(37, 16, 62, 3, 140.00, 420.00),
+(38, 17, 60, 4, 180.00, 720.00),
+(39, 17, 59, 7, 200.00, 1400.00),
+(40, 17, 62, 5, 140.00, 700.00),
+(41, 18, 60, 5, 180.00, 900.00),
+(42, 18, 59, 7, 200.00, 1400.00),
+(43, 18, 62, 4, 140.00, 560.00);
 
 -- --------------------------------------------------------
 
@@ -215,7 +225,9 @@ INSERT INTO `produce` (`id`, `quantity`, `produce_date`, `product_id`) VALUES
 (47, 123, '2024-05-07 16:00:00', 59),
 (48, 46, '2024-05-07 16:00:00', 60),
 (49, 28, '2024-05-07 16:00:00', 61),
-(50, 22, '2024-05-07 16:00:00', 62);
+(50, 22, '2024-05-07 16:00:00', 62),
+(56, 19, '2024-05-17 20:11:00', 59),
+(58, 12, '2024-05-18 21:28:00', 59);
 
 -- --------------------------------------------------------
 
@@ -289,7 +301,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `employee_id`, `username`, `password`, `role`) VALUES
 (13, 19, 'admin', '$2y$10$IKExEJtt5hI/kKN2iOiBZeaBUNxJHzLE8X9Zs9A7A1BXNbzeFjnVK', 'admin'),
-(14, 20, 'johndoe69', '$2y$12$E2pxT4IDbXonnQqFz8wnD.6D2UY2feTPUfpVon2cGe/LCXeiL5acC', 'order');
+(14, 20, 'johndoe69', '$2y$12$E2pxT4IDbXonnQqFz8wnD.6D2UY2feTPUfpVon2cGe/LCXeiL5acC', 'order'),
+(20, 23, 'strongest', '$2y$12$wOxh/43B5uiCTOQ9EUrheOPrH3TDygeoyPmt8dCdJM7xahowHgvxO', 'inventory');
 
 --
 -- Indexes for dumped tables
@@ -376,13 +389,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT for table `employee`
 --
 ALTER TABLE `employee`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `employee_type`
@@ -400,25 +413,25 @@ ALTER TABLE `house`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `order_item`
 --
 ALTER TABLE `order_item`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `produce`
 --
 ALTER TABLE `produce`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=71;
 
 --
 -- AUTO_INCREMENT for table `repair`
@@ -436,7 +449,7 @@ ALTER TABLE `supply`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- Constraints for dumped tables
