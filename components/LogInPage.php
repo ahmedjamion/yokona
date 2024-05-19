@@ -59,7 +59,31 @@ require_once './views/LogInView.php'
 </div>
 
 <script>
+    window.addEventListener('load', () => showLoadingScreen());
+
     document.addEventListener('DOMContentLoaded', () => {
+        const container = document.querySelector('.login-container');
+
+        const inputs = document.querySelectorAll('.login-input');
+
+        inputs.forEach((input) => {
+            input.addEventListener('focus', () => {
+                container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
+                container.style.transform = 'scale(1.05)';
+            })
+            input.addEventListener('blur', () => {
+                container.style.boxShadow = 'none';
+                container.style.transform = 'scale(1)';
+            });
+        });
+
+        setTimeout(() => {
+            hideLoadingScreen();
+            handleErrors();
+        }, 2000);
+    })
+
+    function handleErrors() {
         const loginErrors = document.querySelector('.login-errors');
 
         loginErrors.style.color = 'lightsalmon';
@@ -79,22 +103,5 @@ require_once './views/LogInView.php'
                 loginErrors.style.animation = 'disappear .25s';
             }, 3000);
         }
-
-
-
-        const container = document.querySelector('.login-container');
-
-        const inputs = document.querySelectorAll('.login-input');
-
-        inputs.forEach((input) => {
-            input.addEventListener('focus', () => {
-                container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
-                container.style.transform = 'scale(1.05)';
-            })
-            input.addEventListener('blur', () => {
-                container.style.boxShadow = 'none';
-                container.style.transform = 'scale(1)';
-            });
-        })
-    })
+    }
 </script>

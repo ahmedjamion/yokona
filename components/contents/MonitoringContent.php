@@ -11,11 +11,11 @@
     <!-- INNER COMPONENT NAV -->
     <div class="c-tab-nav">
 
-        <button class="c-tab-button" data-for-tab="equipments"><i class="fa-solid fa-egg"></i> Equipments</button>
+        <button class="c-tab-button" data-for-tab="house"><i class="fa-solid fa-house"></i> House</button>
 
-        <button class="c-tab-button" data-for-tab="supplies"><i class="fa-solid fa-calendar-check"></i> Supplies</button>
+        <button class="c-tab-button" data-for-tab="supplies"><i class="fa-solid fa-boxes-packing"></i> Supplies</button>
 
-        <button class="c-tab-button" data-for-tab="repairs"><i class="fa-solid fa-calendar-check"></i> Repairs</button>
+        <button class="c-tab-button" data-for-tab="repairs"><i class="fa-solid fa-screwdriver-wrench"></i> Repairs</button>
 
     </div>
     <!-- END OF INNER COMPONENT SIDEBAR -->
@@ -30,8 +30,8 @@
 
 
     <!-- PRODUCTS -->
-    <div class="c-tab-content" data-tab="equipments">
-        <h2>Equipments</h2>
+    <div class="c-tab-content" data-tab="house">
+        <h2>House</h2>
 
     </div>
 

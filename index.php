@@ -34,11 +34,13 @@ require_once 'config/Session.php';
     // IF USER IS LOGGED IN
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] === true) {
         $userId = $_SESSION["userId"];
+        include 'components/Loader.php';
         include 'components/MainPage.php';
     }
 
     // IF USER IS NOT LOGGED IN
     else {
+        include 'components/Loader.php';
         include 'components/LoginPage.php';
     }
     ?>

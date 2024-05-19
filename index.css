@@ -158,6 +158,7 @@ body {
     display: flex;
     flex-direction: column;
     padding-bottom: 20px;
+    overflow: auto;
 }
 
 .tab-button {
@@ -261,6 +262,7 @@ body {
     height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: end;
 }
 
 
@@ -274,8 +276,6 @@ body {
 }
 
 .logout-info {
-    position: absolute;
-    bottom: 0;
     width: 100%;
     padding-left: 10px;
     padding-right: 10px;
@@ -283,7 +283,7 @@ body {
 }
 
 #logOutForm:hover {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
 }
 
 #logOutForm span {
@@ -897,7 +897,8 @@ form select {
 
 /* DASHBOARD */
 .dashboard {
-    display: flex;
+    height: 100%;
+    width: 100%;
 }
 
 
@@ -906,8 +907,8 @@ form select {
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 10px;
-    width: 100%;
     height: 100%;
+    width: 100%;
 }
 
 .charts {
@@ -915,17 +916,24 @@ form select {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    overflow: auto;
     height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    scrollbar-width: none;
 }
 
 .d-group, .d-sales, .d-inv {
     display: flex;
     gap: 10px;
     height: 100%;
+    width: 100%;
 }
 
 .d-misc {
     flex: 1;
+    overflow: auto;
+    scrollbar-width: none;
 }
 
 .ds-group, .di-group, .dm-group {
@@ -938,7 +946,6 @@ form select {
     justify-content: center;
     color: white;
     gap: 10px;
-    height: 100%;
 }
 
 .s-line, .i-bar {
@@ -1003,6 +1010,7 @@ input::-webkit-inner-spin-button {
     .main-header .open-sidebar {
         display: block;
         cursor: pointer;
+        padding: 2px;
     }
 
     .tab-nav {
@@ -1083,6 +1091,7 @@ input::-webkit-inner-spin-button {
 
     .d-sales, .d-inv {
         flex-direction: column;
+        height: min-content;
         flex: 1;
     }
 
@@ -1098,15 +1107,14 @@ input::-webkit-inner-spin-button {
         flex: 1;
     }
 
-    .u-content { 
-        animation: moveText 20s linear infinite;
-    }
 }
 
 
 
 @media screen and (max-width: 1280px) {
-
+    .u-content { 
+        animation: moveText 20s linear infinite;
+    }
 }
 
 

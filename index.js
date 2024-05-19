@@ -1,6 +1,9 @@
 // SCRIPTS
 
 
+window.addEventListener('load', () => showLoadingScreen());
+
+
 
 
 // LINKS TO PHP
@@ -182,6 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
     showProduces();
     showOrders();
     showEmpSelect();
+
+    setTimeout(() => {
+        hideLoadingScreen();
+    }, 2000);
 });
 
 
