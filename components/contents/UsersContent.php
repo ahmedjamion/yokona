@@ -49,7 +49,7 @@ require_once './views/EmployeeView.php';
         </div>
 
         <div class="modal-header">
-            <h4>User Datails</h4>
+            <h4>User Details</h4>
         </div>
 
         <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
@@ -85,6 +85,16 @@ require_once './views/EmployeeView.php';
                 </select>
             </div>
 
+            <div class="image-group">
+                <div class="image-preview" id="u-image-preview">
+                    <img id="u-preview-img" src="" alt="Image Preview">
+                </div>
+                <div class="input-group">
+                    <label for="u-image-input">User profile picture</label>
+                    <input type="file" id="u-image-input" name="image" accept="image/*">
+                </div>
+            </div>
+
             <div class="button-group">
                 <button class="submit-button" type="submit" name="action" value="addUser" id="addUser">Submit</button>
                 <button class="close-modal cancel-button">Cancel</button>
@@ -94,3 +104,21 @@ require_once './views/EmployeeView.php';
     </div>
     <!-- END OF USER FORM CONTAINER... -->
 </div>
+
+
+<script>
+    document.getElementById('u-image-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImg = document.getElementById('u-preview-img');
+                previewImg.src = e.target.result;
+                document.getElementById('u-image-preview').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('u-image-preview').style.display = 'none';
+        }
+    });
+</script>

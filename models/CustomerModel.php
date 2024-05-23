@@ -47,10 +47,10 @@ function getCustomer(object $pdo, int $id)
 
 
 // INSERT A NEW CUSTOMER TO THE DATABASE
-function setCustomer(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber)
+function setCustomer(object $pdo, string $firstName, string $lastName, string $gender, string $address, string $contactNumber, ?string $path)
 {
     try {
-        $query = "INSERT INTO customer (first_name, last_name, gender, address, contact_number) VALUES (:first_name, :last_name, :gender, :address, :contact_number);";
+        $query = "INSERT INTO customer (first_name, last_name, gender, address, contact_number, profile_picture) VALUES (:first_name, :last_name, :gender, :address, :contact_number, :profile_picture);";
         $stmt = $pdo->prepare($query);
 
         $stmt->bindParam(":first_name", $firstName);
@@ -58,6 +58,7 @@ function setCustomer(object $pdo, string $firstName, string $lastName, string $g
         $stmt->bindParam(":gender", $gender);
         $stmt->bindParam(":address", $address);
         $stmt->bindParam(":contact_number", $contactNumber);
+        $stmt->bindParam(":profile_picture", $path);
         $stmt->execute();
     } catch (PDOException $e) {
         echo "Error inserting customer data: " . $e->getMessage();

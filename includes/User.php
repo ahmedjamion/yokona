@@ -5,14 +5,14 @@
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
 
     // ADD USER PROCESS
-    if (isset($data->action) && $data->action === 'addUser') {
-        $employeeId = $data->employeeId;
-        $username = $data->username;
-        $password = $data->password;
-        $role = $data->role;
+    if (isset($_POST['action']) && $_POST['action'] === 'addUser') {
+        $employeeId = $_POST['employeeId'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $role = $_POST['role'];
+        $image = $_FILES['image'];
 
         try {
             require_once '../config/Database.php';
@@ -22,8 +22,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
             // ERROR HANDLERS
 
+            $imagePath = null;
             $errors = [];
             $success = [];
+
+
+
+            if ($image['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = '../uploads/user/';
+                $imagePath = $uploadDir . basename($image['name']);
+                $fileExtension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+
+                if (sizeOk($image['size']) && formatOk($fileExtension)) {
+                    move_uploaded_file($image['tmp_name'], $imagePath);
+                    $imagePath = 'uploads/customer/' . basename($image['name']);
+                } else {
+                    $errors['imageFormat'] = 'Image format not supported';
+                    $errors['imageSize'] = 'Image should be less than 5mb';
+                }
+            }
 
 
             if (isEmpty($employeeId, $username, $password, $role)) {
@@ -38,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             } else {
 
-                addUser($pdo, $employeeId, $username, $password, $role);
+                addUser($pdo, $employeeId, $username, $password, $role, $imagePath);
                 $success["success"] = true;
                 $success["message"] = "New user data added successfully";
                 echo json_encode($success);
@@ -58,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'getAllUsers') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getAllUsers') {
         try {
             require_once '../config/Database.php';
             require_once '../models/UserModel.php';
@@ -78,9 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE USER PROCESS
-    else if (isset($data->action) && $data->action === 'delete') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -124,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'getUserCount') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getUserCount') {
         try {
             require_once '../config/Database.php';
             require_once '../models/UserModel.php';

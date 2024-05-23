@@ -33,6 +33,7 @@ require_once './views/LogInView.php'
     <div class="login-container">
         <h3 class="login-title">Log In</h3>
         <div class="login-errors" style="display: none; opacity: 0;">
+            <i class="fa-solid fa-triangle-exclamation"></i>
             <?php echo logInErrors(); ?>
         </div>
         <!-- LOG IN FORM -->
@@ -68,11 +69,9 @@ require_once './views/LogInView.php'
 
         inputs.forEach((input) => {
             input.addEventListener('focus', () => {
-                container.style.boxShadow = '0 0 40px rgba(255, 255, 255, 0.5)';
                 container.style.transform = 'scale(1.05)';
             })
             input.addEventListener('blur', () => {
-                container.style.boxShadow = 'none';
                 container.style.transform = 'scale(1)';
             });
         });

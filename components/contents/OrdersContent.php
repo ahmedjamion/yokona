@@ -16,6 +16,7 @@
                     <th>Order date</th>
                     <th>Customer</th>
                     <th>User/Employee</th>
+                    <th>Total</th>
                     <th>Paid date</th>
                     <th>Actions</th>
                 </tr>
@@ -40,34 +41,31 @@
         </div>
 
         <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
-
-        <button class="open-modal" data-modal="selectCustomer">Select customer</button>
         <form class="order-form" id="order-form" action="./includes/Order.php" method="post">
 
-
-
-            <div class="sc-card">
+            <h4>Customer Details</h4>
+            <div class="sc-card open-modal" data-modal="selectCustomer">
             </div>
+
             <input class="custId" type="hidden" name="cust-id" id="cust-id">
+
 
 
             <div class="order-details">
                 <h4>Order Items</h4>
-
-                <div class="order-items">
-
-                </div>
-
                 <div class="st-group">
-
                     <div class="order-total">
                         <p>Total Quantity: <span id="orderQ">0</span> Trays</p>
                         <p>Total Price: <span id="orderP">0.00</span> Php</p>
                     </div>
-                    <button class="open-modal" data-modal="selectItem" style="align-self: end;">New Item</button>
+                    <button class="open-modal add-button" data-modal="selectItem">Add Item <i class="fa-solid fa-plus"></i></button>
                 </div>
+                <div class="order-items">
 
+                </div>
             </div>
+
+
 
 
             <div class="button-group">

@@ -19,8 +19,7 @@ require_once './views/EmployeeView.php';
 
             <thead>
                 <tr>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
+                    <th>Name</th>
                     <th>Gender</th>
                     <th>Address</th>
                     <th>Contact</th>
@@ -94,6 +93,16 @@ require_once './views/EmployeeView.php';
                 </select>
             </div>
 
+            <div class="image-group">
+                <div class="image-preview" id="e-image-preview">
+                    <img id="e-preview-img" src="" alt="Image Preview">
+                </div>
+                <div class="input-group">
+                    <label for="e-image-input">Employee profile picture</label>
+                    <input type="file" id="e-image-input" name="image" accept="image/*">
+                </div>
+            </div>
+
             <div class="button-group">
                 <button class="submit-button" type="submit" name="action" value="addEmployee" id="addEmployee">Submit</button>
                 <button class="close-modal cancel-button">Cancel</button>
@@ -103,3 +112,21 @@ require_once './views/EmployeeView.php';
     </div>
     <!-- END OF EMPLOYEE FORM CONTAINER... -->
 </div>
+
+
+<script>
+    document.getElementById('e-image-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImg = document.getElementById('e-preview-img');
+                previewImg.src = e.target.result;
+                document.getElementById('e-image-preview').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('e-image-preview').style.display = 'none';
+        }
+    });
+</script>

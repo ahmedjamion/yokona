@@ -19,7 +19,7 @@
         flex-direction: column;
         gap: 10px;
         color: white;
-        background-color: rgba(0, 0, 0, .6);
+        background-color: #3c3c4e;
         z-index: 100;
     }
 

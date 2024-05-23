@@ -14,8 +14,7 @@
 
             <thead>
                 <tr>
-                    <th>Firstname</th>
-                    <th>Lastname</th>
+                    <th>Name</th>
                     <th>Gender</th>
                     <th>Address</th>
                     <th>Contact #</th>
@@ -76,6 +75,16 @@
                 <input type="text" name="contactNumber" id="custContactNumber" placeholder="e.g. 09123456789" autocomplete="off">
             </div>
 
+            <div class="image-group">
+                <div class="image-preview" id="c-image-preview">
+                    <img id="c-preview-img" src="" alt="Image Preview">
+                </div>
+                <div class="input-group">
+                    <label for="c-image-input">Customer profile picture</label>
+                    <input type="file" id="c-image-input" name="image" accept="image/*">
+                </div>
+            </div>
+
             <div class="button-group">
                 <button class="submit-button" type="submit" name="action" value="addCustomer" id="addCustomer">Submit</button>
                 <button class="close-modal cancel-button">Cancel</button>
@@ -85,3 +94,36 @@
 
     </div>
 </div>
+
+<style>
+    .image-preview {
+        display: none;
+        margin-top: 20px;
+        align-self: center;
+    }
+
+    .image-preview img {
+        width: 100px;
+        height: 100px;
+        border: 2px solid #d5d5ff;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+
+<script>
+    document.getElementById('c-image-input').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewImg = document.getElementById('c-preview-img');
+                previewImg.src = e.target.result;
+                document.getElementById('c-image-preview').style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('c-image-preview').style.display = 'none';
+        }
+    });
+</script>

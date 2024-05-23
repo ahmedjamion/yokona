@@ -5,15 +5,14 @@
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
 
     // ADD PRODUCT PROCESS
-    if (isset($data->action) && $data->action === 'addProduct') {
-        $productName = $data->productName;
-        $size = $data->size;
-        $type = $data->type;
-        $traySize = $data->traySize;
-        $price = $data->price;
+    if (isset($_POST['action']) && $_POST['action'] === 'addProduct') {
+        $productName = $_POST['productName'];
+        $size = $_POST['size'];
+        $type = $_POST['type'];
+        $traySize = $_POST['traySize'];
+        $price = $_POST['price'];
 
         try {
             require_once '../config/Database.php';
@@ -61,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'getAllProducts') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getAllProducts') {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';
@@ -79,9 +78,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     ///
-    else if (isset($data->action) && $data->action === 'getProduct') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getProduct') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -101,9 +100,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE PRODUCT PROCESS
-    else if (isset($data->action) && $data->action === 'delete') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -146,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     ///
-    else if (isset($data->action) && $data->action === 'getProductCount') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getProductCount') {
 
         try {
             require_once '../config/Database.php';

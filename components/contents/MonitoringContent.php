@@ -31,7 +31,6 @@
 
     <!-- PRODUCTS -->
     <div class="c-tab-content" data-tab="house">
-        <h2>House</h2>
 
     </div>
 
@@ -39,13 +38,11 @@
 
 
     <div class="c-tab-content" data-tab="supplies">
-        <h2>Supplies</h2>
 
     </div>
 
 
     <div class="c-tab-content" data-tab="repairs">
-        <h2>Repairs</h2>
 
     </div>
 

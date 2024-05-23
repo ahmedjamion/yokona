@@ -5,16 +5,16 @@
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
+
+    if (isset($_POST['action']) && $_POST['action'] === 'addCustomer') {
 
 
-    // ADD CUSTOMER PROCESS
-    if (isset($data->action) && $data->action === 'addCustomer') {
-        $firstName = $data->firstName;
-        $lastName = $data->lastName;
-        $gender = $data->gender;
-        $address = $data->address;
-        $contactNumber = $data->contactNumber;
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $gender = $_POST['gender'];
+        $address = $_POST['address'];
+        $contactNumber = $_POST['contactNumber'];
+        $image = $_FILES['image'];
 
         try {
             require_once '../config/Database.php';
@@ -23,10 +23,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             require_once '../controllers/CustomerController.php';
 
 
-            // ERROR HANDLERS
-
+            $imagePath = null;
             $success = [];
             $errors = [];
+
+            if ($image['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = '../uploads/customer/';
+                $imagePath = $uploadDir . basename($image['name']);
+                $fileExtension = strtolower(pathinfo($image['name'], PATHINFO_EXTENSION));
+
+                if (sizeOk($image['size']) && formatOk($fileExtension)) {
+                    move_uploaded_file($image['tmp_name'], $imagePath);
+                    $imagePath = 'uploads/customer/' . basename($image['name']);
+                } else {
+                    $errors['imageFormat'] = 'Image format not supported';
+                    $errors['imageSize'] = 'Image should be less than 5mb';
+                }
+            }
+
+
+
+
+            // ERROR HANDLERS
 
 
             if (isEmpty($firstName, $lastName, $gender, $address, $contactNumber)) {
@@ -39,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 exit;
             } else {
 
-                addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber);
+                addCustomer($pdo, $firstName, $lastName, $gender, $address, $contactNumber, $imagePath);
 
                 $success["success"] = true;
                 $success["message"] = "New customer data added successfully";
@@ -59,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'getAllCustomers') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getAllCustomers') {
         try {
             require_once '../config/Database.php';
             require_once '../models/CustomerModel.php';
@@ -79,9 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     ///
-    else if (isset($data->action) && $data->action === 'getCustomer') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getCustomer') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -102,9 +120,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE CUSTOMER PROCESS
-    else if (isset($data->action) && $data->action === 'delete') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -145,7 +163,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     ///
-    else if (isset($data->action) && $data->action === 'getCustomerCount') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getCustomerCount') {
 
         try {
             require_once '../config/Database.php';

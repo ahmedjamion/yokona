@@ -6,7 +6,6 @@ header('Content-Type: application/json');
 
 // LOG IN AND LOG OUT PROCESS
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
 
     // LOG IN PROCESS
     if (isset($_POST["action"]) && $_POST["action"] === "logIn") {
@@ -73,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // LOG OUT PROCESS
-    else if (isset($data->action) && $data->action === "logOut") {
+    else if (isset($_POST["action"]) && $_POST["action"] === "logOut") {
         session_start();
         session_unset();
         session_destroy();

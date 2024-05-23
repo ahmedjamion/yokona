@@ -5,15 +5,14 @@
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
 
 
 
-    if (isset($data->action) && $data->action === 'addOrder') {
-        $userId = $data->user_id;
-        $customerId = $data->customer_id;
+    if (isset($_POST['action']) && $_POST['action'] === 'addOrder') {
+        $userId = $_POST['user_id'];
+        $customerId = $_POST['customer_id'];
 
-        $items = $data->items;
+        $items = $_POST['items'];
 
         try {
             require_once '../config/Database.php';
@@ -54,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getAllOrders') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getAllOrders') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';
@@ -73,9 +72,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //
 
 
-    else if (isset($data->action) && $data->action === 'delete') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -112,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getTodaysOrderQuantity') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getTodaysOrderQuantity') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';
@@ -131,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getTodaysOrderTotal') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getTodaysOrderTotal') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';
@@ -150,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getSalesByDate') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getSalesByDate') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';
@@ -170,7 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getSalesBySize') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getSalesBySize') {
         try {
             require_once '../config/Database.php';
             require_once '../models/OrderModel.php';

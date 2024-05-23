@@ -49,10 +49,10 @@ function getUser(object $pdo, int $id)
 
 
 // INSERT A NEW USER TO THE DATABASE
-function setUser(object $pdo, int $employeeId, string $username, string $password, string $role)
+function setUser(object $pdo, int $employeeId, string $username, string $password, string $role, ?string $path)
 {
     try {
-        $query = "INSERT INTO user (employee_id, username, password, role) VALUES (:employee_id, :username, :password, :role)";
+        $query = "INSERT INTO user (employee_id, username, password, role, profile_picture) VALUES (:employee_id, :username, :password, :role, :profile_picture)";
         $stmt = $pdo->prepare($query);
 
         $options = [
@@ -65,6 +65,7 @@ function setUser(object $pdo, int $employeeId, string $username, string $passwor
         $stmt->bindParam(":username", $username);
         $stmt->bindParam(":password", $hashedPassword);
         $stmt->bindParam(":role", $role);
+        $stmt->bindParam(":profile_picture", $path);
         $stmt->execute();
     } catch (PDOException $e) {
         echo "Error inserting product: " . $e->getMessage();

@@ -11,11 +11,23 @@ declare(strict_types=1);
 function getAllOrders(object $pdo)
 {
     try {
-        $query = "SELECT order.id, order.date_created, order.date_paid, customer.first_name AS cfn, customer.last_name AS cln, user.role, employee.first_name AS efn, employee.last_name AS eln
+        $query = "SELECT
+                    order.id,
+                    order.date_created,
+                    order.date_paid,
+                    customer.first_name AS cfn,
+                    customer.last_name AS cln,
+                    user.role,
+                    employee.first_name AS efn,
+                    employee.last_name AS eln,
+                    SUM(order_item.sub_total) AS total
                     FROM `order`
                     INNER JOIN customer ON order.customer_id = customer.id
                     INNER JOIN user ON order.user_id = user.id
-                    INNER JOIN employee ON user.employee_id = employee.id";
+                    INNER JOIN employee ON user.employee_id = employee.id
+                    LEFT JOIN order_item ON order_item.order_id = order.id
+                    GROUP BY order.id";
+
         $stmt = $pdo->prepare($query);
 
         $stmt->execute();
@@ -71,10 +83,10 @@ function setOrder(object $pdo, string $userId, string $customerId, array $items)
             $stmt = $pdo->prepare($query);
 
             $stmt->bindParam(":order_id", $orderId);
-            $stmt->bindParam(":product_id", $item->prod_id);
-            $stmt->bindParam(":quantity", $item->quantity);
-            $stmt->bindParam(":unit_price", $item->price);
-            $stmt->bindParam(":sub_total", $item->sub_total);
+            $stmt->bindParam(":product_id", $item['prod_id']);
+            $stmt->bindParam(":quantity", $item['quantity']);
+            $stmt->bindParam(":unit_price", $item['price']);
+            $stmt->bindParam(":sub_total", $item['sub_total']);
 
             $stmt->execute();
         }

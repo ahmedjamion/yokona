@@ -21,9 +21,9 @@ function isEmpty($employeeId, $username, $password, $role)
 
 
 // CALLING THE SET CUSTOMER FUNCTION OF PRODUCT MODEL
-function addUser(object $pdo, int $employeeId, string $username, string $password, string $role)
+function addUser(object $pdo, int $employeeId, string $username, string $password, string $role, ?string $path)
 {
-    setUser($pdo, $employeeId, $username, $password, $role);
+    setUser($pdo, $employeeId, $username, $password, $role, $path);
 }
 
 
@@ -33,4 +33,21 @@ function addUser(object $pdo, int $employeeId, string $username, string $passwor
 function removeUser(object $pdo, int $id)
 {
     deleteUser($pdo, $id);
+}
+
+
+function formatOk(string $fileExtension)
+{
+    $allowedFormats = ['jpg', 'jpeg', 'png', 'gif'];
+    if (in_array($fileExtension, $allowedFormats)) {
+        return true;
+    }
+}
+
+function sizeOk(float $size)
+{
+    $maxFileSize = 5 * 1024 * 1024;
+    if ($size <= $maxFileSize) {
+        return true;
+    }
 }

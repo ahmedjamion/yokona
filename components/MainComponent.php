@@ -8,6 +8,7 @@
 
     <!-- MAIN COMPONENT SIDEBAR -->
     <div class="tab-nav">
+        <p id="eggcellent">Eggcellent</p>
         <i class="fa-solid fa-angle-left close-sidebar"></i>
 
         <button class="tab-button" data-for-tab="dashboard">

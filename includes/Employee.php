@@ -6,16 +6,14 @@ header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $data = json_decode(trim(file_get_contents("php://input")));
-
     // ADD EMPLOYEE PROCESS
-    if (isset($data->action) && $data->action === 'addEmployee') {
-        $firstName = $data->firstName;
-        $lastName = $data->lastName;
-        $gender = $data->gender;
-        $address = $data->address;
-        $contactNumber = $data->contactNumber;
-        $typeId = $data->employeeType;
+    if (isset($_POST['action']) && $_POST['action'] === 'addEmployee') {
+        $firstName = $_POST['firstName'];
+        $lastName = $_POST['lastName'];
+        $gender = $_POST['gender'];
+        $address = $_POST['address'];
+        $contactNumber = $_POST['contactNumber'];
+        $typeId = $_POST['employeeType'];
 
         try {
             require_once '../config/Database.php';
@@ -61,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'getAllEmployees') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getAllEmployees') {
         try {
             require_once '../config/Database.php';
             require_once '../models/EmployeeModel.php';
@@ -81,9 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
     // DELETE EMPLOYEE PROCESS
-    else if (isset($data->action) && $data->action === 'delete') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -124,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // END OF DELETE EMPLOYEE PROCESS
 
 
-    else if (isset($data->action) && $data->action === 'getEmployeeCount') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getEmployeeCount') {
         try {
             require_once '../config/Database.php';
             require_once '../models/EmployeeModel.php';

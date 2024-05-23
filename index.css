@@ -77,46 +77,49 @@ body {
     padding: 10px;
     font-family: gluten;
     cursor: pointer;
-    transition: text-shadow .3s ease-in-out;
-}
-
-.main-header h1:hover {
-    text-shadow: 0 0 10px white;
 }
 
 
 .updates {
-    background-color: rgba(0, 0, 0, 0.5);
     border-radius: 25px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-wrap: nowrap;
+    padding: 10px 20px;
+    cursor: pointer;
+    gap: 10px;
 }
 
 .u-content {
+    position: fixed;
+    right: -200px;
+    top: 60px;
+    background-color: white;
+    color: black;
+    padding: 14px;
+    border-radius: 10px;
     display: flex;
-    gap: 20px;
-    width: 100%;
-    align-items: center;
+    flex-direction: column;
+    gap: 8px;
+    align-items: start;
     justify-content: center;
-    text-wrap: nowrap;
-    padding: 10px 20px;
-    cursor: default;
+    z-index: 10;
+    opacity: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: opacity .25s ease-in-out;
+}
+
+.u-content span {
+    font-weight: bold;
 }
 
 
 .heads-up {
     font-size: 1.2rem;
-    color: white;
-}
-
-.heads-up:hover {
-    text-shadow: 0 0 10px white;
-}
-
-.heads-up i{
-    animation: flip 2s linear infinite;
 }
 
 
@@ -174,7 +177,6 @@ body {
     border-radius: 0 30px 30px 0;
     align-items: baseline;
     gap: 4px;
-    transition-delay: 0s, .25s;
 }
 
 .tab-icon {
@@ -189,10 +191,6 @@ body {
     font-weight: bold;
     background-color: rgb(213, 213, 255);
     color: black;
-}
-
-.tab-button-active i {
-    animation: flip 2s linear infinite;
 }
 
 .tab-button-active:hover {
@@ -272,7 +270,6 @@ body {
     padding: 10px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 10px;
-    transition: box-shadow .3s ease-in-out;
 }
 
 .logout-info {
@@ -280,10 +277,6 @@ body {
     padding-left: 10px;
     padding-right: 10px;
     align-self: flex-end;
-}
-
-#logOutForm:hover {
-    box-shadow: 0 0 7px rgba(255, 255, 255, 0.5);
 }
 
 #logOutForm span {
@@ -311,23 +304,14 @@ body {
     display: none;
     color: white;
 }
+
+#eggcellent {
+    display: none;
+}
 /* END OF MAIN TABS STYLES... */
 
 
 
-
-h1, h2, h3, h4 {
-    color: white;
-}
-
-
-.modal-content h4 {
-    color: white;
-}
-
-form h3 {
-    color: white;
-}
 
 
 
@@ -357,6 +341,7 @@ form h3 {
     font-size: 16px;
     gap: 3px;
     align-items: center;
+    transition: background-color .15s ease-in-out;
 }
 
 .c-tab-button:hover {
@@ -373,10 +358,6 @@ form h3 {
     font-weight: bold;
     background-color: #d5d5ff;
     color: black;
-}
-
-.c-tab-button-active i {
-    animation: flip 2s linear infinite;
 }
 
 .c-tab-content {
@@ -399,6 +380,10 @@ form h3 {
 
 
 
+
+
+
+
 .s-group {
     display: flex;
     flex-direction: row;
@@ -407,6 +392,12 @@ form h3 {
     width: 100%;
     gap: 10px;
 }
+
+
+
+
+
+
 
 
 /* LOGIN PAGE STYLES */
@@ -437,6 +428,7 @@ form h3 {
 .login-title{
     text-align: center;
     font-weight: bold;
+    color: white;
 }
 
 .login-form{
@@ -463,12 +455,6 @@ form h3 {
     filter: brightness(90%);
 }
 
-.input-group{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-}
 
 .input-cont {
     position: relative;
@@ -502,9 +488,10 @@ form h3 {
 }
 
 
-.login-form input:focus, .login-form input:hover{
-    outline: 3px solid #d5d5ff;
-}
+
+
+
+
 
 
 
@@ -538,7 +525,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-    background-color: rgba(213, 213, 255, 0.2);
+    background-color: rgba(213, 213, 255, 0.5);
 }
 
 thead {
@@ -550,7 +537,7 @@ thead {
 td:nth-child(1) {
     text-align: start;
     width: auto;
-    text-wrap: nowrap;
+    text-wrap: pretty;
 }
 
 thead, tbody, tr {
@@ -573,45 +560,61 @@ tbody {
 }
 
 
-/* ACTIONS */
+
+
+/* TABLE ACTIONS */
 .action-form {
     display: flex;
     flex-direction: row;
-    gap: 10px;
 }
 
 .action-form button {
-    position: relative;
     display: flex;
     align-items: center;
+    text-align: center;
+    gap: 2px;
+    color: #d5d5ff;
     background: transparent;
-    padding: 0;
+    padding: 0px;
+    width: 20px;
+    border-radius: 0;
+    overflow: hidden;
+    transition: width .4s ease, color .4s ease;
+}
+
+.action-form .view-button:hover {
+    width: 54px;
+}
+
+.action-form .edit-button:hover {
+    width: 46px;
+}
+
+.action-form .delete-button:hover {
+    width: 60px;
+}
+
+.action-form button:hover {
+    color: #8686b2;
 }
 
 .action-form button i {
     font-size: 1.2rem;
-    color: #d5d5ff;
-    transition: color .2s ease-in-out;
 }
 
 .tooltip {
-    visibility: hidden;
+    display: none;
     opacity: 0;
-    position: absolute;
-    padding: 4px 8px;
-    right: 120%;
-    text-align: center;
-    z-index: 1;
-    transition: opacity .2s ease-in-out;
-    border-radius: 5px;
-    pointer-events: none;
+    transition: opacity .4s ease;
 }
 
 .action-form button:hover .tooltip {
-    visibility: visible;
+    display: block;
     opacity: 1;
 }
 
+
+/*
 .view-button .tooltip {
     background-color: rgba(0, 0, 128, 0.8);
     color: white;
@@ -645,13 +648,15 @@ tbody {
 
 
 
+
+
+
 /* BUTTONS */
 button {
     padding: 6px 14px;
     border-radius: 20px;
     border: none;
     cursor: pointer;
-    align-self: start;
     white-space: nowrap;
     text-overflow: ellipsis;
     background-color: #d5d5ff;
@@ -673,7 +678,6 @@ button {
 
 .cancel-button {
     background-color: transparent;
-    color: white;
     outline: 2px solid #d5d5ff;
     transition: background-color .25s ease-in-out;
 }
@@ -688,18 +692,11 @@ button {
     gap: 10px;
 }
 
-.st-group {
-    display: flex;
-    flex-direction: column;
-    align-items: end;
-    gap: 4px;
-}
 
-.order-total {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-}
+
+
+
+
 
 
 
@@ -719,10 +716,11 @@ button {
 
 .modal-content {
     position: relative;
-    color: white;
-    background: rgba(0, 0, 0, 0.8);
+    color: black;
+    background: white;
     padding: 14px;
-    min-width: 300px;
+    max-width: 480px;
+    width: 90%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -740,8 +738,7 @@ button {
     top: -50px;
     left: 0px;
     right: 0px;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
+    background-color: white;
     border-radius: 10px;
     padding: 10px;
     text-align: center;
@@ -753,28 +750,35 @@ button {
     cursor: pointer;
 }
 
+
 .x {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 4px;
+    right: 4px;
     height: 30px;
     width: 30px;
     color: black;
-    background-color: #d5d5ff;
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 0 10px;
+    border-radius: 20px;
+    transition: background-color .2s ease-in-out;
 }
 
 .x i {
     transition: color .25s ease-in-out;
 }
 
-.x:hover i {
-    color: white ;
+.x:hover {
+    background-color: rgba(213, 213, 255, 0.5);
 }
 
+
+
+
+
+/* FORMS */
 form{
     display: flex;
     width: 100%;
@@ -784,93 +788,33 @@ form{
     gap: 10px;
 }
 
-.product-selection, .item-selection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow: auto;
-    padding: 6px;
-}
-
-.product-card,
-.sp-card,
-.customer-card,
-.cust-details,
-.item-details{
-    border-radius: 6px;
-    width: 100%;
-    background-color: #d5d5ff;
-    color: black;
-    cursor: pointer;
-}
-
-.sc-card {
-    width: 100%;
-}
-
-
-
-.customer-details, .cust-details, .product-details, .item-details, .item-input {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
-    width: 100%;
-    padding: 6px;
-}
-
-.item-details {
-    justify-content: space-between;
-}
-
-.customer-selection {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-
-.order-details h3 {
-    color: white;
-}
-
-.product-card h3, .product-details h3, .cust-details h3, .customer-details h3, .item-details h3 {
-    color: black;
-}
-
-.order-details {
+.input-group{
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 3px;
 }
 
-
-.order-items {
+.image-group {
     display: flex;
     flex-direction: column;
+    width: 100%;
     gap: 10px;
-}
-
-
-.order {
-    width: 80%;
-    height: 80%;
-}
-
-
-
-form .input-group{
-    display: flex;
+    align-items: center;
 }
 
 input, select{
     padding: 6px 10px;
     border-radius: 4px;
     border: none;
+    outline: 2px solid #d5d5ff;
+    min-width: 100px;
+    max-width: 100%;
+    background-color: white;
 }
 
 input:hover, input:focus, select:hover, select:focus {
-    outline: solid 2px #afafff;
+    outline: 2px solid #8686b2;
 }
 
 form label{
@@ -890,6 +834,141 @@ form select {
 .search {
     border-radius: 18px;
     padding-left: 20px;
+}
+
+
+/* FORM ADDONS */
+.product-selection,
+.customer-selection,
+.item-selection,
+.order-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    max-height: 380px;
+    overflow: auto;
+}
+
+.order .add-button, #selectCustomer .add-button, #logProduce .add-button {
+    align-self: start;
+}
+
+.order-items {
+    max-height: 360px;
+    overflow: auto;
+}
+
+.order-item .product-details {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+
+.order-item .product-details button {
+    height: 100%;
+}
+
+.order-form h4, .produce-form h4 {
+    align-self: start;
+}
+
+.item-input {
+    display: flex;
+    gap: 10px;
+    align-items: last baseline;
+}
+
+.item-input .itemQuantity {
+    width: 50px;
+}
+
+.item-input .subT {
+    outline: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    width: 100px;
+    padding: 0;
+}
+
+.product-card,
+.customer-card,
+.input-item,
+.sc-card,
+.sp-card,
+.order-item {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    background: #e9e9ff;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+}
+
+.order-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.product-card:hover,
+.customer-card:hover,
+.input-item:hover {
+    background-color: #d5d5ff;
+}
+
+.customer-card,
+.sc-card {
+    display: flex;
+    gap: 10px;
+    align-items: last baseline;
+}
+
+.sc-card {
+    justify-content: center;
+}
+
+.order-details {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+}
+
+.order-total {
+    display: flex;
+    width: 100%;
+}
+
+.st-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+.order-total {
+    padding: 4px;
+    border-radius: 6px;
+    outline: 2px solid #8686b2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.st-group span {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.st-group .add-button {
+    align-self: end;
+}
+
+hr {
+    width: 100%;
 }
 
 
@@ -968,7 +1047,6 @@ form select {
 
 .dm-group i {
     font-size: 1.5rem;
-    animation: flip 5s linear infinite;
 }
 
 
@@ -986,20 +1064,16 @@ input::-webkit-inner-spin-button {
 
 /* FOR DIFFERENT SCREEN SIZES */
 @media screen and (max-width: 600px) {
-    .add-button .button-text {
-        display: none;
-    }
-    .add-button {
-        text-align: center;
-        padding: 6px;
-        width: 28px;
-    }
 
     .main-header {
         padding: 6px;
     }
 
     .main-header h1 {
+        display: none;
+    }
+
+    .updates .todays, .updates #date {
         display: none;
     }
 
@@ -1017,7 +1091,7 @@ input::-webkit-inner-spin-button {
         position: fixed;
         top: 0;
         left: -200px;
-        background-color: rgb(25, 25, 25);
+        background-color: #8686b2;
         padding-top: 0;
         z-index: 1;
         border-radius: 0 10px 10px 0;
@@ -1038,11 +1112,24 @@ input::-webkit-inner-spin-button {
     .tab-content-active {
         padding: 2px 6px 6px 6px;
     }
+
+    #eggcellent {
+        display: block;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 1.2rem;
+        font-family: gluten;
+        color: white;
+    }
 }
 
 
 
 @media screen and (max-width: 960px) {
+    .updates .todays {
+        display: none;
+    }
 
     thead{
         display: none;
@@ -1112,9 +1199,6 @@ input::-webkit-inner-spin-button {
 
 
 @media screen and (max-width: 1280px) {
-    .u-content { 
-        animation: moveText 20s linear infinite;
-    }
 }
 
 
@@ -1134,6 +1218,24 @@ input::-webkit-inner-spin-button {
     }
     to {
         left: -200px;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        right: -200px;
+    }
+    to {
+        right: 0px;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        right: 0px;
+    }
+    to {
+        right: -200px;
     }
 }
 

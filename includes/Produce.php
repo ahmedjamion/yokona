@@ -5,13 +5,12 @@
 header('Content-Type: application/json');
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $data = json_decode(trim(file_get_contents("php://input")));
 
 
     // DELETE PRODUCT PROCESS
-    if (isset($data->action) && $data->action === 'delete') {
+    if (isset($_POST['action']) && $_POST['action'] === 'delete') {
 
-        $id = $data->id;
+        $id = $_POST['id'];
 
         try {
             require_once '../config/Database.php';
@@ -54,10 +53,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
 
-    else if (isset($data->action) && $data->action === 'logProduce') {
-        $id = $data->id;
-        $date = $data->date;
-        $quantity = $data->quantity;
+    else if (isset($_POST['action']) && $_POST['action'] === 'logProduce') {
+        $id = $_POST['id'];
+        $date = $_POST['date'];
+        $quantity = $_POST['quantity'];
 
         try {
             require_once '../config/Database.php';
@@ -102,7 +101,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 
         //
-    } else if (isset($data->action) && $data->action === 'getAllProduce') {
+    } else if (isset($_POST['action']) && $_POST['action'] === 'getAllProduce') {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';
@@ -121,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getTodaysProduceQuantity') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getTodaysProduceQuantity') {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';
@@ -140,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getProduceByDate') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getProduceByDate') {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';
@@ -159,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     //
 
-    else if (isset($data->action) && $data->action === 'getProduceBySize') {
+    else if (isset($_POST['action']) && $_POST['action'] === 'getProduceBySize') {
         try {
             require_once '../config/Database.php';
             require_once '../models/ProductModel.php';

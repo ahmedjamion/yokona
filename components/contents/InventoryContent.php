@@ -124,6 +124,16 @@ require_once './views/ProductView.php';
                     <input type="number" name="price" id="price" step="0.01" placeholder="Price per tray in Php (e.g. 280.69)">
                 </div>
 
+                <div class="image-group">
+                    <div class="image-preview" id="p-image-preview">
+                        <img id="p-preview-img" src="" alt="Image Preview">
+                    </div>
+                    <div class="input-group">
+                        <label for="p-image-input">Product image</label>
+                        <input type="file" id="p-image-input" name="image" accept="image/*">
+                    </div>
+                </div>
+
                 <div class="button-group">
                     <button class="submit-button" type="submit" name="action" value="addProduct">Submit</button>
                     <button class="close-modal cancel-button">Cancel</button>
@@ -133,6 +143,23 @@ require_once './views/ProductView.php';
         </div>
         <!-- END OF ADD PRODUCT FORM CONTAINER... -->
     </div>
+
+    <script>
+        document.getElementById('p-image-input').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImg = document.getElementById('p-preview-img');
+                    previewImg.src = e.target.result;
+                    document.getElementById('p-image-preview').style.display = 'flex';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('p-image-preview').style.display = 'none';
+            }
+        });
+    </script>
 
 
 
@@ -150,8 +177,8 @@ require_once './views/ProductView.php';
 
                 <thead>
                     <tr>
-                        <th>Product</th>
                         <th>Produce Date</th>
+                        <th>Product</th>
                         <th>Quantity</th>
                         <th>Actions</th>
                     </tr>
@@ -173,8 +200,6 @@ require_once './views/ProductView.php';
 
             <button class="close-modal x"><i class="fa-solid fa-xmark"></i></button>
 
-
-            <button class="open-modal" data-modal="chooseProduct">Select Product</button>
             <div class="modal" id="chooseProduct">
                 <div class="modal-content">
 
@@ -192,9 +217,10 @@ require_once './views/ProductView.php';
 
 
 
-            <form class="form" id="produce-form" action="./includes/Produce.php" method="post">
+            <form class="produce-form" id="produce-form" action="./includes/Produce.php" method="post">
+                <h4>Product Details</h4>
 
-                <div class="sp-card">
+                <div class="sp-card open-modal" data-modal="chooseProduct">
                 </div>
 
                 <input type="text" style="display: none;" name="id" id="pp-id">

@@ -33,10 +33,10 @@ function handleFormSubmit(e, url, getData, createTable, action, element, callbac
     e.preventDefault();
     const formData = new FormData(e.target);
     formData.append(e.submitter.name, e.submitter.value);
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    //const data = Object.fromEntries(formData.entries());
+    console.log(formData);
 
-    submitForm(data, url, getData, createTable, action, element, callback);
+    submitForm(formData, url, getData, createTable, action, element, callback);
 }
 
 
@@ -58,6 +58,7 @@ const productFormCallback = () => {
 
 const produceFormCallback = () => {
     updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
+    createProductCard();
 };
 
 const userFormCallback = () => {
@@ -81,44 +82,39 @@ orderForm.addEventListener('submit', function (e) {
     const orderUserId = userId;
     const ordCustId = addOrder.querySelector('.custId').value;
 
-    const data = {};
+    const formData = new FormData();
 
-    data.user_id = orderUserId;
-    data.customer_id = ordCustId;
+    formData.append('user_id', orderUserId);
+    formData.append('customer_id', ordCustId);
 
     const submitButton = orderForm.querySelector('button[type="submit"]');
-    data.action = submitButton.value;
-
+    formData.append('action', submitButton.value);
 
     const itemInputs = document.querySelectorAll('.item-input');
-    data.items = [];
 
-    itemInputs.forEach(itemInput => {
+    itemInputs.forEach((itemInput, index) => {
         const productId = itemInput.querySelector('.productId').value;
         const itemPrice = itemInput.querySelector('.itemPrice').value;
         const itemQuantity = itemInput.querySelector('.itemQuantity').value;
         const subTotal = itemInput.querySelector('.subTotal').value;
 
-        data.items.push({
-            prod_id: productId,
-            price: itemPrice,
-            quantity: itemQuantity,
-            sub_total: subTotal
-        });
+        formData.append(`items[${index}][prod_id]`, productId);
+        formData.append(`items[${index}][price]`, itemPrice);
+        formData.append(`items[${index}][quantity]`, itemQuantity);
+        formData.append(`items[${index}][sub_total]`, subTotal);
     });
 
-
-    console.log('order data: ', data);
+    console.log('order data: ', Array.from(formData.entries()));
 
     const submitCallback = () => {
         updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
         updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
+        createCustomerCard();
+        createOrderItem();
     };
 
-
-    submitForm(data, orderUrl, getAllData, createOrderTable, 'getAllOrders', orderForm, submitCallback);
+    submitForm(formData, orderUrl, getAllData, createOrderTable, 'getAllOrders', orderForm, submitCallback);
 });
-
 
 
 
@@ -137,9 +133,8 @@ mainComponent.addEventListener("submit", (e) => {
 
         const formData = new FormData(e.target);
         formData.append(e.submitter.name, e.submitter.value);
-        const data = Object.fromEntries(formData.entries());
 
-        submitAction(data, url);
+        submitAction(formData, url);
     }
 });
 
@@ -200,10 +195,10 @@ async function submitForm(data, url, getData, createTable, action, form, submitC
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
+            //headers: {
+            //"Content-Type": "application/json",
+            //},
+            body: data
         });
 
         if (!response.ok) {
@@ -224,15 +219,16 @@ async function submitForm(data, url, getData, createTable, action, form, submitC
         const modal = modalContent.parentElement;
 
         const message = modal.querySelector('.submit-message');
-        message.innerHTML = result.message;
+        message.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + result.message;
 
 
 
         if (result.success === true) {
+            message.innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + result.message;
 
             message.style.display = 'block';
             message.style.opacity = '1';
-            message.style.color = 'lightgreen';
+            message.style.color = 'green';
             message.style.animation = 'appear .25s';
 
             setTimeout(() => {
@@ -243,9 +239,10 @@ async function submitForm(data, url, getData, createTable, action, form, submitC
                 message.style.animation = 'disappear .25s';
             }, 3000);
         } else {
+            message.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> ' + result.message;
             message.style.display = 'block';
             message.style.opacity = '1';
-            message.style.color = 'lightsalmon';
+            message.style.color = 'red';
             message.style.animation = 'appear .25s';
 
             setTimeout(() => {
@@ -274,14 +271,13 @@ async function submitForm(data, url, getData, createTable, action, form, submitC
 
 
 // PROCESSING ACTION BUTTONS
-async function submitAction(data, url) {
+async function submitAction(formData, url) {
+
+    const action = formData.get('action');
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data)
+            body: formData
         });
 
         if (!response.ok) {
@@ -290,7 +286,7 @@ async function submitAction(data, url) {
 
         const result = await response.json();
 
-        if (result.success === true && data.action === 'delete') {
+        if (result.success === true && action === 'delete' || action === 'update') {
             switch (url) {
                 case 'includes/Customer.php':
                     showCustomers();
@@ -343,14 +339,13 @@ async function submitAction(data, url) {
 
 
 // GET ALL DATA FROM DATABASE
-async function getAllData(url, callback, value) {
+async function getAllData(url, callback, action) {
+    const formData = new FormData();
+    formData.append('action', action);
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ action: value })
+            body: formData
         });
 
         if (!response.ok) {
@@ -372,13 +367,13 @@ async function getAllData(url, callback, value) {
 
 // GET A SINGLE DATA FROM DATABASE
 async function getData(url, callback, action, id) {
+    const formData = new FormData();
+    formData.append('action', action);
+    formData.append('id', id);
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ action: action, id: id })
+            body: formData
         });
 
         if (!response.ok) {
@@ -444,17 +439,25 @@ function createCustomersTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number', 'actions'];
+        const name = document.createElement('td');
+        name.textContent = `${row.first_name} ${row.last_name}`;
+        tr.appendChild(name);
 
-        columnsToDisplay.forEach(column => {
-            const td = document.createElement('td');
-            if (column === 'actions') {
-                createActions(td, row.id, 'includes/Customer.php');
-            } else {
-                td.textContent = row[column];
-            }
-            tr.appendChild(td);
-        });
+        const gender = document.createElement('td');
+        gender.textContent = `${row.gender}`;
+        tr.appendChild(gender);
+
+        const address = document.createElement('td');
+        address.textContent = `${row.address}`;
+        tr.appendChild(address);
+
+        const contact = document.createElement('td');
+        contact.textContent = `${row.contact_number}`;
+        tr.appendChild(contact);
+
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/Customer.php');
+        tr.appendChild(actions);
 
         tableBody.appendChild(tr);
     });
@@ -468,17 +471,26 @@ function createEmployeesTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['first_name', 'last_name', 'gender', 'address', 'contact_number', 'actions'];
 
-        columnsToDisplay.forEach(column => {
-            const td = document.createElement('td');
-            if (column === 'actions') {
-                createActions(td, row.id, 'includes/Employee.php');
-            } else {
-                td.textContent = row[column];
-            }
-            tr.appendChild(td);
-        });
+        const name = document.createElement('td');
+        name.textContent = `${row.first_name} ${row.last_name}`;
+        tr.appendChild(name);
+
+        const gender = document.createElement('td');
+        gender.textContent = `${row.gender}`;
+        tr.appendChild(gender);
+
+        const address = document.createElement('td');
+        address.textContent = `${row.address}`;
+        tr.appendChild(address);
+
+        const contact = document.createElement('td');
+        contact.textContent = `${row.contact_number}`;
+        tr.appendChild(contact);
+
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/Employee.php');
+        tr.appendChild(actions);
 
         tableBody.appendChild(tr);
     });
@@ -515,17 +527,29 @@ function createProductsTable(data) {
     data.forEach(row => {
         const tr = document.createElement('tr');
 
-        const columnsToDisplay = ['name', 'size', 'type', 'tray_size', 'price', 'actions'];
+        const name = document.createElement('td');
+        name.textContent = `${row.name}`;
+        tr.appendChild(name);
 
-        columnsToDisplay.forEach(column => {
-            const td = document.createElement('td');
-            if (column === 'actions') {
-                createActions(td, row.id, 'includes/Product.php');
-            } else {
-                td.textContent = row[column];
-            }
-            tr.appendChild(td);
-        });
+        const size = document.createElement('td');
+        size.textContent = `${row.size}`;
+        tr.appendChild(size);
+
+        const type = document.createElement('td');
+        type.textContent = `${row.type}`;
+        tr.appendChild(type);
+
+        const tray = document.createElement('td');
+        tray.textContent = `${row.tray_size}/tray`;
+        tr.appendChild(tray);
+
+        const price = document.createElement('td');
+        price.textContent = `Php ${row.price}`;
+        tr.appendChild(price);
+
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/Product.php');
+        tr.appendChild(actions);
 
         tableBody.appendChild(tr);
     });
@@ -540,27 +564,25 @@ function createProduceTable(data) {
 
     data.sort((a, b) => new Date(b.produce_date) - new Date(a.produce_date));
 
-    let num = 1;
     data.forEach(row => {
         const tr = document.createElement('tr');
 
+        const prodDate = document.createElement('td');
+        prodDate.textContent = `${row.produce_date}`;
+        tr.appendChild(prodDate);
+
         const mergedColumnCell = document.createElement('td');
-        mergedColumnCell.textContent = `${num}. ${row.name} ${row.size} ${row.type} ${row.tray_size}s`;
+        mergedColumnCell.textContent = `${row.name} ${row.size} ${row.type} ${row.tray_size}s`;
         tr.appendChild(mergedColumnCell);
 
-        const columnsToDisplay = ['produce_date', 'quantity', 'actions'];
+        const quantity = document.createElement('td');
+        quantity.textContent = `${row.quantity}`;
+        tr.appendChild(quantity);
 
-        columnsToDisplay.forEach(column => {
-            const td = document.createElement('td');
-            if (column === 'actions') {
-                createActions(td, row.id, 'includes/Produce.php');
-            } else {
-                td.textContent = row[column];
-            }
-            tr.appendChild(td);
-        });
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/Produce.php');
+        tr.appendChild(actions);
 
-        num++;
         tableBody.appendChild(tr);
     });
 }
@@ -587,8 +609,19 @@ function createOrderTable(data) {
         userName.textContent = `${row.efn} ${row.eln} / ${row.role}`;
         tr.appendChild(userName);
 
+        const total = document.createElement('td');
+        total.textContent = `Php ${row.total}`;
+        tr.appendChild(total);
+
         const datePaid = document.createElement('td');
-        datePaid.textContent = row.date_paid !== null ? row.date_paid : 'Unpaid';
+
+        if (row.date_paid !== null) {
+            datePaid.textContent = row.date_paid;
+        } else {
+            const button = document.createElement('button');
+            button.textContent = "Unpaid";
+            datePaid.appendChild(button);
+        }
         tr.appendChild(datePaid);
 
         const actions = document.createElement('td');
@@ -617,17 +650,17 @@ function createUsersTable(data) {
         mergedColumnCell.textContent = `${row.first_name} ${row.last_name}`;
         tr.appendChild(mergedColumnCell);
 
-        const columnsToDisplay = ['username', 'role', 'actions'];
+        const username = document.createElement('td');
+        username.textContent = `${row.username}`;
+        tr.appendChild(username);
 
-        columnsToDisplay.forEach(column => {
-            const td = document.createElement('td');
-            if (column === 'actions') {
-                createActions(td, row.id, 'includes/User.php');
-            } else {
-                td.textContent = row[column];
-            }
-            tr.appendChild(td);
-        });
+        const role = document.createElement('td');
+        role.textContent = `${row.role}`;
+        tr.appendChild(role);
+
+        const actions = document.createElement('td');
+        createActions(actions, row.id, 'includes/User.php');
+        tr.appendChild(actions);
 
         tableBody.appendChild(tr);
     });
@@ -655,13 +688,8 @@ function createProductsCards(data) {
         card.setAttribute('data-id', product.id);
 
         const cardContent = `
-            <div class="product-details">
                 <h3>${product.name}</h3>
-                <p>${product.size}</p>
-                <p>${product.type}</p>
-                <p>${product.tray_size}/tray</p>
-                <p>Php. ${product.price}</p>
-            </div>
+                <p>${product.size} | ${product.type} | ${product.tray_size}/tray | Php. ${product.price}</p>
         `;
         card.innerHTML = cardContent;
         productSelection.appendChild(card);
@@ -692,17 +720,12 @@ function createProductCard(data) {
 
     if (data) {
         const cardContent = `
-                <div class="product-details">
                     <h3>${data[0].name}</h3>
-                    <p>${data[0].size}</p>
-                    <p>${data[0].type}</p>
-                    <p>${data[0].tray_size}/tray</p>
-                    <p>Php ${data[0].price}</p>
-                </div>
+                    <p>${data[0].size} | ${data[0].type} | ${data[0].tray_size}/tray | Php ${data[0].price}/tray</p>
             `;
         card.innerHTML = cardContent;
     } else {
-        card.innerHTML = '<p>No Product Selected</p>';
+        card.innerText = "No product selected";
     }
 }
 
@@ -741,11 +764,8 @@ function createCustomersCards(data) {
         card.setAttribute('data-id', customer.id);
 
         const cardContent = `
-            <div class="customer-details">
                 <h3>${customer.first_name} ${customer.last_name}</h3>
-                <p>${customer.address}</p>
-                <p>${customer.contact_number}</p>
-            </div>
+                <p>${customer.address} | ${customer.contact_number}</p>
         `;
         card.innerHTML = cardContent;
         customerSelection.appendChild(card);
@@ -778,16 +798,13 @@ function createCustomerCard(data) {
 
     if (data) {
         const cardContent = `
-                <div class="cust-details">
                     <h3>${data[0].first_name} ${data[0].last_name}</h3>
-                    <p>${data[0].address}</p>
-                    <p>${data[0].contact_number}</p>
-                </div>
-            `;
+                    <p>${data[0].address} | ${data[0].contact_number}</p>
+                    `;
         card.innerHTML = cardContent;
 
     } else {
-        card.innerHTML = '<p>No Customer Selected</p>';
+        card.innerText = "No customer selected"
     }
 }
 
@@ -819,13 +836,8 @@ function createItemsCards(data) {
         card.setAttribute('data-id', item.id);
 
         const cardContent = `
-            <div class="item-details">
                 <h3>${item.name}</h3>
-                <p>${item.size}</p>
-                <p>${item.type}</p>
-                <p>${item.tray_size}/tray</p>
-                <p>Php ${item.price}/tray</p>
-            </div>
+                <p>${item.size} | ${item.type} | ${item.tray_size}/tray | Php ${item.price}/tray</p>
         `;
         card.innerHTML = cardContent;
         itemSelection.appendChild(card);
@@ -853,22 +865,21 @@ function createOrderItem(data) {
 
     if (data) {
         const itemContent = `
-                <div class="item-details">
-                    <button class="removeItem" style="padding: 0; backgroud: transparent; align-self: center;"><i class="fa-solid fa-circle-minus"></i></button>
                     <div class="product-details">
-                        <h3>${data[0].name}</h3>
-                        <p>${data[0].size}</p>
-                        <p>${data[0].type}</p>
-                        <p>${data[0].tray_size}/tray</p>
-                        <p>${data[0].price}</p>
+                        <div>
+                            <h3>${data[0].name}</h3>
+                            <p>${data[0].size} | ${data[0].type} | ${data[0].tray_size}/tray | Php ${data[0].price}/tray</p>  
+                        </div>  
+                        <button class="removeItem">Remove</i></button>
                     </div>
                     <div class="item-input">
                         <input type="hidden" class="productId" name="prod_id" value="${data[0].id}">
                         <input type="hidden" class="itemPrice" name="price" value="${data[0].price}">
-                        <input type="number" class="itemQuantity" name="quantity" placeholder="Quantity">
-                        <input type="number" class="subTotal" name="sub_total" placeholder="Sub Total" readonly></p>
+                        <label>Quantity: </label>
+                        <input type="number" class="itemQuantity" name="quantity">
+                        <p>Subtotal: Php <span class="subT">0</span></p>
+                        <input type="hidden" class="subTotal" name="subTotal" value="0">
                     </div>
-                </div>
             `;
         inputItem.innerHTML = itemContent;
 
@@ -883,16 +894,20 @@ function createOrderItem(data) {
 
         const quantity = inputItem.querySelector('.itemQuantity');
         const subTotal = inputItem.querySelector('.subTotal');
+        const subT = inputItem.querySelector('.subT');
         quantity.addEventListener('input', () => {
             const itemQuantity = parseFloat(quantity.value);
             const itemPrice = parseFloat(inputItem.querySelector('.itemPrice').value);
-            subTotal.value = itemQuantity * itemPrice;
+
+            const subValue = (itemQuantity ? itemQuantity : 0) * (itemPrice ? itemPrice : 0);
+            subTotal.value = subValue ? subValue : 0;
+            subT.innerText = subValue ? subValue : "0";
+
 
             showOrderTotals();
         });
     } else {
-        inputItem.innerHTML = '<p>No items yet</p>';
-        orderItems.appendChild(inputItem);
+        orderItems.innerHTML = "";
     }
 }
 
@@ -901,6 +916,7 @@ document.addEventListener('DOMContentLoaded', () => {
     getAllData(prodUrl, createItemsCards, 'getAllProducts');
     createOrderItem();
     createCustomerCard();
+    createProductCard();
 });
 
 
@@ -916,7 +932,7 @@ function showOrderTotals() {
     let totalQ = 0;
 
     orderQs.forEach((item) => {
-        totalQ += parseInt(item.value);
+        totalQ += parseInt(item.value ? item.value : 0);
     });
 
     orderQuantity.innerText = totalQ;
@@ -944,6 +960,8 @@ const modals = document.querySelectorAll('.modal');
 const closeButtons = document.querySelectorAll('.close-modal');
 
 
+
+
 function showModal(modal) {
 
     if (modal) {
@@ -959,13 +977,17 @@ modalButtons.forEach(function (button) {
         e.preventDefault();
         const modalId = button.getAttribute('data-modal');
         const modal = document.getElementById(modalId);
-        console.log('this is the modal value: ' + modal);
         const form = modal.querySelector('form');
+
+        showModal(modal);
+
         if (form) {
             form.reset();
+            createProductCard();
+            createCustomerCard();
+            createOrderItem();
+            showOrderTotals();
         }
-        console.log(form);
-        showModal(modal);
     }
 });
 
@@ -978,6 +1000,7 @@ function hideModal(modal) {
         }, 250);
 
         modal.removeAttribute('tabindex');
+
     }
 }
 
@@ -1123,17 +1146,17 @@ window.addEventListener('click', function (event) {
 
 function openSidebar() {
     sideBar.style.left = '0';
-    sideBar.style.animation = 'slideIn .25s forwards ease';
+    sideBar.style.animation = 'slideIn .25s ease';
     overlay.style.display = 'block';
-    overlay.style.animation = 'appear .25s';
+    overlay.style.animation = 'appear .25s ease';
     sidebarOpen = true;
 }
 
 function closeSidebar() {
     if (sidebarOpen) {
         sideBar.style.left = '-200px';
-        sideBar.style.animation = 'slideOut .25s forwards ease';
-        overlay.style.animation = 'disappear .25s';
+        sideBar.style.animation = 'slideOut .25s ease';
+        overlay.style.animation = 'disappear .25s ease';
         setTimeout(() => {
             overlay.style.display = 'none';
         }, 250);
@@ -1162,13 +1185,12 @@ logOutForm.addEventListener('submit', (e) => {
 
 // LOG OUT FUNCTION USING FETCH
 async function logOut() {
+    const formData = new FormData();
+    formData.append('action', 'logOut');
     try {
         const response = await fetch('includes/Login.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ action: 'logOut' })
+            body: formData
         });
 
         if (!response.ok) {
@@ -1193,10 +1215,9 @@ function updateClock() {
     const now = new Date();
     const hours = now.getHours() % 12 || 12;
     const minutes = now.getMinutes().toString().padStart(2, '0');
-    const seconds = now.getSeconds().toString().padStart(2, '0');
     const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
 
-    const timeString = `${hours}:${minutes}:${seconds} ${ampm}`;
+    const timeString = `${hours}:${minutes} ${ampm}`;
     document.getElementById('clock').innerText = timeString;
 
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
@@ -1204,7 +1225,51 @@ function updateClock() {
     document.getElementById('date').innerText = dateString;
 }
 
-setInterval(updateClock, 1000);
+setInterval(updateClock, 60000);
+document.addEventListener('DOMContentLoaded', () => updateClock());
+
+
+
+
+const updates = document.querySelector('.updates')
+updates.addEventListener('click', () => showUpdate());
+
+const update = document.querySelector('.u-content');
+let updateShown = false;
+
+
+function showUpdate() {
+    const mediaQuery = window.matchMedia('(max-width: 600px)');
+    if (updateShown === false) {
+        if (mediaQuery.matches) {
+            update.style.right = '6px';
+        } else {
+            update.style.right = '20px';
+        }
+        update.style.animation = 'slideInRight .25s ease';
+        update.style.opacity = '1';
+
+        updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
+        updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
+        updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
+
+        updateShown = true;
+    } else {
+        update.style.animation = 'slideOutRight .25s ease';
+        update.style.right = '-200px';
+        update.style.opacity = '0';
+        updateShown = false;
+    }
+}
+
+window.addEventListener('click', (e) => {
+    if (!updates.contains(e.target) && e.target !== update && e.target !== updates) {
+        update.style.animation = 'slideOutRight .25s ease';
+        update.style.right = '-200px';
+        update.style.opacity = '0';
+        updateShown = false;
+    }
+});
 
 
 
@@ -1257,15 +1322,6 @@ async function setUpSalesLIne() {
             },
             responsive: true,
             maintainAspectRatio: false,
-            animations: {
-                tension: {
-                    duration: 1000,
-                    easing: 'linear',
-                    from: .5,
-                    to: 0,
-                    loop: true
-                }
-            },
             scales: {
                 y: {
                     beginAtZero: true,
@@ -1324,10 +1380,6 @@ async function setUpSalesPie() {
             }]
         },
         options: {
-            animation: {
-                animateRotate: true, // Animate rotation
-                animateScale: true // Animate scaling
-            },
             plugins: {
                 legend: {
                     display: true,
@@ -1385,10 +1437,6 @@ async function setUpProdPie() {
             }]
         },
         options: {
-            animation: {
-                animateRotate: true, // Animate rotation
-                animateScale: true // Animate scaling
-            },
             plugins: {
                 legend: {
                     display: true,
@@ -1482,13 +1530,12 @@ async function setUpProdBar() {
 
 // FUNCTION THAT GETS GRAPH DATA FROM DATABASE
 async function getGraphData(url, action) {
+    const formData = new FormData();
+    formData.append('action', action);
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: action })
+            body: formData
         });
 
         if (!response.ok) {
@@ -1512,6 +1559,14 @@ document.addEventListener('DOMContentLoaded', () => {
     setUpProdBar();
     setUpProdPie();
     setUpSalesPie();
+
+    updateCount(prodUrl, 'getProductCount', prodCount);
+    updateCount(custUrl, 'getCustomerCount', custCount);
+    updateCount(empUrl, 'getEmployeeCount', empCount);
+    updateCount(userUrl, 'getUserCount', useCount);
+    updateCount(orderUrl, 'getTodaysOrderQuantity', orderQ);
+    updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
+    updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
 })
 
 // END OF DASHBOARD GRAPHS
@@ -1537,13 +1592,12 @@ const prodQ = document.querySelector('#produce-today span');
 
 // FUNCTION THAT UPDATES INFO COUNTS
 async function updateCount(url, action, count) {
+    const formData = new FormData();
+    formData.append('action', action);
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ action: action })
+            body: formData
         });
 
         if (!response.ok) {
@@ -1560,6 +1614,7 @@ async function updateCount(url, action, count) {
 }
 
 // UPDATE INFO EVERY SECOND (PROBABLY NOT A GOOD IDEA)
+/*
 setInterval(() => {
     updateCount(prodUrl, 'getProductCount', prodCount);
     updateCount(custUrl, 'getCustomerCount', custCount);
@@ -1570,3 +1625,5 @@ setInterval(() => {
     updateCount(orderUrl, 'getTodaysOrderTotal', orderT);
     updateCount(produceUrl, 'getTodaysProduceQuantity', prodQ);
 }, 1000);
+*/
+
