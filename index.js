@@ -1286,7 +1286,7 @@ async function setUpSalesLIne() {
     const salesLine = document.getElementById('sales-line');
 
     const salesLineData = await getGraphData(orderUrl, "getSalesByDate");
-    salesLineData.sort((a, b) => new Date(a.produce_date) - new Date(b.produce_date));
+    salesLineData.sort((a, b) => new Date(a.date_created) - new Date(b.date_created));
 
     const salesLineX = salesLineData.map(item => item.date_created);
     const salesLineY = salesLineData.map(item => parseInt(item.total_sales));
